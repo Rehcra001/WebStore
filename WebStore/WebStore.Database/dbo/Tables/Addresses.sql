@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[Addresses]
+(
+	AddressId INT NOT NULL PRIMARY KEY IDENTITY,
+	AddressLine1 NVARCHAR(100) NOT NULL,
+	AddressLine2 NVARCHAR(100) NULL,
+	Suburb NVARCHAR(50) NOT NULL,
+	City NVARCHAR(50) NOT NULL,
+	PostalCode NVARCHAR(15) NOT NULL,
+	Country NVARCHAR(100) NOT NULL,
+	CustomerId INT NOT NULL,
+	CONSTRAINT FK_Addresses_Customers FOREIGN KEY (CustomerId) REFERENCES dbo.Customers (CustomerId)
+)

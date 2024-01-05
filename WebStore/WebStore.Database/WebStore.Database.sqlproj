@@ -56,5 +56,21 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="PublishLocations\" />
+    <Folder Include="dbo\Types" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Customers.sql" />
+    <Build Include="dbo\Tables\Addresses.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AddCustomer.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AddCustomerAddress.sql" />
+    <Build Include="dbo\Types\udtAddressesTable.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AddCustomerWithAddresses.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PublishLocations\WebStore.Database.publish.xml" />
   </ItemGroup>
 </Project>

@@ -1,11 +1,20 @@
+using WebStore.Repository;
+using WebStore.Repository.Contracts;
+using WebStore.Repository.Repositories.ADO;
+using WebStore.Repository.Repositories.Dapper;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Repositories
+builder.Services.AddScoped<IRelationalDatabaseConnection, RelationalDatabaseConnection>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryDapper>();
 
 var app = builder.Build();
 
