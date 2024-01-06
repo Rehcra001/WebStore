@@ -4,7 +4,6 @@ namespace WebStore.Models
 {
     public class AddressModel
     {
-        [Key]
         public int AddressId { get; set; }
 
         [Required(ErrorMessage = "Address Line 1 is required")]

@@ -4,7 +4,6 @@ namespace WebStore.Models
 {
     public class CustomerModel
     {
-        [Key]
         public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "First Name is required")]
