@@ -47,5 +47,14 @@ namespace WebStore.API.Extentions
             });
 
         }
+
+        public static UserSignInModel ConvertToUserSignInModel(this UserSignInDTO userSignInDTO)
+        {
+            return (new UserSignInModel
+            {
+                EmailAddress = userSignInDTO.EmailAddress,
+                Password = userSignInDTO.Password
+            });
+        }
     }
 }

@@ -112,5 +112,75 @@ namespace WebStore.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, errorsToReturn);
             }
         }
+
+        [Route("signin")] //domain/api/user/signin
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SignIn([FromBody] UserSignInDTO userSignInDTO)
+        {
+            //Convert to model and validate
+            UserSignInModel userSignInModel = userSignInDTO.ConvertToUserSignInModel();
+
+            //Validate
+            var signinErrors = ValidationHelper.Validate(userSignInModel);
+            if (signinErrors.Count > 0)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, signinErrors);
+            }
+
+
+            string userName = userSignInModel.EmailAddress;
+            string password = userSignInModel.Password;
+
+            //Try to sign the user in
+            SignInResult signInResult = await _signInManager.PasswordSignInAsync(userName, password, false, false);
+
+            // If the sign in was successful
+            if (signInResult.Succeeded == true)
+            {
+                IdentityUser identityUser = await _userManager.FindByNameAsync(userName);
+
+                string JSONWebTokenAsString = await GenerateJSONWebToken(identityUser);
+
+                return Ok(JSONWebTokenAsString);
+            }
+            else
+            {
+                return Unauthorized(userSignInDTO);
+            }
+        }
+
+        [NonAction]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        private async Task<string> GenerateJSONWebToken(IdentityUser? identityUser)
+        {
+            SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+
+            SigningCredentials credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            //claim = whoe is the person trying to sign in claiming to be
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, identityUser.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, identityUser.Id)
+            };
+
+            IList<string> roleNames = await _userManager.GetRolesAsync(identityUser);
+            claims.AddRange(roleNames.Select(roleName => new Claim(ClaimsIdentity.DefaultRoleClaimType, roleName)));
+
+            //Generate the token
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken
+                (
+                    _config["Jwt:Issuer"],
+                    _config["Jwt:Issuer"],
+                    claims,
+                    null,
+                    expires: DateTime.UtcNow.AddDays(28),
+                    signingCredentials: credentials
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        }
     }
 }
