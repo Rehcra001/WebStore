@@ -1,0 +1,103 @@
+﻿@page "/register"
+
+
+
+@if (_registerSuccessful == false)
+{
+    <div class="main_container">
+        <h3>Registration Form</h3>
+        <div class="form">
+            <EditForm Model="_userToRegister" id="user-data">
+
+                <div>
+                    <label for="email">Email Address</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" />
+                    <InputText style="width: 100%;" @bind-Value="_userToRegister.EmailAddress" id="email" />
+                </div>
+
+                <div>
+                    <label for="confirm-email">Confirm Email Address</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="ConfirmEmailAddress" />
+                    <InputText style="width: 100%;" @bind-Value="_userToRegister.ConfirmEmailAddress" id="confirm-email" />
+                </div>
+
+                <div>
+                    <label for="password">Password</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="Password" />
+                    <InputText style="width: 100%;" @bind-Value="_userToRegister.Password" id="password" type="password" />
+                </div>
+
+                <div>
+                    <label for="confirm-password">Confirm Password</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="ConfirmPassword" />
+                    <InputText style="width: 100%;" @bind-Value="_userToRegister.ConfirmPassword" id="confirm-password" type="password" />
+                </div>
+
+                <div>
+                    <label for="first-name">First Name</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="FirstName" />
+                    <InputText style="width: 100%;" @bind-Value="_userToRegister.FirstName" id="first-name" />
+                </div>
+
+                <div>
+                    <label for="last-name">Last Name</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="LastName" />
+                    <InputText style="width: 100%;" @bind-Value="_userToRegister.LastName" id="last-name" />
+                </div>
+
+                <div>
+                    <label for="phone-number">Phone Number</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="PhoneNumber" />
+                    <InputText style="width: 100%;" @bind-Value="_userToRegister.PhoneNumber" id="phone-number" />
+                </div>
+            </EditForm>
+        </div>
+
+        <div class="form">
+            <EditForm Model="_address" id="user-address-data">
+                <div>
+                    <label for="address-line-1">Address Line 1</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="AddressLine1" />
+                    <InputText style="width: 100%;" @bind-Value="_address.AddressLine1" id="address-line-1" />
+                </div>
+
+                <div>
+                    <label for="address-line-2">Address Line 2</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="AddressLine2" />
+                    <InputText style="width: 100%;" @bind-Value="_address.AddressLine2" id="address-line-2" />
+                </div>
+
+                <div>
+                    <label for="suburb">Suburb</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="Suburb" />
+                    <InputText style="width: 100%;" @bind-Value="_address.Suburb" id="suburb" />
+                </div>
+
+                <div>
+                    <label for="city">City</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="City" />
+                    <InputText style="width: 100%;" @bind-Value="_address.City" id="city" />
+                </div>
+
+                <div>
+                    <label for="postal-code">Postal Code</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="PostalCode" />
+                    <InputText style="width: 100%;" @bind-Value="_address.PostalCode" id="postal-code" />
+                </div>
+
+                <div>
+                    <label for="country">Country</label>
+                    <InputValidation ValidationErrors="@ValidationErrors" PropertyName="Country" />
+                    <InputText style="width: 100%;" @bind-Value="_address.Country" id="country" />
+                </div>
+            </EditForm>
+        </div>
+        <button @onclick="RegisterUser_Click">Submit Registration Form</button>
+    </div>
+}
+else
+{
+    <h4>Registration was successful. Press the button below to go to the sign in page.</h4>
+    <button>Go to Sign In Page</button>
+}
+

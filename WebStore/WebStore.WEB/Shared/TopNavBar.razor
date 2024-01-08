@@ -1,0 +1,34 @@
+﻿<header>
+    <div  id="logo_id">
+        <a class="logo" href="/"><img src="favicon.png" alt="logo" />&nbsp;&nbsp; Web Store</a>
+    </div>
+    
+    <nav>
+        <ul class="nav_links">
+            <li>
+                <NavLink class="nav_home" href="/">
+                    Home
+                </NavLink>
+            </li>
+        </ul>
+    </nav>
+    <div>
+        <AuthorizeView>
+            <Authorized>
+                <NavLink href="signout"><button>Sign out</button></NavLink>
+            </Authorized>
+
+            <NotAuthorized>
+                <NavLink href="signin"><button>Sign In</button></NavLink>
+                <NavLink href="register"><button>Register</button></NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+              
+    </div>
+</header>
+
+
+
+@code {
+
+}

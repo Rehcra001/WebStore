@@ -13,7 +13,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WebStore.Database", "WebSto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Models", "WebStore.Models\WebStore.Models.csproj", "{98087204-8DA9-4DB0-AC1F-45FF2D31DE1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.DTO", "WebStore.DTO\WebStore.DTO.csproj", "{64EC005C-79D8-484C-800A-C513830940A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.DTO", "WebStore.DTO\WebStore.DTO.csproj", "{64EC005C-79D8-484C-800A-C513830940A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

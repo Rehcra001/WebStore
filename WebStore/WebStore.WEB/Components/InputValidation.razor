@@ -1,0 +1,32 @@
+﻿@if (ValidationError != default)
+{
+    <label style="color: red">@ValidationError</label>
+}
+
+
+@code {
+    [Parameter]
+    public List<string> ValidationErrors { get; set; }
+
+    [Parameter]
+    public string PropertyName { get; set; }
+
+    private string? ValidationError { get; set; } = null;
+
+    protected override void OnParametersSet()
+    {
+        if (ValidationErrors.Count > 0)
+        {
+            ValidationError = null;
+            ValidationError = ValidationErrors.FirstOrDefault(x => x.StartsWith(PropertyName + " "));
+
+            if (!String.IsNullOrWhiteSpace(ValidationError))
+            {
+                if (ValidationError.Contains(PropertyName))
+                {
+                    ValidationError = "*" + ValidationError.Substring(PropertyName.Length);
+                }
+            }
+        }
+    }
+}
