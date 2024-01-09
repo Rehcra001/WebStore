@@ -4,6 +4,6 @@ namespace WebStore.WEB.Services.Contracts
 {
     public interface IRegistrationService
     {
-        Task<(bool, string?)> RegisterUserAsync(UserRegistrationDTO userRegistrationDTO);
+        Task<(bool IsSuccessful, string? Erorrs)> RegisterUserAsync(UserRegistrationDTO userRegistrationDTO);
     }
 }

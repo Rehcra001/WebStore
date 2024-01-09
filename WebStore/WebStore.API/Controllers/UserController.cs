@@ -100,11 +100,11 @@ namespace WebStore.API.Controllers
             }
             else
             {
-                string errorsToReturn = "Registration failed with the following errors";
+                string errorsToReturn = "Registration failed with the following errors: ";
 
                 foreach (var error in identityResult.Errors)
                 {
-                    errorsToReturn += Environment.NewLine;
+                    errorsToReturn += "\\r\\n";
                     errorsToReturn += $"Error Code: {error.Code} - {error.Description}";
                 }
 

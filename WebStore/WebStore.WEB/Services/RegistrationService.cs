@@ -13,11 +13,11 @@ namespace WebStore.WEB.Services
             _httpClient = httpClient;
         }
 
-        public async Task<(bool, string?)> RegisterUserAsync(UserRegistrationDTO userRegistrationDTO)
+        public async Task<(bool IsSuccessful, string? Erorrs)> RegisterUserAsync(UserRegistrationDTO userRegistrationDTO)
         {
             try
             {
-                HttpResponseMessage httpResponseMessage = await _httpClient.PatchAsJsonAsync<UserRegistrationDTO>("api/user/registration", userRegistrationDTO);
+                HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<UserRegistrationDTO>("api/user/register", userRegistrationDTO);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {

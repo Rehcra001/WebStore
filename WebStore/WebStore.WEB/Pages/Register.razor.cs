@@ -15,16 +15,36 @@ namespace WebStore.WEB.Pages
         private AddressDTO _address = new AddressDTO();
         private bool _registerSuccessful = false;
         private bool _attemptToregisterFailed = false;
-        private string? _attemptToRegisterFailedMessage = null;
+        private List<string>? _attemptToRegisterFailedMessage = null;
 
         public List<string> ValidationErrors { get; set; } = new List<string>();
 
 
         // validate data
-        private void RegisterUser_Click()
+        private async Task RegisterUser_Click()
         {
             ValidateUser();
             ValidateAddress();
+
+            if (ValidationErrors.Count == 0)
+            {
+                List<AddressDTO> addresses = new List<AddressDTO>();
+                addresses.Add(_address);
+                _userToRegister.AddressList = addresses;
+
+                var registrationStatus = await RegistrationService.RegisterUserAsync(_userToRegister);
+
+                _registerSuccessful = registrationStatus.IsSuccessful;
+                if (registrationStatus.Erorrs != null)
+                {
+                    _attemptToRegisterFailedMessage = registrationStatus.Erorrs.Split("\\r\\n").ToList();
+                }               
+
+                if (_registerSuccessful == false)
+                {
+                    _attemptToregisterFailed = true;
+                }
+            }
         }
 
         private void ValidateUser()

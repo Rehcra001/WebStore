@@ -25,9 +25,9 @@
 }
 
 label {
+    min-width: 150px;
     font-weight: bold;
     font-size: 80%;
-    margin-top: 5%;
 }
 
 button {
@@ -47,5 +47,11 @@ button {
         background-color: rgba(0,136,169,0.8);
     }
     div{
-        margin-bottom: 10px;
+        margin-top: 10px;
     }
+
+.register_errors {
+    color: red; 
+    font-size: 80%; 
+    padding: 0 50px;
+}
