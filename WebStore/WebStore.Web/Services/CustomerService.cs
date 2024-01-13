@@ -17,13 +17,11 @@ namespace WebStore.WEB.Services
             _localStorageService = localStorageService;
         }
 
-
-
         public async Task<CustomerDTO> GetCustomerDetails()
         {
             try
             {
-                var jsonToken = await _localStorageService.GetItemAsStringAsync("bearerToken");
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
 
@@ -36,7 +34,9 @@ namespace WebStore.WEB.Services
                     {
                         return default(CustomerDTO);
                     }
-                    return await httpResponseMessage.Content.ReadFromJsonAsync<CustomerDTO>();
+
+                    CustomerDTO customerDTO = await httpResponseMessage.Content.ReadFromJsonAsync<CustomerDTO>();
+                    return customerDTO;
                 }
                 else
                 {
