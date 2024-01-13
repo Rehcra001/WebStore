@@ -16,4 +16,8 @@
     <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WebStore.DTO\WebStore.DTO.csproj" />
+  </ItemGroup>
+
 </Project>
