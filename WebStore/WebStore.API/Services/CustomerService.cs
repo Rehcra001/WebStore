@@ -14,11 +14,11 @@ namespace WebStore.API.Services
             _customerRepository = customerRepository;
         }
 
-        public Task<CustomerModel> AddCustomer(CustomerModel customer)
+        public async Task<CustomerModel> AddCustomer(CustomerModel customer)
         {
             try
             {
-                return _customerRepository.AddCustomer(customer);
+                return await _customerRepository.AddCustomer(customer);
             }
             catch (Exception ex)
             {
@@ -26,9 +26,16 @@ namespace WebStore.API.Services
             }
         }
 
-        public Task<CustomerModel> GetCustomer(int id)
+        public async Task<CustomerModel> GetCustomer(string email)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _customerRepository.GetCustomer(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Task<IEnumerable<CustomerModel>> GetCustomers()

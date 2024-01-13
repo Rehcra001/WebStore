@@ -3,7 +3,7 @@ using WebStore.Models;
 
 namespace WebStore.API.Extentions
 {
-    public static class ConversionsToModel
+    public static class ConvertToModel
     {
         public static CustomerModel ConvertToCustomerModel(this UserRegistrationDTO userRegistrationDTO)
         {

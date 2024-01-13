@@ -6,7 +6,7 @@ namespace WebStore.Repository.Contracts
     {
         Task<CustomerModel> AddCustomer(CustomerModel customer);
         Task<CustomerModel> UpdateCustomer(CustomerModel customer);
-        Task<CustomerModel> GetCustomer(int id);
+        Task<CustomerModel> GetCustomer(string email);
         Task<IEnumerable<CustomerModel>> GetCustomers();
     }
 }

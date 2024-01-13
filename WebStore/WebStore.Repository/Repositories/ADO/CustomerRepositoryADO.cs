@@ -42,6 +42,7 @@ namespace WebStore.Repository.Repositories.ADO
                             {
                                 //check for errors
                                 //expecting one row and one column with name of "Message" on error
+
                                 if (reader.GetName(0).Equals("Message"))
                                 {
                                     await reader.ReadAsync();
@@ -74,7 +75,7 @@ namespace WebStore.Repository.Repositories.ADO
                                     //retrieve the customer id from the first address
                                     customer.CustomerId = addresses[0].CustomerId;
                                     customer.AddressList = addresses;
-                                }                                
+                                }
                             }
                         }
                     }
@@ -84,12 +85,66 @@ namespace WebStore.Repository.Repositories.ADO
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            } 
+            }
         }
 
-        public Task<CustomerModel> GetCustomer(int id)
+        public async Task<CustomerModel> GetCustomer(string email)
         {
-            throw new NotImplementedException();
+            CustomerModel customer = new CustomerModel();
+            List<AddressModel> addresses = new List<AddressModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_GetCustomer";
+                    command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = email;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+
+                            //Read in the customer
+                            await reader.ReadAsync();
+                            customer.CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId"));
+                            customer.FirstName = reader.GetString(reader.GetOrdinal("FirstName"));
+                            customer.LastName = reader.GetString(reader.GetOrdinal("LastName"));
+                            customer.EmailAddress = reader.GetString(reader.GetOrdinal("EmailAddress"));
+                            customer.PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber"));
+
+                            //Read in the customer address
+                            await reader.NextResultAsync();
+                            if (reader.HasRows)
+                            {
+                                customer.AddressList = new List<AddressModel>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    AddressModel address = new AddressModel();
+
+                                    address.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
+                                    address.AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"));
+                                    address.AddressLine2 = reader.GetString(reader.GetOrdinal("AddressLine2"));
+                                    address.Suburb = reader.GetString(reader.GetOrdinal("Suburb"));
+                                    address.City = reader.GetString(reader.GetOrdinal("City"));
+                                    address.PostalCode = reader.GetString(reader.GetOrdinal("PostalCode"));
+                                    address.Country = reader.GetString(reader.GetOrdinal("Country"));
+                                    address.CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId"));
+
+                                    addresses.Add(address);
+                                }
+                                customer.AddressList = addresses;
+                            }
+                        }
+                    }
+                }
+            }
+            return customer;
         }
 
         public Task<IEnumerable<CustomerModel>> GetCustomers()

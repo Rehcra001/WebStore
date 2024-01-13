@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using WebStore.API.Extentions;
+using WebStore.API.Services.Contracts;
+using WebStore.DTO;
 using WebStore.Models;
-using WebStore.Repository.Contracts;
+using static Dapper.SqlMapper;
 
 namespace WebStore.API.Controllers
 {
@@ -9,25 +14,43 @@ namespace WebStore.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerRepository _customerRepository;
-
-        public CustomerController(ICustomerRepository customerRepository)
+        private readonly ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
         {
-            _customerRepository = customerRepository;
+            _customerService = customerService;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<CustomerModel>> InsertCustomer([FromBody] CustomerModel customer)
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<CustomerDTO>> GetCustomer()
         {
             try
             {
-                CustomerModel newCustomer = await _customerRepository.AddCustomer(customer);
+                var userIdentity = User.Identity as ClaimsIdentity ;
+                string? email = userIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-                return Ok(newCustomer);
+                if (String.IsNullOrWhiteSpace(email))
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "CustomerController: No user name found");
+                }
+
+                CustomerModel customer = await _customerService.GetCustomer(email);
+
+                if (customer.CustomerId == default || customer.AddressList == default)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving customer from the database");
+                }
+                else
+                {
+                    CustomerDTO customerDTO = customer.ConvertToCustomerDTO();
+                    return Ok(customerDTO);
+                }
+
+
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving customer from the database");
             }
         }
     }

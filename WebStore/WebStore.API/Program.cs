@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -10,7 +9,6 @@ using WebStore.API.Services.Contracts;
 using WebStore.Repository;
 using WebStore.Repository.Contracts;
 using WebStore.Repository.Repositories.ADO;
-using WebStore.Repository.Repositories.Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +47,7 @@ builder.Services.AddSwaggerGen();
 
 //Repositories
 builder.Services.AddScoped<IRelationalDatabaseConnection, RelationalDatabaseConnection>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryDapper>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryADO>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 var app = builder.Build();

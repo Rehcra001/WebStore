@@ -7,7 +7,7 @@ namespace WebStore.API.Services.Contracts
         Task<CustomerModel> AddCustomer(CustomerModel customer);
         //Task<CustomerModel> AddCustomerAddress(AddressModel address);
         Task<CustomerModel> UpdateCustomer(CustomerModel customer);
-        Task<CustomerModel> GetCustomer(int id);
+        Task<CustomerModel> GetCustomer(string email);
         Task<IEnumerable<CustomerModel>> GetCustomers();
     }
 }
