@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebStore.API.Extentions;
 using WebStore.API.Services.Contracts;
 using WebStore.DTO;
 using WebStore.Models;
-using static Dapper.SqlMapper;
 
 namespace WebStore.API.Controllers
 {

@@ -1,0 +1,36 @@
+﻿@page "/input"
+<div>
+    <div>
+        <InputValidation ValidationErrors="@ValidationErrors" PropertyName="@PropertyName" />
+    </div>
+    <div style="margin-bottom: 1%; margin-top: 1%">
+        <label style="float: left;" for="input">@Label</label>
+        <input style="width: 100%; " type="@InputType" id="input" value="@Value" @onchange="OnValueChanged" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public List<string>? ValidationErrors { get; set; } = new List<string>();
+
+    [Parameter]
+    public string? PropertyName { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; } = "Label";
+
+    [Parameter]
+    public string? Value { get; set; } = "Value";
+
+    [Parameter]
+    public string InputType { get; set; } = "text";
+
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private async Task OnValueChanged(ChangeEventArgs e)
+    {
+        await ValueChanged.InvokeAsync(e.Value as string);
+    }
+}

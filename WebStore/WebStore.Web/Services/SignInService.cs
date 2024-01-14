@@ -13,7 +13,7 @@ namespace WebStore.WEB.Services
             _httpClient = httpClient;
         }
 
-        public async Task<(bool IsSuccessful, string? jsonToken)> SignIn(UserSignInDTO userSignInDTO)
+        public async Task<(bool IsSuccessful, string? jsonToken)> SignInAsync(UserSignInDTO userSignInDTO)
         {
             try
             {

@@ -22,7 +22,5 @@
 
             return name.All(char.IsLetter);
         }
-
-        
     }
 }

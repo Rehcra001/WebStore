@@ -15,23 +15,11 @@
         }
 
         <div class="form">
-            <EditForm Model="@_userToSignIn">
-                <div>
-                    <div>
-                        <InputValidation ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" />
-                    </div>
-                    <label for="email">Email Address</label>
-                    <InputText style="width: 100%" @bind-Value="_userToSignIn.EmailAddress" id="email" />
-                </div>
 
-                <div>
-                    <div>
-                        <InputValidation ValidationErrors="@ValidationErrors" PropertyName="Password" />
-                    </div>
-                    <label for="password">Password</label>
-                    <InputText style="width: 100%" @bind-Value="_userToSignIn.Password" id="password" type="password" />
-                </div>
-            </EditForm>
+                <InputComponent Label="Email Address" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" @bind-Value="@_userToSignIn.EmailAddress" />
+
+                <InputComponent Label="Password" ValidationErrors="@ValidationErrors" PropertyName="Password" @bind-Value="@_userToSignIn.Password" InputType="password" />
+
         </div>
         <button @onclick="SignInUser">Sign In</button>
     </div>

@@ -17,7 +17,7 @@ namespace WebStore.WEB.Services
             _localStorageService = localStorageService;
         }
 
-        public async Task<CustomerDTO> GetCustomerDetails()
+        public async Task<CustomerDTO> GetCustomerDetailsAsync()
         {
             try
             {

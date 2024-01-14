@@ -16,11 +16,6 @@ namespace WebStore.WEB.Pages
         [Inject]
         ICustomerService CustomerService { get; set; }
 
-        [Inject]
-        ILocalStorageService LocalStorageService { get; set; }
-
-        [Inject]
-        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         public string ErrorMessage { get; set; }
 
@@ -30,16 +25,7 @@ namespace WebStore.WEB.Pages
         {
             try
             {
-                AuthenticationState authenticationState = await ((AppAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
-
-                if (authenticationState != null)
-                {
-                    string email = authenticationState.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
-
-                    Customer = await CustomerService.GetCustomerDetails();
-                }
-                
-                
+                Customer = await CustomerService.GetCustomerDetailsAsync();
             }
             catch (Exception ex)
             {

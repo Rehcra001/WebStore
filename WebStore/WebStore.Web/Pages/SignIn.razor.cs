@@ -33,6 +33,8 @@ namespace WebStore.WEB.Pages
 
         public List<string> ValidationErrors { get; set; } = new List<string>();
 
+        public Func<string, string> AssignValue = str => str;
+
         private async Task SignInUser()
         {
             ValidateUserSignIn();
@@ -40,7 +42,7 @@ namespace WebStore.WEB.Pages
             if (ValidationErrors.Count == 0)
             {
                 _attemptToSignInFailed = false;
-                var signInStatus = await SignInService.SignIn(_userToSignIn);
+                var signInStatus = await SignInService.SignInAsync(_userToSignIn);
 
                 if (signInStatus.IsSuccessful)
                 {

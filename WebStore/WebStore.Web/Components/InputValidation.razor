@@ -6,10 +6,10 @@
 
 @code {
     [Parameter]
-    public List<string> ValidationErrors { get; set; }
+    public List<string>? ValidationErrors { get; set; }
 
     [Parameter]
-    public string PropertyName { get; set; }
+    public string? PropertyName { get; set; }
 
     private string? ValidationError { get; set; } = null;
 
