@@ -1,0 +1,53 @@
+﻿label {
+    float: left;
+}
+
+.my_1_percent {
+    margin-bottom: 1%;
+    margin-top: 1%;
+    width: 100%;
+}
+
+.label_width_none input {
+    width: 100%;
+}
+
+.label_width_10_percent label {
+    width: 10%;
+}
+
+.label_width_10_percent input {
+    width: 88%;
+}
+
+.label_width_20_percent label {
+    width: 20%;
+}
+
+.label_width_20_percent input {
+    width: 78%;
+}
+
+.label_width_25_percent label {
+    width: 25%;
+}
+
+.label_width_25_percent input {
+    width: 73%;
+}
+
+.label_width_30_percent label {
+    width: 30%;
+}
+
+.label_width_30_percent input {
+    width: 68%;
+}
+
+.label_width_40_percent label {
+    width: 40%;
+}
+
+.label_width_40_percent input {
+    width: 58%;
+}

@@ -27,6 +27,8 @@ namespace WebStore.WEB.Pages
         [Inject]
         NavigationManager NavigationManager { get; set; }
 
+        public string InputComponentClass { get; set; } = "label_width_25_percent";
+
         private UserSignInDTO _userToSignIn = new UserSignInDTO();
         private bool _signInSuccessful = false;
         private bool _attemptToSignInFailed = false;

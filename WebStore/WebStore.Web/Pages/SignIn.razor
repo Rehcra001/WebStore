@@ -16,9 +16,9 @@
 
         <div class="form">
 
-                <InputComponent Label="Email Address" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" @bind-Value="@_userToSignIn.EmailAddress" />
+            <InputComponent Class="@InputComponentClass" Label="Email Address" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" @bind-Value="@_userToSignIn.EmailAddress" />
 
-                <InputComponent Label="Password" ValidationErrors="@ValidationErrors" PropertyName="Password" @bind-Value="@_userToSignIn.Password" InputType="password" />
+            <InputComponent Class="@InputComponentClass" Label="Password" ValidationErrors="@ValidationErrors" PropertyName="Password" @bind-Value="@_userToSignIn.Password" InputType="password" />
 
         </div>
         <button @onclick="SignInUser">Sign In</button>

@@ -11,6 +11,8 @@ namespace WebStore.WEB.Pages
         [Inject]
         public IRegistrationService RegistrationService { get; set; }
 
+        public string InputComponentClass { get; set; } = "label_width_none";
+
         private UserRegistrationDTO _userToRegister = new UserRegistrationDTO();
         private AddressDTO _address = new AddressDTO();
         private bool _registerSuccessful = false;
