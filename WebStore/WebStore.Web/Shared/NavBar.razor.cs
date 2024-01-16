@@ -5,7 +5,7 @@ using WebStore.WEB.Providers;
 
 namespace WebStore.WEB.Shared
 {
-    public partial class TopNavBar
+    public partial class NavBar
     {
         [Inject]
         ILocalStorageService LocalStorageService { get; set; }

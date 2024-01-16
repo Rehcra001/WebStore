@@ -20,4 +20,8 @@
     <ProjectReference Include="..\WebStore.DTO\WebStore.DTO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
 </Project>
