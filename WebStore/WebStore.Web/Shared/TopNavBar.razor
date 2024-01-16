@@ -1,34 +1,31 @@
-﻿
-
-
-<nav class="main-nav">
-    <span class="logo">
-        <a href="#">
-            <img src="/favicon.png" alt="" />
-        </a>
-        <a href="#"><span>Web-Store</span></a>
-    </span>
-
-    <ul class="main-menu">
-        <li><a href="/">Home</a></li>
+﻿@using Blazored.LocalStorage
+@using WebStore.WEB.Providers
+<header>
+    <div  id="logo_id">
+        <a class="logo" href="/"><img src="favicon.png" alt="logo" />&nbsp;&nbsp; Web Store</a>
+    </div>
+    
+    <nav>
+        <ul class="nav_links">
+            <li>
+                <NavLink class="nav_home" href="/">
+                    Home
+                </NavLink>
+            </li>
+        </ul>
+    </nav>
+    <div>
         <AuthorizeView>
             <Authorized>
-                <li><a href="/customerdetails">Profile</a></li>
-                <li><button @onclick="SignOut">Sign Out</button></li>
+                <button @onclick="SignOut">Sign out</button>
+                <button @onclick="OpenProfile">Profile</button>
             </Authorized>
+
             <NotAuthorized>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/signin">Sign In</a></li>
+                <NavLink href="signin"><button>Sign In</button></NavLink>
+                <NavLink href="register"><button>Register</button></NavLink>
             </NotAuthorized>
         </AuthorizeView>
-    </ul>
-
-    <ul class="right-menu">
-        <li>
-            <a href="/">
-                <i class="fas fa-shopping-cart"></i>
-            </a>
-        </li>
-    </ul>
-</nav>
-
+              
+    </div>
+</header>
