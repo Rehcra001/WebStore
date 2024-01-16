@@ -2,80 +2,57 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    color: #262626;
 }
 
-li, a, button {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    color: #ffffff;
+a {
     text-decoration: none;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    padding: 30px 5%;
-    background-color: #24252A;
-    border-radius: 10px;
-}
-
-
-.logo {
-    cursor: pointer;
-    float: inline-start;
-    transition: transform 0.2s;
-}
-
-    .logo:hover {
-        transform: scale(1.15);
-    }
-
-.nav_links {
+ul {
     list-style: none;
 }
 
-    .nav_links li {
-        display: inline-block;
-        padding: 0px 20px;
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 20px 10px;
+    background: whitesmoke;
+
+}
+
+    .main-nav ul {
+        display: flex;
     }
 
-        .nav_links li a {
-            transition: all 0.3s ease 0s;
+    .main-nav ul li {
+        padding: 0 10px;
+    }
+
+        .main-nav ul li a {
+            padding-bottom: 3px;
         }
 
-            .nav_links li a:hover {
-                color: #0088A9;
-            }
+        .main-nav ul li a:hover {
+            border-bottom: 2px solid #262626
+        }
 
-button {
-    padding: 5px 10px;
-    background-color: rgba(0,136,169,1);
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-    float: inline-end;
-    margin: 0px 10px;
-}
+        .main-nav ul.main-menu {
+            flex: 1;
+            justify-content:center;
+            margin-left: 20px;
+        }
 
-    button:hover {
-        background-color: rgba(0,136,169,0.8);
+    .main-nav .logo {
+        display: flex;
+        align-content: center;
+        justify-content:center;
     }
 
-.nav_home {
-    float: inline-start;
-}
+ .main-nav .logo a {
+     align-self: center;
+ }
 
-@media only screen and (max_width:1026px) {
-    #logo_id {
-        background-color: lightblue;
-    }
-}
 
-@media only screen and (max_width:800px) {
-    #logo_id {
-        background-color: lightgreen;
-    }
-}
