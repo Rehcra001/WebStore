@@ -19,9 +19,6 @@ namespace WebStore.WEB.Components
         [Parameter]
         public string InputType { get; set; } = "text";
 
-        [Parameter]
-        public string? Class { get; set; }
-
 
         [Parameter]
         public EventCallback<string> ValueChanged { get; set; }

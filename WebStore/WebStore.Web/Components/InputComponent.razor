@@ -1,10 +1,10 @@
 ﻿@page "/input"
-<div class="@Class">
+<div class="">
     <div>
         <InputValidation ValidationErrors="@ValidationErrors" PropertyName="@PropertyName" />
-    </div>
-    <div class="my_1_percent">
-        <label >@Label</label>
+    </div> 
+    <div class="my_1_percent container">
+        <label>@Label</label>
         <input type="@InputType" value="@Value" @onchange="OnValueChanged" />
     </div>
 </div>
