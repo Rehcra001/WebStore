@@ -27,9 +27,5 @@ namespace WebStore.WEB.Shared
             NavigationManager.NavigateTo("/");
         }
 
-        private void OpenProfile()
-        {
-            NavigationManager.NavigateTo("/customerdetails");
-        }
     }
 }

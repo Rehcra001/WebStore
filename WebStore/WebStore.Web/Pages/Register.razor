@@ -15,38 +15,14 @@
             }
         }
 
-        <div class="form">
-
-            <InputComponent InputType="text" Label="Email Address" @bind-Value="@_userToRegister.EmailAddress" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" />
-
-            <InputComponent InputType="text" Label="Confirm Email Address" @bind-Value="@_userToRegister.ConfirmEmailAddress" ValidationErrors="@ValidationErrors" PropertyName="ConfirmEmailAddress" />
-
-            <InputComponent InputType="text" Label="Password" @bind-Value="@_userToRegister.Password" ValidationErrors="@ValidationErrors" PropertyName="Password" />
-
-            <InputComponent InputType="text" Label="Confirm Password" @bind-Value="@_userToRegister.ConfirmPassword" ValidationErrors="@ValidationErrors" PropertyName="ConfirmPassword" />
-
-            <InputComponent InputType="text" Label="First Name" @bind-Value="@_userToRegister.FirstName" ValidationErrors="@ValidationErrors" PropertyName="FirstName" />
-
-            <InputComponent InputType="text" Label="Last Name" @bind-Value="@_userToRegister.LastName" ValidationErrors="@ValidationErrors" PropertyName="LastName" />
-
-            <InputComponent InputType="text" Label="Phone Number" @bind-Value="@_userToRegister.PhoneNumber" ValidationErrors="@ValidationErrors" PropertyName="PhoneNumber" />
-
+        <div>
+            <CustomerRegistrationComponent Customer="_userToRegister" ValidationErrors="@ValidationErrors" />
         </div>
 
-        <div class="form">
-            <InputComponent InputType="text" Label="Address Line 1" @bind-Value="@_address.AddressLine1" ValidationErrors="@ValidationErrors" PropertyName="AddressLine1" />
-
-            <InputComponent InputType="text" Label="Address Line 2" @bind-Value="@_address.AddressLine2" ValidationErrors="@ValidationErrors" PropertyName="AddressLine2" />
-
-            <InputComponent InputType="text" Label="Suburb" @bind-Value="@_address.Suburb" ValidationErrors="@ValidationErrors" PropertyName="Suburb" />
-
-            <InputComponent InputType="text" Label="City" @bind-Value="@_address.City" ValidationErrors="@ValidationErrors" PropertyName="City" />
-
-            <InputComponent InputType="text" Label="Postal Code" @bind-Value="@_address.PostalCode" ValidationErrors="@ValidationErrors" PropertyName="Postal Code" />
-
-            <InputComponent InputType="text" Label="Country" @bind-Value="@_address.Country" ValidationErrors="@ValidationErrors" PropertyName="Country" />
-
+        <div>
+            <AddressComponent Address="_address" ValidationErrors="@ValidationErrors" />
         </div>
+
 
         <button @onclick="RegisterUser_Click">Submit Registration Form</button>
 

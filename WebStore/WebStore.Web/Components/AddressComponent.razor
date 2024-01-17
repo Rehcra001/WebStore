@@ -1,0 +1,20 @@
+﻿@page "/address"
+
+<form class="form">
+    <fieldset>
+        <legend>Address @Count</legend>
+        <div >
+            <InputComponent InputType="text" Label="Address Line 1" @bind-Value="@Address.AddressLine1" ValidationErrors="@ValidationErrors" PropertyName="AddressLine1" />
+
+            <InputComponent InputType="text" Label="Address Line 2" @bind-Value="@Address.AddressLine2" ValidationErrors="@ValidationErrors" PropertyName="AddressLine2" />
+
+            <InputComponent InputType="text" Label="Suburb" @bind-Value="@Address.Suburb" ValidationErrors="@ValidationErrors" PropertyName="Suburb" />
+
+            <InputComponent InputType="text" Label="City" @bind-Value="@Address.City" ValidationErrors="@ValidationErrors" PropertyName="City" />
+
+            <InputComponent InputType="text" Label="Postal Code" @bind-Value="@Address.PostalCode" ValidationErrors="@ValidationErrors" PropertyName="PostalCode" />
+
+            <InputComponent InputType="text" Label="Country" @bind-Value="@Address.Country" ValidationErrors="@ValidationErrors" PropertyName="Country" />
+        </div>
+    </fieldset>
+</form>

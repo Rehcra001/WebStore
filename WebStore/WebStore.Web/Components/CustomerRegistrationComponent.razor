@@ -1,0 +1,22 @@
+﻿@page "/CustomerRegistration"
+
+<form class="form">
+    <fieldset>
+        <legend>Customer</legend>
+        <div>
+            <InputComponent InputType="text" Label="Email Address" @bind-Value="@Customer.EmailAddress" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" />
+
+            <InputComponent InputType="text" Label="Confirm Email Address" @bind-Value="@Customer.ConfirmEmailAddress" ValidationErrors="@ValidationErrors" PropertyName="ConfirmEmailAddress" />
+
+            <InputComponent InputType="password" Label="Password" @bind-Value="@Customer.Password" ValidationErrors="@ValidationErrors" PropertyName="Password" />
+
+            <InputComponent InputType="password" Label="Confirm Password" @bind-Value="@Customer.ConfirmPassword" ValidationErrors="@ValidationErrors" PropertyName="ConfirmPassword" />
+
+            <InputComponent InputType="text" Label="First Name" @bind-Value="@Customer.FirstName" ValidationErrors="@ValidationErrors" PropertyName="FirstName" />
+
+            <InputComponent InputType="text" Label="Last Name" @bind-Value="@Customer.LastName" ValidationErrors="@ValidationErrors" PropertyName="LastName" />
+
+            <InputComponent InputType="text" Label="Phone Number" @bind-Value="@Customer.PhoneNumber" ValidationErrors="@ValidationErrors" PropertyName="PhoneNumber" />
+        </div>
+    </fieldset>
+</form>
