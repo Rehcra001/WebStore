@@ -36,5 +36,14 @@ namespace WebStore.API.Extentions
             customerDTO.AddressList = addresses;
             return customerDTO;
         }
+
+        public static ProductCategoryDTO ConvertToProductCategoryDTO(this ProductCategoryModel productCategoryModel)
+        {
+            return (new ProductCategoryDTO
+            {
+                ProductCategoryId = productCategoryModel.ProductCategoryId,
+                CategoryName = productCategoryModel.CategoryName
+            });
+        }
     }
 }

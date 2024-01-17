@@ -17,7 +17,7 @@ namespace WebStore.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(80, ErrorMessage = "Your password must be between {2] and {1} characters.", MinimumLength = 6)]
+        [StringLength(80, ErrorMessage = "Your password must be between {2] and {1} characters.", MinimumLength = 8)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 

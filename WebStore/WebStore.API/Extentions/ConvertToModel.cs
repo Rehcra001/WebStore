@@ -56,5 +56,14 @@ namespace WebStore.API.Extentions
                 Password = userSignInDTO.Password
             });
         }
+
+        public static ProductCategoryModel ConvertToProductCategoryModel(this ProductCategoryDTO productCategoryDTO)
+        {
+            return (new ProductCategoryModel
+            {
+                ProductCategoryId = productCategoryDTO.ProductCategoryId,
+                CategoryName = productCategoryDTO.CategoryName
+            });
+        }
     }
 }
