@@ -15,9 +15,30 @@ namespace WebStore.Repository.Repositories.Dapper
             _sqlConnection = sqlConnection;
         }
 
-        public Task<ProductModel> AddProduct(ProductModel product)
+        public async Task<ProductModel> AddProduct(ProductModel product)
         {
-            throw new NotImplementedException();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Name", product.Name);
+            parameters.Add("@Description", product.Description);
+            parameters.Add("@Picture", product.Picture);
+            parameters.Add("@Price", product.Price);
+            parameters.Add("@QtyInStock", product.QtyInStock);
+            parameters.Add("@UnitPerId", product.UnitPerId);
+            parameters.Add("@CategoryId", product.CategoryId);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                try
+                {
+                    var retured = await connection.QuerySingleAsync<ProductModel>("dbo.usp_AddProduct", parameters, commandType: CommandType.StoredProcedure);
+                    product.ProductId = retured.ProductId;
+                }
+                catch (Exception)
+                {
+                    product = default(ProductModel);
+                }
+            }
+            return product;
         }
 
         public async Task<ProductCategoryModel> AddProductCategory(ProductCategoryModel productCategory)
@@ -27,7 +48,15 @@ namespace WebStore.Repository.Repositories.Dapper
 
             using (SqlConnection connection = _sqlConnection.SqlConnection())
             {
-                productCategory = await connection.QuerySingleAsync<ProductCategoryModel>("dbo.usp_AddProductCategory", parameters, commandType: CommandType.StoredProcedure);
+                try
+                {
+                    var returned = await connection.QuerySingleAsync<ProductCategoryModel>("dbo.usp_AddProductCategory", parameters, commandType: CommandType.StoredProcedure);
+                    productCategory.ProductCategoryId = returned.ProductCategoryId;
+                }
+                catch (Exception)
+                {
+                    productCategory = default(ProductCategoryModel);
+                }
             }
             return productCategory;
         }
@@ -44,14 +73,30 @@ namespace WebStore.Repository.Repositories.Dapper
             return unitPer;
         }
 
-        public Task<ProductModel> GetProduct(int id)
+        public async Task<ProductModel> GetProduct(int id)
         {
-            throw new NotImplementedException();
+            ProductModel product = new ProductModel();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProductId", id);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                try
+                {
+                    product = await connection.QuerySingleAsync<ProductModel>("dbo.usp_GetProduct", parameters, commandType: CommandType.StoredProcedure);
+                }
+                catch (Exception)
+                {
+                    product = default(ProductModel);
+                }
+            }
+
+            return product;
         }
 
         public async Task<ProductCategoryModel> GetProductCategory(int id)
         {
-            ProductCategoryModel? productCategory = new ProductCategoryModel();
+            ProductCategoryModel productCategory = new ProductCategoryModel();
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@ProductCategoryId", id, DbType.Int32, ParameterDirection.Input);
 
@@ -72,7 +117,7 @@ namespace WebStore.Repository.Repositories.Dapper
 
         public async Task<UnitPerModel> GetUnitPer(int id)
         {
-            UnitPerModel? unitPer = new UnitPerModel();
+            UnitPerModel unitPer = new UnitPerModel();
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@UnitPerId", id, DbType.Int32, ParameterDirection.Input);
 

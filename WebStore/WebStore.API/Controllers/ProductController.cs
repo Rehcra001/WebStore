@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.API.Extentions;
 using WebStore.API.Services.Contracts;
@@ -133,7 +132,68 @@ namespace WebStore.API.Controllers
                 {
                     //convert to dto
                     UnitPerDTO unitPerDTO = unitPerModel.ConvertToUnitPerDTO();
-                    return unitPerDTO;
+                    return Ok(unitPerDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("AddProduct")]
+        public async Task<ActionResult<ProductDTO>> AddProduct([FromBody] ProductDTO productDTO)
+        {
+            try
+            {
+                //convert to model
+                ProductModel productModel = productDTO.ConvertToProductModel();
+                //Validate
+                var productErrors = ValidationHelper.Validate(productModel);
+                if (productErrors.Count > 0)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, productErrors);
+                }
+
+                //save model
+                productModel = await _productService.AddProduct(productModel);
+
+                if (productModel == null || productModel.ProductId == default)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    productDTO = productModel.ConvertToProductDto();
+                    return CreatedAtAction(nameof(GetProduct), new { id = productDTO.ProductId }, productDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetProduct/{id:int}")]
+        public async Task<ActionResult<ProductDTO>> GetProduct(int id)
+        {
+            try
+            {
+                ProductModel productModel = await _productService.GetProduct(id);
+
+                if (productModel == null || productModel.ProductId == default)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    //Convert to Dto
+                    ProductDTO productDTO = productModel.ConvertToProductDto();
+                    return Ok(productDTO);
                 }
             }
             catch (Exception ex)
@@ -144,5 +204,5 @@ namespace WebStore.API.Controllers
 
     }
 
-    
+
 }

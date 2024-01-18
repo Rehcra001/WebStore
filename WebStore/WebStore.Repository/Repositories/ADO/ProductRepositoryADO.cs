@@ -19,9 +19,37 @@ namespace WebStore.Repository.Repositories.ADO
             _sqlConnection = sqlConnection;
         }
 
-        public Task<ProductModel> AddProduct(ProductModel product)
+        public async Task<ProductModel> AddProduct(ProductModel product)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_AddProduct";
+                    command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = product.Name;
+                    command.Parameters.Add("@Description", SqlDbType.NVarChar).Value = product.Description;
+                    command.Parameters.AddWithValue("@Picture", product.Picture);
+                    command.Parameters.Add("@Price", SqlDbType.Money).Value = product.Price;
+                    command.Parameters.Add("@QtyInStock", SqlDbType.Int).Value = product.QtyInStock;
+                    command.Parameters.Add("@UnitPerId", SqlDbType.Int).Value = product.UnitPerId;
+                    command.Parameters.Add("@CategoryId", SqlDbType.Int).Value = product.CategoryId;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
+                    {
+                        if (reader.HasRows)
+                        {
+                            await reader.ReadAsync();
+
+                            product.ProductId = reader.GetInt32(reader.GetOrdinal("ProductId"));
+                        }
+                    }
+                }
+            }
+            return product;
         }
 
         public async Task<ProductCategoryModel> AddProductCategory(ProductCategoryModel productCategory)
@@ -37,7 +65,7 @@ namespace WebStore.Repository.Repositories.ADO
 
                     await command.Connection.OpenAsync();
 
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
                     {
                         if (reader.HasRows)
                         {
@@ -63,7 +91,7 @@ namespace WebStore.Repository.Repositories.ADO
 
                     await command.Connection.OpenAsync();
 
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
                     {
                         if (reader.HasRows)
                         {
@@ -76,9 +104,40 @@ namespace WebStore.Repository.Repositories.ADO
             return unitPer;
         }
 
-        public Task<ProductModel> GetProduct(int id)
+        public async Task<ProductModel> GetProduct(int id)
         {
-            throw new NotImplementedException();
+            ProductModel product = new ProductModel();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_GetProduct";
+                    command.Parameters.Add("@ProductId", SqlDbType.Int).Value = id;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader =  await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
+                    {
+                        if (reader.HasRows)
+                        {
+                            await reader.ReadAsync();
+                            product.ProductId = reader.GetInt32(reader.GetOrdinal("ProductId"));
+                            product.Name = reader.GetString(reader.GetOrdinal("Name"));
+                            product.Description = reader.GetString(reader.GetOrdinal("Description"));
+                            product.Picture = (byte[])reader["Picture"];
+                            product.Price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                            product.QtyInStock = reader.GetInt32(reader.GetOrdinal("QtyInStock"));
+                            product.UnitPerId = reader.GetInt32(reader.GetOrdinal("UnitPerId"));
+                            product.CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId"));
+                            product.UnitPer = reader.GetString(reader.GetOrdinal("UnitPer"));
+                            product.CategoryName = reader.GetString(reader.GetOrdinal("CategoryName"));                        }
+                    }
+                }
+            }
+            return product;
         }
 
         public async Task<ProductCategoryModel> GetProductCategory(int id)
@@ -96,7 +155,7 @@ namespace WebStore.Repository.Repositories.ADO
 
                     await command.Connection.OpenAsync();
 
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
                     {
                         if (reader.HasRows)
                         {
@@ -125,7 +184,7 @@ namespace WebStore.Repository.Repositories.ADO
 
                     await command.Connection.OpenAsync();
 
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
                     {
                         if (reader.HasRows)
                         {

@@ -74,5 +74,22 @@ namespace WebStore.API.Extentions
                 UnitPer = unitPerDTO.UnitPer
             });
         }
+
+        public static ProductModel ConvertToProductModel(this ProductDTO productDTO)
+        {
+            return (new ProductModel
+            {
+                ProductId = productDTO.ProductId,
+                Name = productDTO.Name,
+                Description = productDTO.Description,
+                Picture = productDTO.Picture,
+                Price = productDTO.Price,
+                QtyInStock = productDTO.QtyInStock,
+                UnitPerId = productDTO.UnitPerId,
+                UnitPer = productDTO.UnitPer,
+                CategoryId = productDTO.CategoryId,
+                CategoryName = productDTO.CategoryName
+            });
+        }
     }
 }

@@ -14,9 +14,16 @@ namespace WebStore.API.Services
             _productRepository = productRepository;
         }
 
-        public Task<ProductModel> AddProduct(ProductModel product)
+        public async Task<ProductModel> AddProduct(ProductModel product)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _productRepository.AddProduct(product);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<ProductCategoryModel> AddProductCategory(ProductCategoryModel productCategory)
