@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[usp_AddProduct]
 (
 	@Name VARCHAR(100),
-	@Decription VARCHAR(250),
+	@Description VARCHAR(250),
 	@Picture VARBINARY(MAX),
 	@Price MONEY,
 	@QtyInStock INT,
@@ -16,7 +16,7 @@ BEGIN
 			DECLARE @ProductId INT;
 
 			INSERT INTO dbo.Products ([Name], [Description], Picture, Price, QtyInStock, UnitPerId, CategoryId)
-			VALUES (@Name, @Decription, @Picture, @Price, @QtyInStock, @UnitPerId, @CategoryId);
+			VALUES (@Name, @Description, @Picture, @Price, @QtyInStock, @UnitPerId, @CategoryId);
 
 			SET @ProductId = SCOPE_IDENTITY();
 

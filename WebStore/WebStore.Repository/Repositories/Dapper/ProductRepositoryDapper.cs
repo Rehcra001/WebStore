@@ -20,7 +20,7 @@ namespace WebStore.Repository.Repositories.Dapper
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Name", product.Name);
             parameters.Add("@Description", product.Description);
-            parameters.Add("@Picture", product.Picture);
+            parameters.Add("@Picture", product.Picture,dbType: DbType.Binary, size: product.Picture.Length) ;
             parameters.Add("@Price", product.Price);
             parameters.Add("@QtyInStock", product.QtyInStock);
             parameters.Add("@UnitPerId", product.UnitPerId);
@@ -33,7 +33,7 @@ namespace WebStore.Repository.Repositories.Dapper
                     var retured = await connection.QuerySingleAsync<ProductModel>("dbo.usp_AddProduct", parameters, commandType: CommandType.StoredProcedure);
                     product.ProductId = retured.ProductId;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     product = default(ProductModel);
                 }

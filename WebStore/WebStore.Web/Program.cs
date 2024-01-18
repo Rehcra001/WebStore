@@ -27,5 +27,6 @@ builder.Services.AddScoped<AuthenticationStateProvider>(
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<ISignInService, SignInService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 await builder.Build().RunAsync();

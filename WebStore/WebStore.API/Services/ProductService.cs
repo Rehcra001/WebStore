@@ -50,9 +50,16 @@ namespace WebStore.API.Services
             }
         }
 
-        public Task<ProductModel> GetProduct(int id)
+        public async Task<ProductModel> GetProduct(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _productRepository.GetProduct(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<ProductCategoryModel> GetProductCategory(int id)

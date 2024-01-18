@@ -30,7 +30,7 @@ namespace WebStore.Repository.Repositories.ADO
                     command.CommandText = "dbo.usp_AddProduct";
                     command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = product.Name;
                     command.Parameters.Add("@Description", SqlDbType.NVarChar).Value = product.Description;
-                    command.Parameters.AddWithValue("@Picture", product.Picture);
+                    command.Parameters.Add("@Picture", SqlDbType.VarBinary, product.Picture.Length).Value = product.Picture;
                     command.Parameters.Add("@Price", SqlDbType.Money).Value = product.Price;
                     command.Parameters.Add("@QtyInStock", SqlDbType.Int).Value = product.QtyInStock;
                     command.Parameters.Add("@UnitPerId", SqlDbType.Int).Value = product.UnitPerId;
@@ -197,6 +197,19 @@ namespace WebStore.Repository.Repositories.ADO
                 }
             }
             return unitPer;
+        }
+
+        private string ToVarbinary(byte[] data)
+        {
+            var sb = new StringBuilder((data.Length * 2) + 2);
+            sb.Append("0x");
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sb.Append(data[i].ToString("X2"));
+            }
+
+            return sb.ToString();
         }
     }
 }
