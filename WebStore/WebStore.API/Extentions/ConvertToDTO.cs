@@ -45,5 +45,14 @@ namespace WebStore.API.Extentions
                 CategoryName = productCategoryModel.CategoryName
             });
         }
+
+        public static UnitPerDTO ConvertToUnitPerDTO(this UnitPerModel unitPerModel)
+        {
+            return (new UnitPerDTO
+            {
+                UnitPerId = unitPerModel.UnitPerId,
+                UnitPer = unitPerModel.UnitPer
+            });
+        }
     }
 }

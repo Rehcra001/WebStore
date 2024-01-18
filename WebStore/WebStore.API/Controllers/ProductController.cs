@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.API.Extentions;
 using WebStore.API.Services.Contracts;
@@ -63,7 +64,7 @@ namespace WebStore.API.Controllers
             {
                 ProductCategoryModel productCategoryModel = await _productService.GetProductCategory(id);
 
-                if (productCategoryModel.ProductCategoryId == default)
+                if (productCategoryModel is null || productCategoryModel.ProductCategoryId == default)
                 {
                     return NoContent();
                 }
@@ -78,6 +79,69 @@ namespace WebStore.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("AddUnitPer")]
+        public async Task<ActionResult<UnitPerDTO>> AddUnitPer([FromBody] UnitPerDTO unitPerDTO)
+        {
+            try
+            {
+                //Convert to model
+                UnitPerModel unitPerModel = unitPerDTO.ConvertToUnitPerModel();
+                //Validate model
+                var unitPerErrors = ValidationHelper.Validate(unitPerModel);
+                if (unitPerErrors.Count > 0)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, unitPerErrors);
+                }
+
+                //Save model
+                unitPerModel = await _productService.AddUnitPer(unitPerModel);
+
+                if (unitPerModel is null || unitPerModel.UnitPerId == default)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    //convert to DTO
+                    unitPerDTO = unitPerModel.ConvertToUnitPerDTO();
+                    return CreatedAtAction(nameof(GetUnitPer), new { id = unitPerDTO.UnitPerId }, unitPerDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetUnitPer/{id:int}")]
+        public async Task<ActionResult<UnitPerDTO>> GetUnitPer(int id)
+        {
+            try
+            {
+                UnitPerModel unitPerModel = await _productService.GetUnitPer(id);
+
+                if (unitPerModel == null || unitPerModel.UnitPerId == default)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    //convert to dto
+                    UnitPerDTO unitPerDTO = unitPerModel.ConvertToUnitPerDTO();
+                    return unitPerDTO;
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 
     

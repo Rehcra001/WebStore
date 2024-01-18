@@ -77,6 +77,8 @@
     <Build Include="dbo\Stored Procedures\usp_AddProductCategory.sql" />
     <Build Include="dbo\Stored Procedures\usp_AddUnitPer.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetProductCategory.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetUnitPer.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

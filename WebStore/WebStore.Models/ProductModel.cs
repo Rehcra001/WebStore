@@ -30,8 +30,12 @@ namespace WebStore.Models
         [Display(Name = "Product Unit Per Id")]
         public int UnitPerId { get; set; }
 
+        public string UnitPer { get; set; }
+
         [Required(ErrorMessage = "Product Category Id is required.")]
         [Display(Name = "Product Unit Per Id")]
         public int CategoryId { get; set; }
+
+        public string CategoryName { get; set; }
     }
 }

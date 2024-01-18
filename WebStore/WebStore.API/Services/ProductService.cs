@@ -1,4 +1,5 @@
-﻿using WebStore.API.Services.Contracts;
+﻿using System;
+using WebStore.API.Services.Contracts;
 using WebStore.Models;
 using WebStore.Repository.Contracts;
 
@@ -30,7 +31,19 @@ namespace WebStore.API.Services
             }
         }
 
-        public Task<UnitPerModel> AddUnitPer(UnitPerModel unitPer)
+        public async Task<UnitPerModel> AddUnitPer(UnitPerModel unitPer)
+        {
+            try
+            {
+                return await _productRepository.AddUnitPer(unitPer);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Task<ProductModel> GetProduct(int id)
         {
             throw new NotImplementedException();
         }
@@ -40,6 +53,19 @@ namespace WebStore.API.Services
             try
             {
                 return await _productRepository.GetProductCategory(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<UnitPerModel> GetUnitPer(int id)
+        {
+            try
+            {
+                return await _productRepository.GetUnitPer(id);
+
             }
             catch (Exception ex)
             {
