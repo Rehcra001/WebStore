@@ -2,18 +2,14 @@
     width: 100%;
 }
 
-    .container label { 
+    .container label {
         padding-right: 1rem;
         float: left;
     }
 
-    .container input {
-        width: 100%;
-    }
 
 .my_1_percent {
     margin-bottom: 1%;
     margin-top: 1%;
     width: 100%;
 }
-

@@ -1,0 +1,77 @@
+﻿@page "/administration"
+
+<PageTitle>Administration</PageTitle>
+
+<main class="admin-container">
+    <aside class="admin-menu">
+        <fieldset class="admin-new">
+            <legend>Add New</legend>
+            <ul>
+                <li>
+                    <button @onclick="() => Menu_Click(AddNew[0])">Product</button>
+                </li>
+                <li>
+                    <button @onclick="() => Menu_Click(AddNew[1])">Category</button>
+                </li>
+                <li>
+                    <button @onclick="() => Menu_Click(AddNew[2])">Unit Per</button>
+                </li>
+            </ul>
+        </fieldset>
+
+        <fieldset class="admin-edit">
+            <legend>Edit Exisiting</legend>
+            <ul>
+                <li>
+                    <button @onclick="() => Menu_Click(EditExisting[0])">Product</button>
+                </li>
+                <li>
+                    <button @onclick="() => Menu_Click(EditExisting[1])">Category</button>
+                </li>
+                <li>
+                    <button @onclick="() => Menu_Click(EditExisting[2])">Unit Per</button>
+                </li>
+                <li>
+                    <button @onclick="() => Menu_Click(EditExisting[3])">Home Page</button>
+                </li>
+            </ul>
+        </fieldset>
+    </aside>
+
+    <section class="admin-content">
+        @if (!String.IsNullOrWhiteSpace(PageToView))
+        {
+            @switch (PageToView)
+            {
+                case "NewProduct":
+                    <AdminProductDetail Heading="Add a New Product" />
+                    break;
+                case "NewCategory":
+                    <h1>Add a New Category</h1>
+                    break;
+                case "NewUnitPer":
+                    <h1>Add a New Unit Per</h1>
+                    break;
+                case "EditProduct":
+                    <h1>Edit Product</h1>
+                    break;
+                case "EditCategory":
+                    <h1>Edit Category</h1>
+                    break;
+                case "EditUnitPer":
+                    <h1>Edit Unit Per</h1>
+                    break;
+                case "EditHomePage":
+                    <h1>Edit Home Page</h1>
+                    break;
+            }
+        }
+        else
+        {
+            <h1>Nothing Slected</h1>
+        }
+
+
+
+    </section>
+</main>

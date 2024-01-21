@@ -1,0 +1,40 @@
+﻿@page "/adminproductdetail"
+
+<div class="main_container">
+    <h3>@Heading</h3>
+    <div class="form">
+        <InputComponent Label="Name" Value="@Product.Name" ValidationErrors="@ValidationErrors" PropertyName="Name" />
+        <InputAreaComponent Label="Description" Value="@Product.Description" ValidationErrors="@ValidationErrors" PropertyName="Description" Rows="4" MaxLength="250" />
+
+        <div class="item">
+            @if (Image != null)
+            {
+                <ImageComponent Label="Product Image" Source="@ImageDataUrl" Width="200" Height="200" />
+
+            }
+            else
+            {
+                <ImageComponent Label="Product Image" Width="200" Height="200"  />
+            }
+        </div>
+
+        <div class="upload-image">
+            <InputFile OnChange="PreviewImage"></InputFile>
+        </div>
+
+        <InputComponent Label="Price" Value="@Product.Price.ToString()" ValidationErrors="@ValidationErrors" PropertyName="Price"/>
+
+        <InputComponent InputType="number" Label="Qty In Stock" Value="@Product.QtyInStock.ToString()" ValidationErrors="@ValidationErrors" PropertyName="QtyInStock" />
+
+        <InputComponent Label="Unit Per" Value="@Product.UnitPer" ValidationErrors="@ValidationErrors" PropertyName="UnitPer" />
+
+        <InputComponent Label="Category" Value="@Product.CategoryName" ValidationErrors="@ValidationErrors" PropertyName="CategoryName" />
+
+        <div class="save-product">
+            <button>Save Product</button>
+        </div>
+    </div>
+
+</div>
+
+

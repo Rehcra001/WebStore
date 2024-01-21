@@ -1,0 +1,10 @@
+﻿@page "/inputarea"
+<div class="">
+    <div>
+        <InputValidation ValidationErrors="@ValidationErrors" PropertyName="@PropertyName" />
+    </div>
+    <div class="my_1_percent container">
+        <label>@Label</label>
+        <textarea value="@Value" @onchange="OnValueChanged" rows="@Rows" cols="@Columns" maxlength="@MaxLength"/>
+    </div>
+</div>
