@@ -50,7 +50,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRelationalDatabaseConnection, RelationalDatabaseConnection>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryADO>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IProductRepository, ProductRepositoryDapper>();
+builder.Services.AddScoped<IProductRepository, ProductRepositoryADO>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();

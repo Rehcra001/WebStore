@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 using WebStore.API.Extentions;
 using WebStore.API.Services.Contracts;
 using WebStore.API.ValidationClasses;
@@ -194,6 +195,58 @@ namespace WebStore.API.Controllers
                     //Convert to Dto
                     ProductDTO productDTO = productModel.ConvertToProductDto();
                     return Ok(productDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetProductCategories")]
+        public async Task<ActionResult<IEnumerable<ProductCategoryDTO>>> GetProductCategories()
+        {
+            try
+            {
+                IEnumerable<ProductCategoryModel> productCategoryModels = await _productService.GetAllCatergories();
+
+                if (productCategoryModels == null || productCategoryModels.Count() == 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    IEnumerable<ProductCategoryDTO> productCategoryDTOs = productCategoryModels.ConvertToProductCategoriesDTO();
+
+                    return Ok(productCategoryDTOs);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetUnitPers")]
+        public async Task<ActionResult<IEnumerable<UnitPerDTO>>> GetUnitPers()
+        {
+            try
+            {
+                IEnumerable<UnitPerModel> unitPerModels = await _productService.GetAllUnitPers();
+
+                if (unitPerModels == null || unitPerModels.Count() == 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    IEnumerable<UnitPerDTO> unitPerDTOs = unitPerModels.ConvertToUnitPersDTO();
+
+                    return Ok(unitPerDTOs);
                 }
             }
             catch (Exception ex)

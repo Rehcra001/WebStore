@@ -73,6 +73,30 @@ namespace WebStore.Repository.Repositories.Dapper
             return unitPer;
         }
 
+        public async Task<IEnumerable<ProductCategoryModel>> GetAllCatergories()
+        {
+            List<ProductCategoryModel> productCategories = new List<ProductCategoryModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                productCategories = (List<ProductCategoryModel>)await connection.QueryAsync<ProductCategoryModel>("dbo.usp_GetAllCategories", commandType: CommandType.StoredProcedure);
+            }
+
+            return productCategories;
+        }
+
+        public async Task<IEnumerable<UnitPerModel>> GetAllUnitPers()
+        {
+            List<UnitPerModel> unitPers = new List<UnitPerModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                unitPers = (List<UnitPerModel>)await connection.QueryAsync<UnitPerModel>("dbo.usp_GetAllUnitPers", commandType: CommandType.StoredProcedure);
+            }
+
+            return unitPers;
+        }
+
         public async Task<ProductModel> GetProduct(int id)
         {
             ProductModel product = new ProductModel();

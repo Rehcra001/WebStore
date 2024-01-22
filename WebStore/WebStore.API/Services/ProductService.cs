@@ -50,6 +50,30 @@ namespace WebStore.API.Services
             }
         }
 
+        public async Task<IEnumerable<ProductCategoryModel>> GetAllCatergories()
+        {
+            try
+            {
+                return await _productRepository.GetAllCatergories();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<IEnumerable<UnitPerModel>> GetAllUnitPers()
+        {
+            try
+            {
+                return await _productRepository.GetAllUnitPers();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<ProductModel> GetProduct(int id)
         {
             try

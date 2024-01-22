@@ -104,6 +104,74 @@ namespace WebStore.Repository.Repositories.ADO
             return unitPer;
         }
 
+        public async Task<IEnumerable<ProductCategoryModel>> GetAllCatergories()
+        {
+            List<ProductCategoryModel> productCategories = new List<ProductCategoryModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_GetAllCategories";
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                ProductCategoryModel productCategory = new ProductCategoryModel();
+
+                                productCategory.ProductCategoryId = reader.GetInt32(reader.GetOrdinal("ProductCategoryId"));
+                                productCategory.CategoryName = reader.GetString(reader.GetOrdinal("CategoryName"));
+
+                                productCategories.Add(productCategory);
+                            }
+                        }
+                    }
+                }
+            }
+            return productCategories;
+        }
+
+        public async Task<IEnumerable<UnitPerModel>> GetAllUnitPers()
+        {
+            List<UnitPerModel> unitPers = new List<UnitPerModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_GetAllUnitPers";
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                UnitPerModel unitPer = new UnitPerModel();
+
+                                unitPer.UnitPerId = reader.GetInt32(reader.GetOrdinal("UnitPerId"));
+                                unitPer.UnitPer = reader.GetString(reader.GetOrdinal("UnitPer"));
+
+                                unitPers.Add(unitPer);
+                            }
+                        }
+                    }
+                }
+            }
+            return unitPers;
+        }
+
         public async Task<ProductModel> GetProduct(int id)
         {
             ProductModel product = new ProductModel();

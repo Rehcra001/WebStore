@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
+using WebStore.WEB.Services.Contracts;
 
 namespace WebStore.WEB.Pages.Administration
 {
     public partial class Administration
     {
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public IProductService ProductService { get; set; }
 
-        public string? PageToView { get; set; }
+
+        private string? PageToView { get; set; }
 
         private string[] AddNew = new string[] {"NewProduct", "NewCategory", "NewUnitPer"};
         private string[] EditExisting = new string[] { "EditProduct", "EditCategory", "EditUnitPer", "EditHomePage" };

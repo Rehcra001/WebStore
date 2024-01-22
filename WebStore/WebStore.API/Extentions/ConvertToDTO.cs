@@ -71,5 +71,25 @@ namespace WebStore.API.Extentions
                 CategoryName = productModel.CategoryName
             });
         }
+
+        public static IEnumerable<ProductCategoryDTO> ConvertToProductCategoriesDTO (this IEnumerable<ProductCategoryModel> productCategoryModels)
+        {
+            return (from product in productCategoryModels
+                    select new ProductCategoryDTO
+                    {
+                        ProductCategoryId = product.ProductCategoryId,
+                        CategoryName = product.CategoryName
+                    });
+        }
+
+        public static IEnumerable<UnitPerDTO> ConvertToUnitPersDTO(this IEnumerable<UnitPerModel> unitPerModels)
+        {
+            return (from unitPer in unitPerModels
+                    select new UnitPerDTO
+                    {
+                        UnitPerId = unitPer.UnitPerId,
+                        UnitPer = unitPer.UnitPer
+                    });
+        }
     }
 }
