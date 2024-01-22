@@ -1,9 +1,9 @@
 ﻿@page "/input"
-<div class="">
+<div>
     <div>
         <InputValidation ValidationErrors="@ValidationErrors" PropertyName="@PropertyName" />
     </div> 
-    <div class="my_1_percent container">
+    <div class="form-control">
         <label>@Label</label>
         <input type="@InputType" value="@Value" @onchange="OnValueChanged" />
     </div>

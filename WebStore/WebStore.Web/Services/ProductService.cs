@@ -44,5 +44,68 @@ namespace WebStore.WEB.Services
                 throw;
             }
         }
+
+        public async Task<IEnumerable<ProductCategoryDTO>> GetProductCategories()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("api/product/getproductcategories");
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<ProductCategoryDTO>();
+                    }
+                    else
+                    {
+                        IEnumerable<ProductCategoryDTO> productCategories = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<ProductCategoryDTO>>();
+
+                        return productCategories;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<UnitPerDTO>> GetUnitPers()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("api/product/getunitpers");
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<UnitPerDTO>();
+                    }
+                    else
+                    {
+                        IEnumerable<UnitPerDTO> unitPers = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<UnitPerDTO>>();
+                        return unitPers;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

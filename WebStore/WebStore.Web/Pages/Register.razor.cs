@@ -9,9 +9,7 @@ namespace WebStore.WEB.Pages
     public partial class Register
     {
         [Inject]
-        public IRegistrationService RegistrationService { get; set; }
-
-        
+        public IRegistrationService RegistrationService { get; set; }        
 
         private UserRegistrationDTO _userToRegister = new UserRegistrationDTO();
         private AddressDTO _address = new AddressDTO();

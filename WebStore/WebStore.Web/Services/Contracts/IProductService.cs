@@ -5,5 +5,7 @@ namespace WebStore.WEB.Services.Contracts
     public interface IProductService
     {
         Task<ProductDTO> AddProductAsync(ProductDTO productDTO);
+        Task<IEnumerable<ProductCategoryDTO>> GetProductCategories();
+        Task<IEnumerable<UnitPerDTO>> GetUnitPers();
     }
 }

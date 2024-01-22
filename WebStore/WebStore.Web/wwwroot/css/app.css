@@ -8,13 +8,6 @@ html {
     background: whitesmoke;
 }
 
-input {
-    font-size: 1.2rem;
-}
-
-textarea {
-    font-size: 1.2rem;
-}
 
 a {
     text-decoration: none;
@@ -24,36 +17,19 @@ ul {
     list-style: none;
 }
 
-label {
-    min-width: 150px;
-    font-weight: bold;
-}
+
 
 fieldset {
     padding: 0 5px;
 }
 
-fieldset legend {
-    font-weight: bold;
-}
-
-button {
-    color: #ffffff;
-    text-decoration: none;
-    text-align: center;
-    padding: 10px 15px;
-    background-color: rgba(0,136,169,1);
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-    margin: 10px auto;
-}
-
-    button:hover {
-        background-color: rgba(0,136,169,0.8);
+    fieldset legend {
+        font-weight: bold;
     }
 
+
+
+/* Navbar */
 .main-nav {
     display: flex;
     align-items: center;
@@ -61,7 +37,6 @@ button {
     height: 60px;
     padding: 20px 10px;
     font-size: 1.2rem;
-    
 }
 
     .main-nav ul {
@@ -101,33 +76,8 @@ button {
 
 
 
-.main_container {
-    margin: 10px auto;
-    max-width: 600px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: lightblue;
-    box-shadow: 4px 4px 0 0 black;
-    font-size: 16px;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    width: 90%
-}
 
-    .main_container h3 {
-        margin: 10px auto;
-        font-weight: bold;
-    }
-
-.form {
-    padding: 10px;
-    margin: 10px 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: lightcyan;
-    text-align: left;
-}
-
+/* Administration Page */
 
 .admin-container {
     display: grid;
@@ -150,7 +100,7 @@ button {
     }
 
         .admin-menu ul li {
-            display: ;
+            display:;
         }
 
             .admin-menu ul li:hover {
@@ -189,7 +139,7 @@ button {
 .admin-content {
     min-height: 80vh;
     box-shadow: 0px 0px 5px;
-    min-width:400px;
+    min-width: 400px;
 }
 
     .admin-content h1 {
@@ -197,6 +147,94 @@ button {
     }
 
 
+/* Utilities */
+.main_container {
+    margin: 10px auto;
+    max-width: 600px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: lightblue;
+    box-shadow: 4px 4px 0 0 black;
+    font-size: 16px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 90%
+}
+
+    .main_container h3 {
+        margin: 10px auto;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+.form {
+    padding: 10px;
+    margin: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: lightcyan;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.form-control {
+    margin: 10px 0;
+    
+}
+
+    .form-control label {
+        font-size: 1.1rem;
+        font-weight: bold;
+        float: left;
+    }
+
+    .form-control input {
+        font-size: 1.1rem;
+        width: 100%;
+    }
+
+    .form-control select {
+        font-size: 1.1rem;
+        width: 100%;
+    }
+
+    .form-control textarea {
+        font-size: 1.1rem;
+        width: 100%;
+    }
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    justify-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: rgba(0,136,169,1);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    margin: 10px auto;
+}
+
+    button:hover {
+        background-color: rgba(0,136,169,0.8);
+    }
+
+
+
+/* Blazor Defaults*/
 h1:focus {
     outline: none;
 }
