@@ -20,7 +20,7 @@ namespace WebStore.Repository.Repositories.Dapper
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Name", product.Name);
             parameters.Add("@Description", product.Description);
-            parameters.Add("@Picture", product.Picture,dbType: DbType.Binary, size: product.Picture.Length) ;
+            parameters.Add("@Picture", product.Picture, dbType: DbType.Binary, size: product.Picture.Length);
             parameters.Add("@Price", product.Price);
             parameters.Add("@QtyInStock", product.QtyInStock);
             parameters.Add("@UnitPerId", product.UnitPerId);
@@ -30,8 +30,8 @@ namespace WebStore.Repository.Repositories.Dapper
             {
                 try
                 {
-                    var retured = await connection.QuerySingleAsync<ProductModel>("dbo.usp_AddProduct", parameters, commandType: CommandType.StoredProcedure);
-                    product.ProductId = retured.ProductId;
+                    var returned = await connection.QuerySingleAsync<ProductModel>("dbo.usp_AddProduct", parameters, commandType: CommandType.StoredProcedure);
+                    product.ProductId = returned.ProductId;
                 }
                 catch (Exception ex)
                 {
@@ -139,6 +139,30 @@ namespace WebStore.Repository.Repositories.Dapper
             return productCategory;
         }
 
+        public async Task<IEnumerable<ProductModel>> GetProducts()
+        {
+            List<ProductModel> products = new List<ProductModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                products = (List<ProductModel>)await connection.QueryAsync<ProductModel>("dbo.usp_GetProducts", commandType: CommandType.StoredProcedure);
+            }
+
+            return products;
+        }
+
+        public async Task<IEnumerable<ProductListModel>> GetProductsList()
+        {
+            List<ProductListModel> productsList = new List<ProductListModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                productsList = (List<ProductListModel>)await connection.QueryAsync<ProductListModel>("dbo.usp_GetProductsList", commandType: CommandType.StoredProcedure);
+            }
+
+            return productsList;
+        }
+
         public async Task<UnitPerModel> GetUnitPer(int id)
         {
             UnitPerModel unitPer = new UnitPerModel();
@@ -155,10 +179,34 @@ namespace WebStore.Repository.Repositories.Dapper
                 {
                     //set unitPer to default
                     unitPer = default(UnitPerModel);
-                } 
+                }
             }
-            
+
             return unitPer;
+        }
+
+        public async Task<ProductModel> UpdateProduct(ProductModel product)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProductId", product.ProductId);
+            parameters.Add("@Name", product.Name);
+            parameters.Add("@Description", product.Description);
+            parameters.Add("@Picture", product.Picture, dbType: DbType.Binary, size: product.Picture.Length);
+            parameters.Add("@Price", product.Price);
+            parameters.Add("@QtyInStock", product.QtyInStock);
+            parameters.Add("@UnitPerId", product.UnitPerId);
+            parameters.Add("@CategoryId", product.CategoryId);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                ProductModel returned = await connection.QuerySingleAsync<ProductModel>("dbo.usp_UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
+                if (returned.ProductId == 0)
+                {
+                    //Return a new model if nothing returned as this means that the product was not saved
+                    product = new ProductModel();
+                }
+            }
+            return product;
         }
     }
 }

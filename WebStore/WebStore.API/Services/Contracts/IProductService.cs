@@ -10,7 +10,10 @@ namespace WebStore.API.Services.Contracts
         Task<IEnumerable<ProductCategoryModel>> GetAllCatergories();
         Task<IEnumerable<UnitPerModel>> GetAllUnitPers();
         Task<ProductModel> GetProduct(int id);
+        Task<IEnumerable<ProductModel>> GetProducts();
+        Task<IEnumerable<ProductListModel>> GetProductsList();
         Task<ProductCategoryModel> GetProductCategory(int id);
         Task<UnitPerModel> GetUnitPer(int id);
+        Task<ProductModel> UpdateProduct(ProductModel product);
     }
 }

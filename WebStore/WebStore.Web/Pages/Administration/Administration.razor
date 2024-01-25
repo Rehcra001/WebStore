@@ -44,7 +44,7 @@
             @switch (PageToView)
             {
                 case "NewProduct":
-                    <AdminProductDetail Heading="Add a New Product" />
+                    <AdminProductDetail Heading="Add a New Product" ActionType="AddAction" />
                     break;
                 case "NewCategory":
                     <h1>Add a New Category</h1>
@@ -53,7 +53,7 @@
                     <h1>Add a New Unit Per</h1>
                     break;
                 case "EditProduct":
-                    <h1>Edit Product</h1>
+                    <AdminProductDetail Heading="Edit an existing Product" ActionType="EditAction" />
                     break;
                 case "EditCategory":
                     <h1>Edit Category</h1>

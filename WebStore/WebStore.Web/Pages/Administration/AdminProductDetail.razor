@@ -2,7 +2,24 @@
 
 <div class="main_container">
     <h3>@Heading</h3>
+    
     <div class="form">
+
+        @if (ActionType.Equals("EditAction"))
+        {
+            <div class="form-control">
+                <label for="products">Product to Edit</label>
+                <InputSelect TValue="int" id="products" @bind-Value="@ProductId">
+                    <option value="">Select product...</option>
+                    @foreach (var item in Products)
+                    {
+                        <option value="@item.ProductId">@item.Name : @item.Description</option>
+                    }
+                </InputSelect>
+            </div>
+            <hr />
+        }
+
         <InputComponent Label="Name" @bind-Value="@Product.Name" ValidationErrors="@ValidationErrors" PropertyName="Name" />
         <InputAreaComponent Label="Description" @bind-Value="@Product.Description" ValidationErrors="@ValidationErrors" PropertyName="Description" Rows="4" MaxLength="250" />
 
@@ -11,15 +28,31 @@
             <InputValidation ValidationErrors="@ValidationErrors" PropertyName="Picture" />
         </div>
         <div class="flex-col">
-            @if (Image != null)
+            
+            @if (ActionType.Equals("AddAction"))
             {
-                
-                <ImageComponent Label="Product Image" Source="@ImageDataUrl" Width="200" Height="200" />
+                @if (Image != null)
+                {
+                    <ImageComponent Label="Product Image" Source="@ImageDataUrl" Width="200" Height="200" />
+                }
+                else
+                {
+                    <ImageComponent Label="Product Image" Width="200" Height="200" />
+                }
 
             }
-            else
+            else if (ActionType.Equals("EditAction"))
             {
-                <ImageComponent Label="Product Image" Width="200" Height="200"  />
+                @if (Product.ProductId != 0)
+                {
+                    <ImageComponent Label="Product Image" Source="@("data:image;base64," + Convert.ToBase64String(Product.Picture))" Width="200" Height="200" />
+                }
+                else
+                {
+                    <ImageComponent Label="Product Image" Width="200" Height="200" />
+                }
+                
+                
             }
 
             <InputFile OnChange="PreviewImage"></InputFile>

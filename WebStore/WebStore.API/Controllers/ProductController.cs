@@ -255,6 +255,66 @@ namespace WebStore.API.Controllers
             }
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetProducts")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts()
+        {
+            try
+            {
+                IEnumerable<ProductModel> productModels = await _productService.GetProducts();
+
+                if (productModels == null || productModels.Count() == 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    IEnumerable<ProductDTO> productDTOs = productModels.ConvertToProductsDTO();
+                    return Ok(productDTOs);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("UpdateProduct")]
+        public async Task<ActionResult<ProductDTO>> UpdateProduct(ProductDTO productDTO)
+        {
+            try
+            {      
+                //Convert to model
+                ProductModel productModel = productDTO.ConvertToProductModel();
+
+                //validate the data
+                var productErrors = ValidationHelper.Validate(productDTO);
+                if (productErrors.Count > 0)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, productErrors);
+                }
+
+                productModel = await _productService.UpdateProduct(productModel);
+
+                if (productModel == null || productModel.ProductId == 0)
+                {
+                    //product was not saved
+                    return NoContent();
+                }
+                else
+                {
+                    return Ok(productDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 
 

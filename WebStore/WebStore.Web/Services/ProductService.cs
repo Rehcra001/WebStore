@@ -77,6 +77,39 @@ namespace WebStore.WEB.Services
             }
         }
 
+        public async Task<IEnumerable<ProductDTO>> GetProducts()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("api/product/getproducts");
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<ProductDTO>();
+                    }
+                    else
+                    {
+                        IEnumerable<ProductDTO> products = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>();
+                        return products;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
         public async Task<IEnumerable<UnitPerDTO>> GetUnitPers()
         {
             try
@@ -99,6 +132,39 @@ namespace WebStore.WEB.Services
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
                     throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<ProductDTO> UpdateProduct(ProductDTO productDTO)
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync("api/product/UpdateProduct", productDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                        throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                    }
+                    else
+                    {
+                        productDTO = await httpResponseMessage.Content.ReadFromJsonAsync<ProductDTO>();
+                        return productDTO;
+
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
                 }
             }
             catch (Exception)

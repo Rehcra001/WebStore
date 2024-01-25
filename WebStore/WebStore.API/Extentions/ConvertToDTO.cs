@@ -91,5 +91,23 @@ namespace WebStore.API.Extentions
                         UnitPer = unitPer.UnitPer
                     });
         }
+
+        public static IEnumerable<ProductDTO> ConvertToProductsDTO(this IEnumerable<ProductModel> productModels)
+        {
+            return (from product in productModels
+                    select new ProductDTO
+                    {
+                        ProductId = product.ProductId,
+                        Name = product.Name,
+                        Description = product.Description,
+                        Picture = product.Picture,
+                        Price = product.Price,
+                        QtyInStock = product.QtyInStock,
+                        UnitPerId = product.UnitPerId,
+                        UnitPer = product.UnitPer,
+                        CategoryId = product.CategoryId,
+                        CategoryName = product.CategoryName
+                    });
+        }
     }
 }

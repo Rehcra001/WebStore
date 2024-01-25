@@ -1,10 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using WebStore.Models;
 using WebStore.Repository.Contracts;
 
@@ -237,6 +233,82 @@ namespace WebStore.Repository.Repositories.ADO
             return productCategory;
         }
 
+        public async Task<IEnumerable<ProductModel>> GetProducts()
+        {
+            List<ProductModel> products = new List<ProductModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_GetProducts";
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                ProductModel product = new ProductModel();
+
+                                product.ProductId = reader.GetInt32(reader.GetOrdinal("ProductId"));
+                                product.Name = reader.GetString(reader.GetOrdinal("Name"));
+                                product.Description = reader.GetString(reader.GetOrdinal("Description"));
+                                product.Picture = (byte[])reader["Picture"];
+                                product.Price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                                product.QtyInStock = reader.GetInt32(reader.GetOrdinal("QtyInStock"));
+                                product.UnitPerId = reader.GetInt32(reader.GetOrdinal("UnitPerId"));
+                                product.CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId"));
+                                product.UnitPer = reader.GetString(reader.GetOrdinal("UnitPer"));
+                                product.CategoryName = reader.GetString(reader.GetOrdinal("CategoryName"));
+
+                                products.Add(product);
+                            }
+                        }
+                    }
+                }
+            }
+            return products;
+        }
+
+        public async Task<IEnumerable<ProductListModel>> GetProductsList()
+        {
+            List<ProductListModel> productsList = new List<ProductListModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_GetProductsList";
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                ProductListModel product = new ProductListModel();
+
+                                product.ProductId = reader.GetInt32(reader.GetOrdinal("ProductId"));
+                                product.Name = reader.GetString(reader.GetOrdinal("Name"));
+
+                                productsList.Add(product);
+                            }
+                        }
+                    }
+                }
+            }
+            return productsList;
+        }
+
         public async Task<UnitPerModel> GetUnitPer(int id)
         {
             UnitPerModel unitPer = new UnitPerModel();
@@ -267,17 +339,40 @@ namespace WebStore.Repository.Repositories.ADO
             return unitPer;
         }
 
-        private string ToVarbinary(byte[] data)
+        public async Task<ProductModel> UpdateProduct(ProductModel product)
         {
-            var sb = new StringBuilder((data.Length * 2) + 2);
-            sb.Append("0x");
-
-            for (int i = 0; i < data.Length; i++)
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
             {
-                sb.Append(data[i].ToString("X2"));
-            }
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_UpdateProduct";
+                    command.Parameters.Add("@ProductId", SqlDbType.Int).Value = product.ProductId;
+                    command.Parameters.Add("@Name", SqlDbType.NVarChar).Value = product.Name;
+                    command.Parameters.Add("@Description", SqlDbType.NVarChar).Value = product.Description;
+                    command.Parameters.Add("@Picture", SqlDbType.VarBinary, product.Picture.Length).Value = product.Picture;
+                    command.Parameters.Add("@Price", SqlDbType.Money).Value = product.Price;
+                    command.Parameters.Add("@QtyInStock", SqlDbType.Int).Value = product.QtyInStock;
+                    command.Parameters.Add("@UnitPerId", SqlDbType.Int).Value = product.UnitPerId;
+                    command.Parameters.Add("@CategoryId", SqlDbType.Int).Value = product.CategoryId;
 
-            return sb.ToString();
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows == false)
+                        {
+                            //if no rows are returned then
+                            //product was not saved
+                            //return new product model for error checking
+                            product = new ProductModel();
+                        }
+                    }
+
+                }
+            }
+            return product;
         }
     }
 }

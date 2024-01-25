@@ -11,59 +11,64 @@ namespace WebStore.WEB.Pages.Administration
     {
         [Inject]
         public IProductService ProductService { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public string Heading { get; set; } = "Heading";
 
         [Parameter]
-        public int ProductId { get; set; } = 0;
+        public string ActionType { get; set; } = string.Empty;
 
-        public ProductDTO Product { get; set; } = new ProductDTO();
+        private int ProductId { get => productId; set { productId = value; ShowSelectedProduct(value); } }
+        
+        private ProductDTO Product { get; set; } = new ProductDTO();
 
-        public IEnumerable<ProductCategoryDTO> ProductCategories { get; set; } = new List<ProductCategoryDTO>();
+        private IEnumerable<ProductDTO> Products { get; set; } = new List<ProductDTO>();
 
-        public IEnumerable<UnitPerDTO> UnitPers { get; set; } = new List<UnitPerDTO>();
+        private IEnumerable<ProductCategoryDTO> ProductCategories { get; set; } = new List<ProductCategoryDTO>();
+
+        private IEnumerable<UnitPerDTO> UnitPers { get; set; } = new List<UnitPerDTO>();
 
         private IBrowserFile Image { get; set; }
 
         private string ImageDataUrl { get; set; } = string.Empty;
 
         private byte[] ImageBytes { get; set; }
-
+        
         private List<string> ValidationErrors { get; set; } = new List<string>();
 
         private string _showSaveButton = "";
-
+        private int productId;
 
         protected override async Task OnInitializedAsync()
         {
-            if (ProductId == 0)
+            if (String.IsNullOrWhiteSpace(ActionType))
             {
-                //New Product
-                ProductCategories = await ProductService.GetProductCategories();
-                UnitPers = await ProductService.GetUnitPers();
+                throw new Exception("ActionType parameter required ('AddAction' or 'EditAction'");
             }
             else
             {
-                //Existing Product
+                switch (ActionType)
+                {
+                    case "AddAction":
+                        //New Product
+                        ProductCategories = await ProductService.GetProductCategories();
+                        UnitPers = await ProductService.GetUnitPers();
+                        break;
+                    case "EditAction":
+                        //Existing Product
 
-                //Product = await ProductService.GetProduct(ProductId);
-                ProductCategories = await ProductService.GetProductCategories();
-                UnitPers = await ProductService.GetUnitPers();
-
-                //Get image byte[] and convert to ImageDataUrl
-
-            }            
+                        Products = await ProductService.GetProducts();
+                        ProductCategories = await ProductService.GetProductCategories();
+                        UnitPers = await ProductService.GetUnitPers();
+                        break;
+                }
+            }
         }
 
         private async Task SaveProduct_Click()
         {
-            // add image
-            if (ImageBytes != null)
-            {
-                Product.Picture = ImageBytes;
-            }
-            
             // unit per name
             if (UnitPers.Any(x => x.UnitPerId == Product.UnitPerId))
             {
@@ -81,26 +86,26 @@ namespace WebStore.WEB.Pages.Administration
             //Save
             if (ValidationErrors.Count == 0)
             {
-                if (Product.ProductId == 0)
+                if (ActionType.Equals("AddAction"))
                 {
                     Product = await ProductService.AddProductAsync(Product);
 
                     _showSaveButton = "none";
                 }
-                else
+                else if (ActionType.Equals("EditAction"))
                 {
                     // Update Product
+                    Product = await ProductService.UpdateProduct(Product);
                 }
-                
             }
-            
         }
 
         private void ValidateProduct()
         {
+            ValidationErrors.Clear();
             ProductValidator productValidator = new ProductValidator();
             ValidationResult productResults = productValidator.Validate(Product);
-            ValidationErrors.Clear();
+            
 
             if (productResults.IsValid == false)
             {
@@ -119,7 +124,6 @@ namespace WebStore.WEB.Pages.Administration
 
             try
             {
-
                 using var file = Image.OpenReadStream();
                 long len = file.Length;
                 ImageBytes = new byte[len];
@@ -127,10 +131,21 @@ namespace WebStore.WEB.Pages.Administration
 
                 ImageDataUrl = "data:image;base64," + Convert.ToBase64String(ImageBytes);
 
+                Product.Picture = ImageBytes;
+
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        private void ShowSelectedProduct(int value)
+        {
+            if (value != 0)
+            {
+                Product = Products.First(x => x.ProductId == value);
+
             }
         }
     }

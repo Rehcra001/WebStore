@@ -1,7 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[usp_AddProduct]
+﻿CREATE PROCEDURE [dbo].[usp_UpdateProduct]
 (
-	@Name VARCHAR(100),
-	@Description VARCHAR(250),
+	@ProductId INT,
+	@Name NVARCHAR(100),
+	@Description NVARCHAR(250),
 	@Picture VARBINARY(MAX),
 	@Price MONEY,
 	@QtyInStock INT,
@@ -13,12 +14,15 @@ BEGIN
 		BEGIN TRAN
 			SET NOCOUNT ON;
 
-			DECLARE @ProductId INT;
-
-			INSERT INTO dbo.Products ([Name], [Description], Picture, Price, QtyInStock, UnitPerId, CategoryId)
-			VALUES (@Name, @Description, @Picture, @Price, @QtyInStock, @UnitPerId, @CategoryId);
-
-			SET @ProductId = SCOPE_IDENTITY();
+			UPDATE dbo.Products
+			SET [Name] = @Name,
+				[Description] = @Description,
+				Picture = @Picture,
+				Price = @Price,
+				QtyInStock = @QtyInStock,
+				UnitPerId = @UnitPerId,
+				CategoryId = @CategoryId
+			WHERE ProductId = @ProductId;
 
 			SELECT p.ProductId, p.[Name], p.[Description], p.Picture, 
 				   p.Price, p.QtyInStock, p.UnitPerId, p.CategoryId, 
@@ -29,7 +33,7 @@ BEGIN
 			WHERE ProductId = @ProductId;
 		COMMIT TRAN;
 	END TRY
-		
+
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
 		BEGIN

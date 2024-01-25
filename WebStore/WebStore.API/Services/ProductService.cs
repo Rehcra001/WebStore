@@ -98,12 +98,48 @@ namespace WebStore.API.Services
             }
         }
 
+        public async Task<IEnumerable<ProductModel>> GetProducts()
+        {
+            try
+            {
+                return await _productRepository.GetProducts();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<IEnumerable<ProductListModel>> GetProductsList()
+        {
+            try
+            {
+                return await _productRepository.GetProductsList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<UnitPerModel> GetUnitPer(int id)
         {
             try
             {
                 return await _productRepository.GetUnitPer(id);
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<ProductModel> UpdateProduct(ProductModel product)
+        {
+            try
+            {
+                return await _productRepository.UpdateProduct(product);
             }
             catch (Exception ex)
             {

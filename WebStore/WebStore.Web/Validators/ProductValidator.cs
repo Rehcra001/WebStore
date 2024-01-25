@@ -16,6 +16,7 @@ namespace WebStore.WEB.Validators
             RuleFor(x => x.Picture).NotEmpty().WithMessage("{PropertyName} may not be empty");
 
             RuleFor(x => x.Price)
+                .NotNull()
                 .NotEmpty().WithMessage("{PropertyName} may not be empty")
                 .GreaterThan(0).WithMessage("{PropertyName} must be greater than zero");
 
