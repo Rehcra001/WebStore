@@ -5,9 +5,13 @@ namespace WebStore.WEB.Services.Contracts
     public interface IProductService
     {
         Task<ProductDTO> AddProductAsync(ProductDTO productDTO);
-        Task<IEnumerable<ProductCategoryDTO>> GetProductCategories();
-        Task<IEnumerable<UnitPerDTO>> GetUnitPers();
-        Task<IEnumerable<ProductDTO>> GetProducts();
-        Task<ProductDTO> UpdateProduct(ProductDTO productDTO);
+        Task<ProductCategoryDTO> AddCategoryAsync(ProductCategoryDTO productCategoryDTO);
+        Task<UnitPerDTO> AddUnitPerAsync(UnitPerDTO unitPerDTO);
+        Task<IEnumerable<ProductCategoryDTO>> GetProductCategoriesAsync();
+        Task<IEnumerable<UnitPerDTO>> GetUnitPersAsync();
+        Task<IEnumerable<ProductDTO>> GetProductsAsync();
+        Task<ProductDTO> UpdateProductAsync(ProductDTO productDTO);
+        Task<ProductCategoryDTO> UpdateProductCategoryAsync(ProductCategoryDTO productCategoryDTO);
+        Task<UnitPerDTO> UpdateUnitPerAsync(UnitPerDTO unitPerDTO);
     }
 }

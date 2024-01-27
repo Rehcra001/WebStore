@@ -53,15 +53,15 @@ namespace WebStore.WEB.Pages.Administration
                 {
                     case "AddAction":
                         //New Product
-                        ProductCategories = await ProductService.GetProductCategories();
-                        UnitPers = await ProductService.GetUnitPers();
+                        ProductCategories = await ProductService.GetProductCategoriesAsync();
+                        UnitPers = await ProductService.GetUnitPersAsync();
                         break;
                     case "EditAction":
                         //Existing Product
 
-                        Products = await ProductService.GetProducts();
-                        ProductCategories = await ProductService.GetProductCategories();
-                        UnitPers = await ProductService.GetUnitPers();
+                        Products = await ProductService.GetProductsAsync();
+                        ProductCategories = await ProductService.GetProductCategoriesAsync();
+                        UnitPers = await ProductService.GetUnitPersAsync();
                         break;
                 }
             }
@@ -95,7 +95,7 @@ namespace WebStore.WEB.Pages.Administration
                 else if (ActionType.Equals("EditAction"))
                 {
                     // Update Product
-                    Product = await ProductService.UpdateProduct(Product);
+                    Product = await ProductService.UpdateProductAsync(Product);
                 }
             }
         }

@@ -146,5 +146,29 @@ namespace WebStore.API.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<ProductCategoryModel> UpdateProductCategory(ProductCategoryModel productCategory)
+        {
+            try
+            {
+                return await _productRepository.UpdateProductCategory(productCategory);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer)
+        {
+            try
+            {
+                return await _productRepository.UpdateUnitPer(unitPer);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

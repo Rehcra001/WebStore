@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Security.AccessControl;
 using WebStore.DTO;
 using WebStore.WEB.Services.Contracts;
 
@@ -12,6 +13,37 @@ namespace WebStore.WEB.Services
         public ProductService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+        }
+
+        public async Task<ProductCategoryDTO> AddCategoryAsync(ProductCategoryDTO productCategoryDTO)
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<ProductCategoryDTO>("api/product/AddProductCategory", productCategoryDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(ProductCategoryDTO);
+                    }
+                    else
+                    {
+                        productCategoryDTO = await httpResponseMessage.Content.ReadFromJsonAsync<ProductCategoryDTO>();
+                        return productCategoryDTO;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<ProductDTO> AddProductAsync(ProductDTO productDTO)
@@ -35,7 +67,7 @@ namespace WebStore.WEB.Services
                 else
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
-                    throw new Exception(message);
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
                 }
             }
             catch (Exception)
@@ -45,7 +77,38 @@ namespace WebStore.WEB.Services
             }
         }
 
-        public async Task<IEnumerable<ProductCategoryDTO>> GetProductCategories()
+        public async Task<UnitPerDTO> AddUnitPerAsync(UnitPerDTO unitPerDTO)
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<UnitPerDTO>("api/product/AddUnitPer", unitPerDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(UnitPerDTO);
+                    }
+                    else
+                    {
+                        unitPerDTO = await httpResponseMessage.Content.ReadFromJsonAsync<UnitPerDTO>();
+                        return unitPerDTO;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<ProductCategoryDTO>> GetProductCategoriesAsync()
         {
             try
             {
@@ -67,7 +130,7 @@ namespace WebStore.WEB.Services
                 else
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
-                    throw new Exception(message);
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
                 }
             }
             catch (Exception)
@@ -77,7 +140,7 @@ namespace WebStore.WEB.Services
             }
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetProducts()
+        public async Task<IEnumerable<ProductDTO>> GetProductsAsync()
         {
             try
             {
@@ -98,7 +161,7 @@ namespace WebStore.WEB.Services
                 else
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
-                    throw new Exception(message);
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
                 }
             }
             catch (Exception)
@@ -110,7 +173,7 @@ namespace WebStore.WEB.Services
 
         }
 
-        public async Task<IEnumerable<UnitPerDTO>> GetUnitPers()
+        public async Task<IEnumerable<UnitPerDTO>> GetUnitPersAsync()
         {
             try
             {
@@ -131,7 +194,7 @@ namespace WebStore.WEB.Services
                 else
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
-                    throw new Exception(message);
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
                 }
             }
             catch (Exception)
@@ -141,7 +204,7 @@ namespace WebStore.WEB.Services
             }
         }
 
-        public async Task<ProductDTO> UpdateProduct(ProductDTO productDTO)
+        public async Task<ProductDTO> UpdateProductAsync(ProductDTO productDTO)
         {
             try
             {
@@ -165,6 +228,68 @@ namespace WebStore.WEB.Services
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
                     throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<ProductCategoryDTO> UpdateProductCategoryAsync(ProductCategoryDTO productCategoryDTO)
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync<ProductCategoryDTO>("api/product/updateproductcategory", productCategoryDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(ProductCategoryDTO);
+                    }
+                    else
+                    {
+                        productCategoryDTO = await httpResponseMessage.Content.ReadFromJsonAsync<ProductCategoryDTO>();
+                        return productCategoryDTO;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<UnitPerDTO> UpdateUnitPerAsync(UnitPerDTO unitPerDTO)
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync<UnitPerDTO>("api/product/updateunitper", unitPerDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(UnitPerDTO);
+                    }
+                    else
+                    {
+                        unitPerDTO = await httpResponseMessage.Content.ReadFromJsonAsync<UnitPerDTO>();
+                        return unitPerDTO;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http Status: {httpResponseMessage.StatusCode} Message -{message}");
                 }
             }
             catch (Exception)

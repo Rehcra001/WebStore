@@ -315,6 +315,72 @@ namespace WebStore.API.Controllers
             }
         }
 
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("UpdateProductCategory")]
+        public async Task<ActionResult<ProductCategoryDTO>> UpdateProductCategory(ProductCategoryDTO productCategoryDTO)
+        {
+            try
+            {
+                //Convert to model
+                ProductCategoryModel productCategoryModel = productCategoryDTO.ConvertToProductCategoryModel();
+
+                //validate
+                var categoryErrors = ValidationHelper.Validate(productCategoryModel);
+                if (categoryErrors.Count > 0)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, categoryErrors);
+                }
+
+                //save
+                productCategoryModel = await _productService.UpdateProductCategory(productCategoryModel);
+                if (productCategoryModel == null || productCategoryModel.ProductCategoryId == 0)
+                {
+                    return NoContent();
+                }
+
+                //Convert to DTO
+                productCategoryDTO =  productCategoryModel.ConvertToProductCategoryDTO();
+                return Ok(productCategoryDTO);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("UpdateUnitPer")]
+        public async Task<ActionResult<UnitPerDTO>> UpdateUnitPer(UnitPerDTO unitPerDTO)
+        {
+            try
+            {
+                //convert to model
+                UnitPerModel unitPerModel = unitPerDTO.ConvertToUnitPerModel();
+
+                //validate
+                var unitPerErrors = ValidationHelper.Validate(unitPerModel);
+                if (unitPerErrors.Count > 0)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, unitPerErrors);
+                }
+
+                //save
+                unitPerModel = await _productService.UpdateUnitPer(unitPerModel);
+                if (unitPerModel == null || unitPerModel.UnitPerId == 0)
+                {
+                    return NoContent();
+                }
+
+                unitPerDTO = unitPerModel.ConvertToUnitPerDTO();
+                return Ok(unitPerDTO);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 
 

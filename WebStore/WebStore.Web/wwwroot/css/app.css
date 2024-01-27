@@ -232,7 +232,10 @@ button {
         background-color: rgba(0,136,169,0.8);
     }
 
-
+.list-box option{
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
 
 /* Blazor Defaults*/
 h1:focus {

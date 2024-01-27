@@ -200,13 +200,49 @@ namespace WebStore.Repository.Repositories.Dapper
             using (SqlConnection connection = _sqlConnection.SqlConnection())
             {
                 ProductModel returned = await connection.QuerySingleAsync<ProductModel>("dbo.usp_UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
-                if (returned.ProductId == 0)
+                if (returned == null || returned.ProductId == 0)
                 {
                     //Return a new model if nothing returned as this means that the product was not saved
                     product = new ProductModel();
                 }
             }
             return product;
+        }
+
+        public async Task<ProductCategoryModel> UpdateProductCategory(ProductCategoryModel productCategory)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProductCategoryId", productCategory.ProductCategoryId);
+            parameters.Add("@CategoryName", productCategory.CategoryName);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                ProductCategoryModel returned = await connection.QuerySingleAsync<ProductCategoryModel>("usp_UpdateProductCategory", parameters, commandType: CommandType.StoredProcedure);
+                if (returned == null || returned.ProductCategoryId == 0)
+                {
+                    //error saving return empty model for error checking
+                    productCategory = new ProductCategoryModel();
+                }
+            }
+            return productCategory;
+        }
+
+        public async Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@UnitPerId", unitPer.UnitPerId);
+            parameters.Add("@UnitPer", unitPer.UnitPer);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                UnitPerModel returned = await connection.QuerySingleAsync<UnitPerModel>("usp_UpdateUnitPer", parameters, commandType: CommandType.StoredProcedure);
+                if (returned == null || returned.UnitPerId == 0)
+                {
+                    //Error saving return empty model
+                    unitPer = new UnitPerModel();
+                }
+            }
+            return unitPer;
         }
     }
 }

@@ -1,0 +1,24 @@
+﻿@page "/addcategory"
+
+<PageTitle>Add Category</PageTitle>
+
+<div class="main_container">
+    <h3>Add New Category</h3>
+    <div class="form">
+        <InputComponent Label="New Category Name" @bind-Value="ProductCategory.CategoryName" ValidationErrors="@ValidationErrors" PropertyName="CategoryName" />
+
+
+        <div class="form-control">
+            <label for="categorylist">Existing Categories</label>
+            <select id="categorylist" size="@ListSize">
+                @foreach (var item in ProductCategories)
+                {
+                    <option style="margin-left: 20px;">@item.CategoryName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        <button @onclick="SaveCategory_Click">Save Category</button>
+    </div>
+</div>

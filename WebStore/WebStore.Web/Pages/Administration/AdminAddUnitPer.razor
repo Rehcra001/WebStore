@@ -1,0 +1,23 @@
+﻿@page "/addunitper"
+
+<PageTitle>Add New Unit Per</PageTitle>
+
+<div class="main_container">
+    <h3>Add New Unit Per</h3>
+    <div class="form">
+
+        <InputComponent Label="New Unit Per" @bind-Value="UnitPer.UnitPer" ValidationErrors="@ValidationErrors" PropertyName="UnitPer" />
+
+        <div class="form-control">
+            <label for="unitperlist">Unit Pers</label>
+            <select id="unitperlist" size="@ListSize">
+                @foreach (var unitPer in UnitPers)
+                {
+                    <option style="margin-left: 20px;">@unitPer.UnitPer</option>
+                }
+            </select>
+        </div>
+    </div>
+    <button @onclick="SaveUnitPer">Save Unit Per</button>
+
+</div>

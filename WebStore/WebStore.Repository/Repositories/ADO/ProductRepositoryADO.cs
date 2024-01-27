@@ -374,5 +374,65 @@ namespace WebStore.Repository.Repositories.ADO
             }
             return product;
         }
+
+        public async Task<ProductCategoryModel> UpdateProductCategory(ProductCategoryModel productCategory)
+        {
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_UpdateProductCategory";
+                    command.Parameters.Add("@ProductCategoryId", SqlDbType.Int).Value = productCategory.ProductCategoryId;
+                    command.Parameters.Add("@CategoryName", SqlDbType.NVarChar).Value = productCategory.CategoryName;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            //if nothing return then 
+                            //error saving category
+                            //return an empty model
+                            //to indicate an error
+                            productCategory = new ProductCategoryModel();
+                        }
+                    }
+                }
+            }
+            return productCategory;
+        }
+
+        public async Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer)
+        {
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_UpdateUnitPer";
+                    command.Parameters.Add("@UnitPerId", SqlDbType.Int).Value = unitPer.UnitPerId;
+                    command.Parameters.Add("@UnitPer", SqlDbType.NVarChar).Value = unitPer.UnitPer;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            //if nothing return then 
+                            //error saving category
+                            //return an empty model
+                            //to indicate an error
+                            unitPer = new UnitPerModel();
+                        }
+                    }
+                }
+            }
+            return unitPer;
+        }
     }
 }

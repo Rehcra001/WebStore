@@ -84,6 +84,8 @@
     <Build Include="dbo\Stored Procedures\usp_GetProducts.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetProductsList.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateProduct.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateProductCategory.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateUnitPer.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

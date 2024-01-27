@@ -15,9 +15,10 @@
 
     protected override void OnParametersSet()
     {
+        ValidationError = "";
         if (ValidationErrors.Count > 0)
         {
-            ValidationError = null;
+            
             ValidationError = ValidationErrors.FirstOrDefault(x => x.StartsWith(PropertyName + " "));
 
             if (!String.IsNullOrWhiteSpace(ValidationError))

@@ -15,5 +15,7 @@ namespace WebStore.Repository.Contracts
         Task<ProductCategoryModel> GetProductCategory(int id);
         Task<UnitPerModel> GetUnitPer(int id);
         Task<ProductModel> UpdateProduct(ProductModel product);
+        Task<ProductCategoryModel> UpdateProductCategory(ProductCategoryModel productCategory);
+        Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer);
     }
 }
