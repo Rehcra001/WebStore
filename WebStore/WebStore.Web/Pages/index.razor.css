@@ -1,0 +1,46 @@
+﻿
+.showcase {
+    margin: 0 auto;
+    background-image: url('/images/african-savannah.jpg');
+    background-size:cover;
+    background-position: center;
+    min-height: 400px;   
+    position: relative;
+}
+
+.showcase .showcase-text {
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-end;
+    align-items: center;
+    color: #000;
+    text-align: center;
+    margin: 0 15%;
+    font-weight: bold;
+    background: transparent;
+    position: absolute;
+    top: 50px;
+}
+
+.showcase h1 {
+    font-size: 3rem;
+    margin-top: 50px;
+}
+
+.showcase p {
+    font-size: 1.5rem;
+}
+
+.categories {
+    
+}
+
+.categories h1 {
+    text-align: center;
+    font-size: 2rem;
+    padding-top: 1rem;
+}
+
+.categories .card {
+
+}

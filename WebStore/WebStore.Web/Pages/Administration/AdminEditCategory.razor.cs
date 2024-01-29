@@ -72,6 +72,10 @@ namespace WebStore.WEB.Pages.Administration
             }
         }
 
+        /// <summary>
+        /// reset the InputSelect once saved so that the same selection 
+        /// can be edited without needing to select off and on again
+        /// </summary>
         private void ResetSelection()
         {
             CategoryId = CategoryId;
