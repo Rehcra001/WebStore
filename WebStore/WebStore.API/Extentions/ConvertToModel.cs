@@ -62,7 +62,8 @@ namespace WebStore.API.Extentions
             return (new ProductCategoryModel
             {
                 ProductCategoryId = productCategoryDTO.ProductCategoryId,
-                CategoryName = productCategoryDTO.CategoryName
+                CategoryName = productCategoryDTO.CategoryName,
+                Picture = productCategoryDTO.Picture                
             });
         }
 

@@ -10,5 +10,6 @@ namespace WebStore.DTO
     {
         public int ProductCategoryId { get; set; }
         public string CategoryName { get; set; }
+        public byte[] Picture { get; set; }
     }
 }

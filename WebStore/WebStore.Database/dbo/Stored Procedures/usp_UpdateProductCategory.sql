@@ -1,7 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[usp_UpdateProductCategory]
 (
 	@ProductCategoryId INT,
-	@CategoryName NVARCHAR(100)
+	@CategoryName NVARCHAR(100),
+	@Picture VARBINARY(MAX)
 )AS
 BEGIN
 	BEGIN TRY
@@ -10,7 +11,8 @@ BEGIN
 			SET NOCOUNT ON;
 
 			UPDATE dbo.ProductCategories
-			SET CategoryName = @CategoryName
+			SET CategoryName = @CategoryName,
+				Picture = @Picture
 			WHERE ProductCategoryId = @ProductCategoryId;
 
 			SELECT ProductCategoryId, CategoryName

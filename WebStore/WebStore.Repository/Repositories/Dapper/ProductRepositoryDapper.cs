@@ -44,7 +44,8 @@ namespace WebStore.Repository.Repositories.Dapper
         public async Task<ProductCategoryModel> AddProductCategory(ProductCategoryModel productCategory)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("CategoryName", productCategory.CategoryName, DbType.String, ParameterDirection.Input);
+            parameters.Add("@CategoryName", productCategory.CategoryName, DbType.String, ParameterDirection.Input);
+            parameters.Add("@Picture", productCategory.Picture,dbType: DbType.Binary, ParameterDirection.Input, size: productCategory.Picture.Length); 
 
             using (SqlConnection connection = _sqlConnection.SqlConnection())
             {
@@ -214,6 +215,7 @@ namespace WebStore.Repository.Repositories.Dapper
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@ProductCategoryId", productCategory.ProductCategoryId);
             parameters.Add("@CategoryName", productCategory.CategoryName);
+            parameters.Add("@Picture", productCategory.Picture, dbType: DbType.Binary, size: productCategory.Picture.Length);
 
             using (SqlConnection connection = _sqlConnection.SqlConnection())
             {

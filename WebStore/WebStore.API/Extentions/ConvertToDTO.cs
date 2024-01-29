@@ -42,8 +42,9 @@ namespace WebStore.API.Extentions
             return (new ProductCategoryDTO
             {
                 ProductCategoryId = productCategoryModel.ProductCategoryId,
-                CategoryName = productCategoryModel.CategoryName
-            });
+                CategoryName = productCategoryModel.CategoryName,
+                Picture = productCategoryModel.Picture
+            }) ;
         }
 
         public static UnitPerDTO ConvertToUnitPerDTO(this UnitPerModel unitPerModel)
@@ -78,7 +79,8 @@ namespace WebStore.API.Extentions
                     select new ProductCategoryDTO
                     {
                         ProductCategoryId = product.ProductCategoryId,
-                        CategoryName = product.CategoryName
+                        CategoryName = product.CategoryName,
+                        Picture = product.Picture
                     });
         }
 

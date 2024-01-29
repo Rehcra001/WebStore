@@ -58,6 +58,7 @@ namespace WebStore.Repository.Repositories.ADO
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "dbo.usp_AddProductCategory";
                     command.Parameters.Add("@CategoryName", SqlDbType.NVarChar).Value = productCategory.CategoryName;
+                    command.Parameters.Add("@Picture", SqlDbType.VarBinary, productCategory.Picture.Length).Value = productCategory.Picture;
 
                     await command.Connection.OpenAsync();
 
@@ -124,6 +125,7 @@ namespace WebStore.Repository.Repositories.ADO
 
                                 productCategory.ProductCategoryId = reader.GetInt32(reader.GetOrdinal("ProductCategoryId"));
                                 productCategory.CategoryName = reader.GetString(reader.GetOrdinal("CategoryName"));
+                                productCategory.Picture = (byte[])reader["Picture"];
 
                                 productCategories.Add(productCategory);
                             }
@@ -226,6 +228,7 @@ namespace WebStore.Repository.Repositories.ADO
                             await reader.ReadAsync();
                             productCategory.ProductCategoryId = reader.GetInt32(reader.GetOrdinal("ProductCategoryId"));
                             productCategory.CategoryName = reader.GetString(reader.GetOrdinal("CategoryName"));
+                            productCategory.Picture = (byte[])reader["Picture"];
                         }
                     }
                 }
@@ -386,6 +389,7 @@ namespace WebStore.Repository.Repositories.ADO
                     command.CommandText = "usp_UpdateProductCategory";
                     command.Parameters.Add("@ProductCategoryId", SqlDbType.Int).Value = productCategory.ProductCategoryId;
                     command.Parameters.Add("@CategoryName", SqlDbType.NVarChar).Value = productCategory.CategoryName;
+                    command.Parameters.Add("@Picture", SqlDbType.VarBinary, productCategory.Picture.Length).Value = productCategory.Picture;
 
                     await command.Connection.OpenAsync();
 
