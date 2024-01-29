@@ -19,11 +19,14 @@ namespace WebStore.WEB.Pages.Administration
         {
             try
             {
-                UnitPers = (List<UnitPerDTO>)await ProductService.GetUnitPersAsync();
-                UnitPers.Sort((x, y) => x.UnitPer.CompareTo(y.UnitPer));
+                var unitPers = await ProductService.GetUnitPersAsync();
+                if (unitPers.Count() > 0)
+                {
+                    UnitPers = (List<UnitPerDTO>)unitPers;
+                    UnitPers.Sort((x, y) => x.UnitPer.CompareTo(y.UnitPer));
 
-                SetListSize();
-                
+                    SetListSize();
+                }                
             }
             catch (Exception)
             {

@@ -145,6 +145,7 @@ namespace WebStore.WEB.Pages.Administration
             if (value != 0)
             {
                 Product = Products.First(x => x.ProductId == value);
+                ImageDataUrl = "data:image;base64," + Convert.ToBase64String(Product.Picture);
 
             }
         }

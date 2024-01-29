@@ -5,8 +5,24 @@
 <div class="main_container">
     <h3>Add New Category</h3>
     <div class="form">
-        <InputComponent Label="New Category Name" @bind-Value="ProductCategory.CategoryName" ValidationErrors="@ValidationErrors" PropertyName="CategoryName" />
+        <InputComponent Label="New Category Name" @bind-Value="ProductCategory.CategoryName" ValidationErrors="@ValidationErrors" PropertyName="Picture" />
 
+        <div>
+            <InputValidation ValidationErrors="@ValidationErrors" PropertyName="Picture" />
+        </div>
+        <div class="flex-col">
+
+            @if (Image != null)
+            {
+                <ImageComponent Label="Category Image" Source="@ImageDataUrl" Width="200" Height="200" />
+            }
+            else
+            {
+                <ImageComponent Label="Category Image" Width="200" Height="200" />
+            }
+
+            <InputFile OnChange="PreviewImage"></InputFile>
+        </div>
 
         <div class="form-control">
             <label for="categorylist">Existing Categories</label>

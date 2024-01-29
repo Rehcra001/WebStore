@@ -5,8 +5,23 @@
 <div class="main_container">
     <h3>Edit Existing Category</h3>
     <div class="form">
-        <InputComponent Label="Category Name" @bind-Value="ProductCategory.CategoryName" ValidationErrors="@ValidationErrors" PropertyName="CategoryName" />
+        <InputComponent Label="Category Name" @bind-Value="ProductCategory.CategoryName" ValidationErrors="@ValidationErrors" PropertyName="Picture" />
+        <div>
+            <InputValidation ValidationErrors="@ValidationErrors" PropertyName="Picture" />
+        </div>
 
+        <div class="flex-col">
+                @if (ProductCategory.ProductCategoryId != 0)
+                {
+                    <ImageComponent Label="Category Image" Source="@ImageDataUrl" Width="200" Height="200" />
+                }
+                else
+                {
+                    <ImageComponent Label="category Image" Width="200" Height="200" />
+                }
+
+            <InputFile OnChange="PreviewImage"></InputFile>
+        </div>
 
         <div class="form-control">
             <label for="categorylist">Select Category to Edit</label>

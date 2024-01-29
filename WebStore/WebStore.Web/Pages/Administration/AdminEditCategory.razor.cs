@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using WebStore.DTO;
 using WebStore.WEB.Services.Contracts;
 using WebStore.WEB.Validators;
@@ -19,7 +20,6 @@ namespace WebStore.WEB.Pages.Administration
             }  
         }
 
-
         private int ListSize { get; set; } = 1;
 
         private ProductCategoryDTO ProductCategory { get; set; } = new ProductCategoryDTO();
@@ -27,15 +27,25 @@ namespace WebStore.WEB.Pages.Administration
         private List<string> ValidationErrors { get; set; } = new List<string>();
 
         private List<ProductCategoryDTO> ProductCategories = new List<ProductCategoryDTO>();
-        
+
+        private string ImageDataUrl { get; set; }
+
+        private IBrowserFile Image { get; set; }
+
+        private byte[] ImageBytes { get; set; }
+
 
         protected override async Task OnInitializedAsync()
         {
             try
             {
-                ProductCategories = (List<ProductCategoryDTO>)await ProductService.GetProductCategoriesAsync();
-                ProductCategories.Sort((x, y) => x.CategoryName.CompareTo(y.CategoryName));
-                SetListSize();
+                var productCategories = await ProductService.GetProductCategoriesAsync();
+                if (productCategories.Count() > 0)
+                {
+                    ProductCategories = (List<ProductCategoryDTO>)productCategories;
+                    ProductCategories.Sort((x, y) => x.CategoryName.CompareTo(y.CategoryName));
+                    SetListSize();
+                }                
             }
             catch (Exception ex)
             {
@@ -109,10 +119,33 @@ namespace WebStore.WEB.Pages.Administration
             }
         }
 
+        private async Task PreviewImage(InputFileChangeEventArgs e)
+        {
+            ImageDataUrl = string.Empty;
+            Image = await e.File.RequestImageFileAsync("image/png", 200, 200);
+
+            try
+            {
+                using var file = Image.OpenReadStream();
+                long len = file.Length;
+                ImageBytes = new byte[len];
+                await file.ReadAsync(ImageBytes, 0, (int)file.Length);
+
+                ImageDataUrl = "data:image;base64," + Convert.ToBase64String(ImageBytes);
+
+                ProductCategory.Picture = ImageBytes;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         private void GetCategoryName(int value)
         {
             ProductCategory = ProductCategories.First(x => x.ProductCategoryId == value);
+            ImageDataUrl = "data:image;base64," + Convert.ToBase64String(ProductCategory.Picture);
         }
     }
 }
