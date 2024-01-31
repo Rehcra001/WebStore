@@ -10,13 +10,30 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus,
             maxime.
         </p>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Product Categories -->
-    <section class="categories">
-        <h1>Product Categories</h1>
-        <div class="card">
+<!-- Product Categories -->
+<section class="categories">
+    <h1>Product Categories</h1>
+    <div class="categories-container">
+        @foreach (ProductCategoryDTO category in ProductCategories)
+        {
+            <a href="/productbycategory/@category.CategoryName">
+                <div class="card">
+                    <div class="card-picture">
+                        <img src="data:image;base64, @Convert.ToBase64String(category.Picture)" />
+                    </div>
+                    <div class="card-title">
+                        @category.CategoryName
+                    </div>
+                </div>
+            </a>
+        }
+    </div>   
+</section>
 
-        </div>
-    </section>
+<!-- Footer -->
+<footer class="footer">
+
+</footer>

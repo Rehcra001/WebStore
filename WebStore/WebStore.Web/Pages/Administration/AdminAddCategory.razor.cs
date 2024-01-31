@@ -64,6 +64,9 @@ namespace WebStore.WEB.Pages.Administration
                     ProductCategories.Add(ProductCategory);
                     ProductCategories.Sort((x, y) => x.CategoryName.CompareTo(y.CategoryName));
 
+                    //Clear Out Product category
+                    ProductCategory = new ProductCategoryDTO();
+                    ImageDataUrl = "";
                     SetListSize();
 
                     StateHasChanged();
