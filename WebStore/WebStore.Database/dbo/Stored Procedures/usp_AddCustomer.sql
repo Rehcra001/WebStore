@@ -10,10 +10,19 @@ BEGIN
 		BEGIN TRAN
 			SET NOCOUNT ON;
 
+			--Add a new customer
 			INSERT INTO dbo.Customers (FirstName, LastName, EmailAddress, PhoneNumber)
 			VALUES (@FirstName, @LastName, @EmailAddress, @PhoneNumber);
 
-			SELECT SCOPE_IDENTITY() AS CustomerId;
+			DECLARE @CustomerId INT;
+
+			SET @CustomerId = SCOPE_IDENTITY();
+			--Create a cart for the customer
+			INSERT INTO dbo.Cart (CustomerId)
+			VALUES (@CustomerId);
+
+			--Return the new created customer id
+			SELECT @CustomerId AS CustomerId;
 		COMMIT TRAN;
 	END TRY
 

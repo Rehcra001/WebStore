@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace WebStore.DTO
 {
-    public class ProductListDTO
+    public class CartItemDTO
     {
+        public int CartItemId { get; set; }
+        public int CartId { get; set; }
         public int ProductId { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public int Quantity { get; set; }
     }
 }

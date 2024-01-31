@@ -19,7 +19,14 @@ namespace WebStore.Repository.Static
             {
                 DataRow row = addresses.NewRow();
                 row[nameof(AddressModel.AddressLine1)] = address.AddressLine1;
-                row[nameof(AddressModel.AddressLine2)] = address.AddressLine2;
+                if (String.IsNullOrWhiteSpace(address.AddressLine2) == false)
+                {
+                    row[nameof(AddressModel.AddressLine2)] = address.AddressLine2;
+                }
+                else
+                {
+                    row[nameof(AddressModel.AddressLine2)] = DBNull.Value;
+                }                
                 row[nameof(AddressModel.Suburb)] = address.Suburb;
                 row[nameof(AddressModel.City)] = address.City;
                 row[nameof(AddressModel.PostalCode)] = address.PostalCode;

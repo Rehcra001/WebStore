@@ -9,7 +9,7 @@ namespace WebStore.DTO
     public class ProductCategoryDTO
     {
         public int ProductCategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
         public byte[] Picture { get; set; }
     }
 }

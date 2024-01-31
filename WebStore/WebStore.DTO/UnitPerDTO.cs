@@ -9,6 +9,6 @@ namespace WebStore.DTO
     public class UnitPerDTO
     {
         public int UnitPerId { get; set; }
-        public string UnitPer { get; set; }
+        public string UnitPer { get; set; } = string.Empty;
     }
 }

@@ -9,7 +9,10 @@ namespace WebStore.WEB.Pages
     public partial class Register
     {
         [Inject]
-        public IRegistrationService RegistrationService { get; set; }        
+        public IRegistrationService RegistrationService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         private UserRegistrationDTO _userToRegister = new UserRegistrationDTO();
         private AddressDTO _address = new AddressDTO();
@@ -74,6 +77,11 @@ namespace WebStore.WEB.Pages
                     ValidationErrors.Add($"{failure.PropertyName} {failure.ErrorMessage}");
                 }
             }
+        }
+
+        private void RegisterSuccessful()
+        {
+            NavigationManager.NavigateTo("/signin");
         }
     }
 }

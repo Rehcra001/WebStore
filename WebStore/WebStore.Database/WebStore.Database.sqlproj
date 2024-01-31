@@ -61,6 +61,8 @@
     <Folder Include="dbo\Tables" />
     <Folder Include="PublishLocations\" />
     <Folder Include="dbo\Types" />
+    <Folder Include="dbo\Functions" />
+    <Folder Include="dbo\Functions\Scalar-valued Functions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Customers.sql" />
@@ -86,6 +88,14 @@
     <Build Include="dbo\Stored Procedures\usp_UpdateProduct.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateProductCategory.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateUnitPer.sql" />
+    <Build Include="dbo\Tables\Cart.sql" />
+    <Build Include="dbo\Tables\CartItems.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AddCartItem.sql" />
+    <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCustomerIdWithEmail.sql" />
+    <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCartIdWithCustomerId.sql" />
+    <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCartItemIdWithCartIdAndProductId.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCartItemQuantity.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetCartItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

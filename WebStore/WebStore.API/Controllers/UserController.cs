@@ -93,6 +93,9 @@ namespace WebStore.API.Controllers
                 }
                 catch (Exception)
                 {
+                    // delete the user added to the login db
+                    await _userManager.DeleteAsync(identityUser);
+
                     return StatusCode(StatusCodes.Status500InternalServerError, "Error saving customer data to database");
                 }
 

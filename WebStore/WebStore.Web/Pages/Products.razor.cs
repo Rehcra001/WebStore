@@ -9,6 +9,9 @@ namespace WebStore.WEB.Pages
         [Inject]
         public IProductService ProductService { get; set; }
 
+        [Inject]
+        public IShoppingCartService ShoppingCartService { get; set; }
+
         [Parameter]
         public string Category { get; set; } = string.Empty;
 
@@ -30,6 +33,17 @@ namespace WebStore.WEB.Pages
 
                 throw;
             }
+        }
+
+        private async Task AddToCartItem_Click(int productId, int quantity)
+        {
+            CartItemDTO cartItemDTO = new CartItemDTO
+            {
+                ProductId = productId,
+                Quantity = quantity
+            };
+
+            await ShoppingCartService.AddCartItem(cartItemDTO);
         }
     }
 }

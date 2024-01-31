@@ -10,7 +10,6 @@ namespace WebStore.Models
         [Display(Name = "Address Line 1")]
         public string AddressLine1 { get; set; }
 
-        [Compare(nameof(AddressLine1), ErrorMessage = "Cannot be the same as Address Line 1")]
         [Display(Name = "Address Line 2")]
         public string AddressLine2 { get; set; }
 

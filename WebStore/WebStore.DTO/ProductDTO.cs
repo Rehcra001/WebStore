@@ -11,9 +11,9 @@ namespace WebStore.DTO
     {
         public int ProductId { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public byte[] Picture { get; set; }
 
@@ -23,10 +23,10 @@ namespace WebStore.DTO
 
         public int UnitPerId { get; set; }
 
-        public string UnitPer { get; set; }
+        public string UnitPer { get; set; } = string.Empty;
 
         public int CategoryId { get; set; }
 
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
     }
 }

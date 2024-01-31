@@ -18,8 +18,10 @@
                     <div class="product-card-quantity">Qty in Stock: @product.QtyInStock</div>
                 </div>
                 
-
-                <button>Add to Order</button>
+                <AuthorizeView>
+                    <button @onclick="() => AddToCartItem_Click(product.ProductId, 1)">Add to Order</button>
+                </AuthorizeView>
+                
             </div>
         </div>
     }

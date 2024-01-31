@@ -92,5 +92,14 @@ namespace WebStore.API.Extentions
                 CategoryName = productDTO.CategoryName
             });
         }
+
+        public static CartItemModel ConvertToCartItemDTO(this CartItemDTO cartItemDTO)
+        {
+            return (new CartItemModel
+            {
+                ProductId = cartItemDTO.ProductId,
+                Quantity = cartItemDTO.Quantity
+            });
+        }
     }
 }

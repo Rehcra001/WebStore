@@ -24,6 +24,10 @@ BEGIN
 			INSERT INTO dbo.Addresses (AddressLine1, AddressLine2, Suburb, City, PostalCode, Country, CustomerId)
 			SELECT ad.AddressLine1, ad.AddressLine2, ad.Suburb, ad.City, ad.PostalCode, ad.Country, @CustomerId
 			FROM @Addresses AS ad;
+
+			--Create a cart for the new customer
+			INSERT INTO dbo.Cart (CustomerId)
+			VALUES (@CustomerId);
 			
 			--Return the inserted address back so that the customer and address id's are available
 			SELECT AddressId, AddressLine1, AddressLine2, Suburb, City, PostalCode, Country, CustomerId
