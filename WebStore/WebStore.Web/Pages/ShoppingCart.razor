@@ -1,0 +1,20 @@
+﻿@page "/shoppingcart"
+
+<section class="cart">
+    <h1>ShoppingCart</h1>
+    <div class="cart-container">
+        <div>
+            @foreach (CartItemDTO item in CartItems)
+            {
+                <ShoppingCartDetail CartItem="item"/>
+            }
+
+        </div>
+        <div>
+            <h3>Cart Summary</h3>
+        </div>
+    </div>
+
+</section>
+
+

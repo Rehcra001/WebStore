@@ -44,9 +44,42 @@ namespace WebStore.Repository.Repositories.ADO
             return cartItem;
         }
 
-        public Task<CartItemModel> GetCartItems(string emailAddress)
+        public async Task<IEnumerable<CartItemModel>> GetCartItems(string emailAddress)
         {
-            throw new NotImplementedException();
+            List<CartItemModel> cartItems = new List<CartItemModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_GetCartItems";
+                    command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = emailAddress;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                CartItemModel cartItem = new CartItemModel()
+                                {
+                                    CartItemId = reader.GetInt32(reader.GetOrdinal("CartItemId")),
+                                    CartId = reader.GetInt32(reader.GetOrdinal("CartId")),
+                                    ProductId = reader.GetInt32(reader.GetOrdinal("ProductId")),
+                                    Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"))
+                                };
+
+                                cartItems.Add(cartItem);
+                            }
+                        }
+                    }
+                }
+            }
+            return cartItems;
         }
 
         public Task<CartItemModel> UpdateCartItemQuantity(int quantity, string emailAddress)

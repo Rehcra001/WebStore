@@ -93,7 +93,7 @@ namespace WebStore.API.Extentions
             });
         }
 
-        public static CartItemModel ConvertToCartItemDTO(this CartItemDTO cartItemDTO)
+        public static CartItemModel ConvertToCartItemModel(this CartItemAddToDTO cartItemDTO)
         {
             return (new CartItemModel
             {

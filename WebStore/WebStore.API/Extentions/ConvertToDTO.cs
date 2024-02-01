@@ -17,7 +17,7 @@ namespace WebStore.API.Extentions
             };
 
             List<AddressDTO> addresses = new List<AddressDTO>();
-            foreach(AddressModel address in customerModel.AddressList)
+            foreach (AddressModel address in customerModel.AddressList)
             {
                 AddressDTO addressDTO = new AddressDTO();
 
@@ -44,7 +44,7 @@ namespace WebStore.API.Extentions
                 ProductCategoryId = productCategoryModel.ProductCategoryId,
                 CategoryName = productCategoryModel.CategoryName,
                 Picture = productCategoryModel.Picture
-            }) ;
+            });
         }
 
         public static UnitPerDTO ConvertToUnitPerDTO(this UnitPerModel unitPerModel)
@@ -73,7 +73,7 @@ namespace WebStore.API.Extentions
             });
         }
 
-        public static IEnumerable<ProductCategoryDTO> ConvertToProductCategoriesDTO (this IEnumerable<ProductCategoryModel> productCategoryModels)
+        public static IEnumerable<ProductCategoryDTO> ConvertToProductCategoriesDTO(this IEnumerable<ProductCategoryModel> productCategoryModels)
         {
             return (from product in productCategoryModels
                     select new ProductCategoryDTO
@@ -110,6 +110,46 @@ namespace WebStore.API.Extentions
                         CategoryId = product.CategoryId,
                         CategoryName = product.CategoryName
                     });
+        }
+
+        public static CartItemDTO ConvertToCartItemDTO(this CartItemModel cartItemModel, ProductModel productModel)
+        {
+            return (new CartItemDTO
+            {
+                CartItemId = cartItemModel.CartItemId,
+                CartId = cartItemModel.CartId,
+                ProductId = cartItemModel.ProductId,
+                Quantity = cartItemModel.Quantity,
+                Name = productModel.Name,
+                Description = productModel.Description,
+                Picture = productModel.Picture,
+                Price = productModel.Price,
+                UnitPerId = productModel.UnitPerId,
+                UnitPer = productModel.UnitPer,
+                CategoryId = productModel.CategoryId,
+                CategoryName = productModel.CategoryName
+            });
+        }
+
+        public static IEnumerable<CartItemDTO> ConvertToCartItemDTOs(this IEnumerable<CartItemModel> cartItemModels, IEnumerable<ProductModel> productModels)
+        {
+            return (from cartItemModel in cartItemModels
+                    join productModel in productModels on cartItemModel.ProductId equals productModel.ProductId
+                    select new CartItemDTO
+                    {
+                        CartItemId = cartItemModel.CartItemId,
+                        CartId = cartItemModel.CartId,
+                        ProductId = cartItemModel.ProductId,
+                        Quantity = cartItemModel.Quantity,
+                        Name = productModel.Name,
+                        Description = productModel.Description,
+                        Picture = productModel.Picture,
+                        Price = productModel.Price,
+                        UnitPerId = productModel.UnitPerId,
+                        UnitPer = productModel.UnitPer,
+                        CategoryId = productModel.CategoryId,
+                        CategoryName = productModel.CategoryName
+                    }).ToList();
         }
     }
 }

@@ -1,0 +1,25 @@
+﻿.cart {
+    text-align: center;
+}
+
+    .cart h1 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+.cart-container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    padding: 0 10px;
+    gap: 20px;
+}
+
+
+
+@media (max-width: 800px) {
+    .cart-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+

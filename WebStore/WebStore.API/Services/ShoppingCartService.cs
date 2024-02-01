@@ -25,9 +25,16 @@ namespace WebStore.API.Services
             }
         }
 
-        public Task<CartItemModel> GetCartItems(string emailAddress)
+        public async Task<IEnumerable<CartItemModel>> GetCartItems(string emailAddress)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _shoppingCartRepository.GetCartItems(emailAddress);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Task<CartItemModel> UpdateCartItemQuantity(int quantity, string emailAddress)

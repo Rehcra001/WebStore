@@ -4,6 +4,7 @@ namespace WebStore.WEB.Services.Contracts
 {
     public interface IShoppingCartService
     {
-        Task<CartItemDTO> AddCartItem(CartItemDTO cartItemDTO);
+        Task<CartItemDTO> AddCartItem(CartItemAddToDTO cartItemAddToDTO);
+        Task<IEnumerable<CartItemDTO>> GetCartItems();
     }
 }

@@ -18,7 +18,7 @@ namespace WebStore.WEB.Services
             _localStorageService = localStorageService;
         }
 
-        public async Task<CartItemDTO> AddCartItem(CartItemDTO cartItemDTO)
+        public async Task<CartItemDTO> AddCartItem(CartItemAddToDTO cartItemAddToDTO)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace WebStore.WEB.Services
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
 
 
-                HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<CartItemDTO>("api/shoppingcart/addcartitem", cartItemDTO);
+                HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<CartItemAddToDTO>("api/shoppingcart/addcartitem", cartItemAddToDTO);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
@@ -37,8 +37,45 @@ namespace WebStore.WEB.Services
                     }
                     else
                     {
-                        cartItemDTO = await httpResponseMessage.Content.ReadFromJsonAsync<CartItemDTO>();
+                        CartItemDTO cartItemDTO = await httpResponseMessage.Content.ReadFromJsonAsync<CartItemDTO>();
                         return cartItemDTO;
+                        
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<CartItemDTO>> GetCartItems()
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("api/shoppingcart/getcartitems");
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    //check for content
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<CartItemDTO>();
+                    }
+                    else
+                    {
+                        IEnumerable<CartItemDTO> cartItemDTOs = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<CartItemDTO>>();
+                        return cartItemDTOs;
                     }
                 }
                 else
