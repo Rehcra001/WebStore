@@ -38,17 +38,6 @@ namespace WebStore.WEB.Pages
             }
         }
 
-        private async Task AddToCartItem_Click(int productId, int quantity)
-        {
-            CartItemAddToDTO cartItemAddToDTO = new CartItemAddToDTO
-            {
-                ProductId = productId,
-                Quantity = quantity
-            };
-
-            await ShoppingCartService.AddCartItem(cartItemAddToDTO);
-
-            NavigationManager.NavigateTo("/shoppingcart");
-        }
+        
     }
 }

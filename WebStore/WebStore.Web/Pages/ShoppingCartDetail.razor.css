@@ -39,7 +39,11 @@
 .cart-delete {
     height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content:space-evenly;
+}
+
+.cart-delete button {
+    align-items: center;
 }
 
     .cart-delete .icon {
@@ -56,11 +60,12 @@
         }
 
 .show-update {
-    visibility: visible;
+    display:inherit;
+    padding-left: 20px;
 }
 
 .hide-update {
-    visibility: hidden;
+    display: none;
 }
 
 @media (max-width: 670px) {
@@ -76,11 +81,17 @@
 
     .cart-title {
         font-size: 1rem;
+        text-align: center;
     }
 
 
     .cart-price {
         font-size: 1rem;
+        text-align: center;
+    }
+
+    .cart-delete {
+        /*align-self: center;*/
     }
 
     .cart-delete .icon {

@@ -1,0 +1,18 @@
+﻿<div class="product-card">
+    <div class="product-card-image">
+        <img src="data:image;base64, @Convert.ToBase64String(Product.Picture)" />
+    </div>
+    <div class="product-card-body">
+        <div class="product-card-title">@Product.Name</div>
+        <div class="product-card-description">@Product.Description</div>
+        <div>
+            <div class="product-card-price">@Product.Price.ToString("c2")/@Product.UnitPer</div>
+            <div class="product-card-quantity">Qty in Stock: @Product.QtyInStock</div>
+        </div>
+
+        <AuthorizeView>
+            <button @onclick="() => AddToCartItem_Click(Product.ProductId, 1)">Add to Order</button>
+        </AuthorizeView>
+
+    </div>
+</div>
