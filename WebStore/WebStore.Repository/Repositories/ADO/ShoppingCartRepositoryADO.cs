@@ -44,6 +44,32 @@ namespace WebStore.Repository.Repositories.ADO
             return cartItem;
         }
 
+        public async Task DeleteCartItem(int id, string emailAddress)
+        {
+            try
+            {
+                using (SqlConnection connection = _sqlConnection.SqlConnection())
+                {
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "dbo.usp_DeleteCartItem";
+                        command.Parameters.Add("@CartItemId", SqlDbType.Int).Value = id;
+                        command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = emailAddress;
+
+                        await command.Connection.OpenAsync();
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }            
+        }
+
         public async Task<IEnumerable<CartItemModel>> GetCartItems(string emailAddress)
         {
             List<CartItemModel> cartItems = new List<CartItemModel>();
@@ -82,9 +108,39 @@ namespace WebStore.Repository.Repositories.ADO
             return cartItems;
         }
 
-        public Task<CartItemModel> UpdateCartItemQuantity(int quantity, string emailAddress)
+        public async Task<CartItemModel> UpdateCartItemQuantity(CartItemModel cartItem, string emailAddress)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_UpdateCartItemQuantity";
+                    command.Parameters.Add("@CartItemId", SqlDbType.Int).Value = cartItem.CartItemId;
+                    command.Parameters.Add("@Quantity", SqlDbType.Int).Value = cartItem.Quantity;
+                    command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = emailAddress;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            cartItem = new CartItemModel();
+                        }
+                        else
+                        {
+                            await reader.ReadAsync();
+                            cartItem.CartItemId = reader.GetInt32(reader.GetOrdinal("CartItemId"));
+                            cartItem.CartId = reader.GetInt32(reader.GetOrdinal("CartId"));
+                            cartItem.ProductId = reader.GetInt32(reader.GetOrdinal("ProductId"));
+                            cartItem.Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                        }
+                    }
+                }
+            }
+            return cartItem;
         }
     }
 }

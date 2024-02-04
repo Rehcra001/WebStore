@@ -1,7 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[usp_UpdateCartItemQuantity]
+﻿CREATE PROCEDURE [dbo].[usp_DeleteCartItem]
 (
 	@CartItemId INT,
-	@Quantity INT,
 	@EmailAddress NVARCHAR(100)
 )AS
 BEGIN
@@ -15,12 +14,7 @@ BEGIN
 			SET @CustomerId = dbo.udf_GetCustomerIdWithEmail(@EmailAddress);
 			SET @CartId = dbo.udf_GetCartIdWithCustomerId(@CustomerId);
 
-			UPDATE dbo.CartItems
-			SET Quantity = @Quantity
-			WHERE CartItemId = @CartItemId AND CartId = @CartId;
-
-			SELECT CartItemId, CartId, ProductId, Quantity
-			FROM CartItems
+			DELETE FROM dbo.CartItems
 			WHERE CartItemId = @CartItemId AND CartId = @CartId;
 
 		COMMIT TRAN;

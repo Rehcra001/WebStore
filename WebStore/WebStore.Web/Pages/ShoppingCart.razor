@@ -6,9 +6,8 @@
         <div>
             @foreach (CartItemDTO item in CartItems)
             {
-                <ShoppingCartDetail CartItem="item"/>
+                <ShoppingCartDetail CartItem="item" CartItemDeleted="@DeleteCartItem" UpdateCartItemQuantity="@UpdateItemQuantity"/>
             }
-
         </div>
         <div>
             <h3>Cart Summary</h3>

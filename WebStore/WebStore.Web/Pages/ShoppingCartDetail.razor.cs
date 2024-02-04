@@ -17,15 +17,29 @@ namespace WebStore.WEB.Pages
 
         private string UpdateQtyVisibility = HIDE_UPDATE;
 
+        [Parameter]
+        public EventCallback<int> CartItemDeleted { get; set; }
+
+        [Parameter]
+        public EventCallback<int> UpdateCartItemQuantity { get; set; }
+
         private void ShowUpdateButton()
         {
             UpdateQtyVisibility = SHOW_UPDATE;
         }
 
-        private async Task UpdateCartItemQty()
+        public void ItemDeleted(int id)
         {
-            UpdateQtyVisibility = HIDE_UPDATE;
+            CartItemDeleted.InvokeAsync(id);
         }
 
+        public void ItemQuantityUpdated(int id)
+        {
+            UpdateQtyVisibility = HIDE_UPDATE;
+
+            UpdateCartItemQuantity.InvokeAsync(id);
+        }
+
+        
     }
 }

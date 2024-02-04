@@ -12,8 +12,8 @@
             <InputNumber TValue="int" @bind-Value="@CartItem.Quantity" @oninput="@ShowUpdateButton" style="font-size: 1.1rem; border-radius: 5px; padding-left: 5px;" />
         </div>
         <div class="cart-delete">
-            <button class="icon"><i class="fas fa-trash"></i></button>
-            <button class="@UpdateQtyVisibility" @onclick="@UpdateCartItemQty">Update Quantity</button>
+            <button class="icon" @onclick="() => ItemDeleted(CartItem.CartItemId)"><i class="fas fa-trash"></i></button>
+            <button class="@UpdateQtyVisibility" @onclick="() => ItemQuantityUpdated(CartItem.CartItemId)">Update Quantity</button>
         </div>
     </div>
 </div>

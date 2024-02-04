@@ -25,6 +25,18 @@ namespace WebStore.API.Services
             }
         }
 
+        public async Task DeleteCartItem(int id, string emailAddress)
+        {
+            try
+            {
+                await _shoppingCartRepository.DeleteCartItem(id, emailAddress);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<IEnumerable<CartItemModel>> GetCartItems(string emailAddress)
         {
             try
@@ -37,9 +49,16 @@ namespace WebStore.API.Services
             }
         }
 
-        public Task<CartItemModel> UpdateCartItemQuantity(int quantity, string emailAddress)
+        public async Task<CartItemModel> UpdateCartItemQuantity(CartItemModel cartItem, string emailAddress)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _shoppingCartRepository.UpdateCartItemQuantity(cartItem, emailAddress);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

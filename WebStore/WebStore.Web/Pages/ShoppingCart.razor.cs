@@ -27,6 +27,47 @@ namespace WebStore.WEB.Pages
             {
                 throw new Exception(ex.Message);
             }
-        }     
+        }    
+        
+        private async Task DeleteCartItem(int id)
+        {
+            await ShoppingCartService.DeleteCartItem(id);
+
+            await GetCartItemsAsync();
+        }
+
+        private async void UpdateItemQuantity(int id)
+        {
+            CartItemDTO cartItem = CartItems.First(x => x.CartItemId == id);
+
+            if (cartItem.Quantity <= 0)
+            {
+                cartItem.Quantity = 1;
+            }
+
+            UpdateCartItemQuantityDTO updateCartItem = new UpdateCartItemQuantityDTO
+            {
+                CartItemId = cartItem.CartItemId,                
+                Quantity = cartItem.Quantity
+            };
+
+            await ShoppingCartService.UpdateCartItemQuantity(updateCartItem);
+
+            await GetCartItemsAsync();
+            
+        }
+
+        private async Task GetCartItemsAsync()
+        {
+            CartItems.Clear();
+
+            var items = await ShoppingCartService.GetCartItems();
+
+            if (items.Count() > 0)
+            {
+                CartItems = items.ToList();
+            }
+            StateHasChanged();
+        }
     }
 }

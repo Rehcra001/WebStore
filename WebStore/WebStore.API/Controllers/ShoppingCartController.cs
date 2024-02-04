@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebStore.API.Extentions;
@@ -102,8 +101,67 @@ namespace WebStore.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
 
+        [HttpPatch]
+        [Authorize]
+        [Route("UpdateCartItemQuantity/{id:int}")]
+        public async Task<ActionResult<CartItemDTO>> DeleteCartItem(int id, UpdateCartItemQuantityDTO updateCartItemQuantityDTO)
+        {
+            try
+            {
+                if (updateCartItemQuantityDTO.CartItemId == 0 || updateCartItemQuantityDTO.Quantity == 0)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
 
+                //Convert to model
+                CartItemModel cartItemModel = updateCartItemQuantityDTO.ConvertToCartItemMdodel();
+
+                //retrieve the users email
+                var userIdentity = User.Identity as ClaimsIdentity;
+                string? email = userIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                cartItemModel = await _shoppingCartService.UpdateCartItemQuantity(cartItemModel, email);
+
+                if (cartItemModel == null || cartItemModel.CartItemId == default)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    ProductModel productModel = await _productService.GetProduct(cartItemModel.ProductId);
+
+                    CartItemDTO cartItemDTO = cartItemModel.ConvertToCartItemDTO(productModel);
+                    
+                    return Ok(cartItemDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("DeleteCartItem/{id:int}")]
+        public async Task<IActionResult> DeleteCartItem(int id)
+        {
+            try
+            {
+                //retrieve the users email
+                var userIdentity = User.Identity as ClaimsIdentity;
+                string? email = userIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                await _shoppingCartService.DeleteCartItem(id, email);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

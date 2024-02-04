@@ -96,6 +96,7 @@
     <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCartItemIdWithCartIdAndProductId.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateCartItemQuantity.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetCartItems.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DeleteCartItem.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

@@ -101,5 +101,14 @@ namespace WebStore.API.Extentions
                 Quantity = cartItemDTO.Quantity
             });
         }
+
+        public static CartItemModel ConvertToCartItemMdodel(this UpdateCartItemQuantityDTO updateCartItemQuantityDTO)
+        {
+            return (new CartItemModel
+            {
+                CartItemId = updateCartItemQuantityDTO.CartItemId,
+                Quantity = updateCartItemQuantityDTO.Quantity
+            });
+        }
     }
 }

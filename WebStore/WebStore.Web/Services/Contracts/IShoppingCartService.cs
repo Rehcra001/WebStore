@@ -6,5 +6,7 @@ namespace WebStore.WEB.Services.Contracts
     {
         Task<CartItemDTO> AddCartItem(CartItemAddToDTO cartItemAddToDTO);
         Task<IEnumerable<CartItemDTO>> GetCartItems();
+        Task<CartItemDTO> UpdateCartItemQuantity(UpdateCartItemQuantityDTO updateCartItemQuantityDTO);
+        Task DeleteCartItem(int id);
     }
 }

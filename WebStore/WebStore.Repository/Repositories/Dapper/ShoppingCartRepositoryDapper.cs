@@ -30,6 +30,26 @@ namespace WebStore.Repository.Repositories.Dapper
             return cartItem;
         }
 
+        public async Task DeleteCartItem(int id, string emailAddress)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@CartItemId", id, DbType.Int32);
+            parameters.Add("@EmailAddress", emailAddress, DbType.String);
+
+            try
+            {
+                using (SqlConnection connection = _sqlConnection.SqlConnection())
+                {
+                    await connection.ExecuteAsync("dbo.usp_DeleteCartItem", parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
+
         public async Task<IEnumerable<CartItemModel>> GetCartItems(string emailAddress)
         {
             List<CartItemModel> cartItems = new List<CartItemModel>();
@@ -50,9 +70,19 @@ namespace WebStore.Repository.Repositories.Dapper
             return cartItems;
         }
 
-        public Task<CartItemModel> UpdateCartItemQuantity(int quantity, string emailAddress)
+
+        public async Task<CartItemModel> UpdateCartItemQuantity(CartItemModel cartItem, string emailAddress)
         {
-            throw new NotImplementedException();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@CartItemId", cartItem.CartItemId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@Quantity", cartItem.Quantity, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@EmailAddress", emailAddress, DbType.String, ParameterDirection.Input);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                cartItem = await connection.QuerySingleAsync<CartItemModel>("dbo.usp_UpdateCartItemQuantity", parameters, commandType: CommandType.StoredProcedure);                
+            }
+            return cartItem;
         }
     }
 }
