@@ -8,5 +8,9 @@ namespace WebStore.WEB.Services.Contracts
         Task<IEnumerable<CartItemDTO>> GetCartItems();
         Task<CartItemDTO> UpdateCartItemQuantity(UpdateCartItemQuantityDTO updateCartItemQuantityDTO);
         Task DeleteCartItem(int id);
+
+        event Action<int> OnShoppingCartChanged;
+
+        void RaiseShoppingCartChangedEvent(int totalQty);
     }
 }

@@ -11,6 +11,7 @@ namespace WebStore.WEB.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorageService;
+        public event Action<int> OnShoppingCartChanged;
 
         public ShoppingCartService(HttpClient httpClient, ILocalStorageService localStorageService)
         {
@@ -112,6 +113,11 @@ namespace WebStore.WEB.Services
 
                 throw;
             }
+        }
+
+        public void RaiseShoppingCartChangedEvent(int totalQty)
+        {
+            OnShoppingCartChanged?.Invoke(totalQty);
         }
 
         public async Task<CartItemDTO> UpdateCartItemQuantity(UpdateCartItemQuantityDTO updateCartItemQuantityDTO)

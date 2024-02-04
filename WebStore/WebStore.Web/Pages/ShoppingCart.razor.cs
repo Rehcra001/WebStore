@@ -11,6 +11,10 @@ namespace WebStore.WEB.Pages
 
         private List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
 
+        private decimal TotalPrice { get; set; }
+
+        private int TotalQuantity { get; set; }
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,6 +26,7 @@ namespace WebStore.WEB.Pages
                 {
                     CartItems = items.ToList();
                 }
+                CartChanged();
             }
             catch (Exception ex)
             {
@@ -67,7 +72,16 @@ namespace WebStore.WEB.Pages
             {
                 CartItems = items.ToList();
             }
+            CartChanged();
             StateHasChanged();
+        }
+
+        private void CartChanged()
+        {
+            TotalPrice = CartItems.Sum(x => x.Quantity * x.Price);
+            TotalQuantity = CartItems.Sum(x => x.Quantity);
+
+            ShoppingCartService.RaiseShoppingCartChangedEvent(TotalQuantity);
         }
     }
 }

@@ -28,6 +28,8 @@ namespace WebStore.WEB.Pages
 
             await ShoppingCartService.AddCartItem(cartItemAddToDTO);
 
+            
+
             NavigationManager.NavigateTo("/shoppingcart");
         }
     }

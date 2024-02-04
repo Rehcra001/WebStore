@@ -24,12 +24,13 @@
         </AuthorizeView>
     </ul>
 
-    <ul class="right-menu">
-        <li>
-            <a href="/shoppingcart">
-                <i class="fas fa-shopping-cart"></i>
-            </a>
-        </li>
-    </ul>
+    <AuthorizeView>
+        <ul class="right-menu">
+            <li>
+                <ShoppingCartMenu />
+            </li>
+        </ul>
+    </AuthorizeView>
+    
 </nav>
 

@@ -6,9 +6,6 @@ namespace WebStore.WEB.Pages
 {
     public partial class ShoppingCartDetail : ComponentBase
     {
-        [Inject]
-        public IShoppingCartService ShoppingCartService { get; set; }
-
         [Parameter]
         public CartItemDTO CartItem { get; set; }
 
