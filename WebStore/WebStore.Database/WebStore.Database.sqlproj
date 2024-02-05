@@ -97,6 +97,8 @@
     <Build Include="dbo\Stored Procedures\usp_UpdateCartItemQuantity.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetCartItems.sql" />
     <Build Include="dbo\Stored Procedures\usp_DeleteCartItem.sql" />
+    <Build Include="dbo\Tables\Orders.sql" />
+    <Build Include="dbo\Tables\OrderItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />
