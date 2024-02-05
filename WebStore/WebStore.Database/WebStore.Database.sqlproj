@@ -63,6 +63,7 @@
     <Folder Include="dbo\Types" />
     <Folder Include="dbo\Functions" />
     <Folder Include="dbo\Functions\Scalar-valued Functions" />
+    <Folder Include="dbo\Diagram" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Customers.sql" />
