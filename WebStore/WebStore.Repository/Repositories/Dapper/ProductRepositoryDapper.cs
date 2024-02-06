@@ -33,7 +33,7 @@ namespace WebStore.Repository.Repositories.Dapper
                     var returned = await connection.QuerySingleAsync<ProductModel>("dbo.usp_AddProduct", parameters, commandType: CommandType.StoredProcedure);
                     product.ProductId = returned.ProductId;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     product = default(ProductModel);
                 }

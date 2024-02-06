@@ -12,9 +12,6 @@ namespace WebStore.WEB.Pages
         [Inject]
         public IShoppingCartService ShoppingCartService { get; set; }
 
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
-
         [Parameter]
         public string Category { get; set; } = string.Empty;
 

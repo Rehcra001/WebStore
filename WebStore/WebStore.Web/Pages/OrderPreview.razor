@@ -1,0 +1,62 @@
+﻿@page "/orderpreview"
+
+<div class="order-preview">
+    <h1>Order Preview</h1>
+    <table class="content-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Line Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CartItemDTO item in CartItems)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("c2")</td>
+                    <td>@CalcLinePrice(item.Quantity, item.Price).ToString("c2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <table class="content-table totals">
+        <tbody>
+            <tr>
+                <td>Total excl. VAT:</td>
+                <td>@CalcTotalPrice().ToString("c2")</td>
+            </tr>
+            <tr>
+                <td>Vat @VAT_PERCENTAGE%:</td>
+                <td>@CalcVAT().ToString("c2")</td>
+            </tr>
+            <tr>
+                <td>Total incl. VAT:</td>
+                <td>@CalcTotalWithVAT().ToString("c2")</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+    <div>
+        <h2>Please select shipping address</h2>
+    </div>
+    <table class="content-table shipping">
+        <thead>
+            <tr>
+                <th>Address</th>
+                <th>Select Ship To</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (AddressLineDTO line in AddressLines)
+            {
+                <tr>@line.AddressLine1</tr>
+                <tr><InputCheckbox @bind-Value="line.ShipToSelected"/></tr>
+            }
+        </tbody>
+    </table>
+</div>
+

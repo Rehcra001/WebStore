@@ -14,7 +14,10 @@
             <div class="cart-summary">
                 Total - (@TotalQuantity items)&nbsp;<b>@TotalPrice.ToString("c2")</b>
             </div>
-            <button><i class="fas fa-wallet"></i>&nbsp; Place Order</button>
+            @if (TotalQuantity > 0)
+            {
+                <button @onclick="PreviewOrder_Click"><i class="fas fa-wallet"></i>&nbsp; Preview Order</button>
+            }            
         </div>
     </div>
 

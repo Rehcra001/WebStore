@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using WebStore.DTO;
 using WebStore.WEB.Services.Contracts;
 
@@ -8,6 +10,12 @@ namespace WebStore.WEB.Pages
     {
         [Inject]
         public IShoppingCartService ShoppingCartService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        public ILocalStorageService LocalStorageService { get; set; }
 
         private List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
 
@@ -82,6 +90,21 @@ namespace WebStore.WEB.Pages
             TotalQuantity = CartItems.Sum(x => x.Quantity);
 
             ShoppingCartService.RaiseShoppingCartChangedEvent(TotalQuantity);
+        }
+
+        private async Task PreviewOrder_Click()
+        {
+            if (CartItems.Count > 0)
+            {
+                //clear local storage of cart items if it exists
+                if (await LocalStorageService.ContainKeyAsync("CartItems"))
+                {
+                    await LocalStorageService.RemoveItemAsync("CartItems");
+                }
+                    await LocalStorageService.SetItemAsync("CartItems", CartItems);
+                NavigationManager.NavigateTo($"/orderpreview");
+            }
+            
         }
     }
 }
