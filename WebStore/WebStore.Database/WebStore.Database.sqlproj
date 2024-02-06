@@ -100,6 +100,8 @@
     <Build Include="dbo\Stored Procedures\usp_DeleteCartItem.sql" />
     <Build Include="dbo\Tables\Orders.sql" />
     <Build Include="dbo\Tables\OrderItems.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateOrder.sql" />
+    <Build Include="dbo\Functions\Scalar-valued Functions\udf_CalculateCartTotalPriceWithCartId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />
