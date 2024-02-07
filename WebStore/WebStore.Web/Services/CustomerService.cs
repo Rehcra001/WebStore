@@ -17,12 +17,79 @@ namespace WebStore.WEB.Services
             _localStorageService = localStorageService;
         }
 
+        public async Task<AddressDTO> AddCustomerAddress(AddressDTO addressDTO)
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<AddressDTO>("api/customer/addcustomeraddress", addressDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(AddressDTO);
+                    }
+                    else
+                    {
+                        addressDTO = await httpResponseMessage.Content.ReadFromJsonAsync<AddressDTO>();
+                        return addressDTO;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<AddressLineDTO>> GetAddresLinesAsync()
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("api/customer/getaddresslines");
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<AddressLineDTO>();
+                    }
+                    else
+                    {
+                        IEnumerable<AddressLineDTO> addressLines = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<AddressLineDTO>>();
+                        return addressLines;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<CustomerDTO> GetCustomerDetailsAsync()
         {
             try
             {
                 var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
-
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
 
                 HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"api/customer");
@@ -41,7 +108,7 @@ namespace WebStore.WEB.Services
                 else
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
-                    throw new Exception(message);
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
                 }
             }
             catch (Exception)

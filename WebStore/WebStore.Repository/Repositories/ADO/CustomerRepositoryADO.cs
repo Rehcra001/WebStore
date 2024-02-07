@@ -15,6 +15,47 @@ namespace WebStore.Repository.Repositories.ADO
             _sqlConnection = sqlConnection;
         }
 
+        public async Task<AddressModel> AddAddress(AddressModel address, string email)
+        {
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_AddCustomerAddress";
+                    command.Parameters.Add("@AddressLine1", SqlDbType.NVarChar).Value = address.AddressLine1;
+                    if (String.IsNullOrWhiteSpace(address.AddressLine2))
+                    {
+                        command.Parameters.Add("@AddressLine2", SqlDbType.NVarChar).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add("@AddressLine2", SqlDbType.NVarChar).Value = address.AddressLine2;
+                    }
+                    command.Parameters.Add("@Suburb", SqlDbType.NVarChar).Value = address.Suburb;
+                    command.Parameters.Add("@City", SqlDbType.NVarChar).Value = address.City;
+                    command.Parameters.Add("@PostalCode", SqlDbType.NVarChar).Value = address.PostalCode;
+                    command.Parameters.Add("@Country", SqlDbType.NVarChar).Value = address.Country;
+                    command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = email;
+
+                    await command.Connection.OpenAsync();
+
+                    var id = await command.ExecuteScalarAsync();
+
+                    if (int.TryParse(id.ToString(), out _))
+                    {
+                        address.AddressId = int.Parse(id.ToString());
+                    }
+                    else
+                    {
+                        address = new AddressModel();
+                    }
+                }
+            }
+            return address;
+        }
+
         public async Task<CustomerModel> AddCustomer(CustomerModel customer)
         {
             try
@@ -86,6 +127,42 @@ namespace WebStore.Repository.Repositories.ADO
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<IEnumerable<AddressLineModel>> GetAddressLines(string email)
+        {
+            List<AddressLineModel> addressLines = new List<AddressLineModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_GetAddressLines";
+                    command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = email;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                AddressLineModel addressLine = new AddressLineModel()
+                                {
+                                    AddressId = reader.GetInt32(reader.GetOrdinal("AddressId")),
+                                    AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"))
+                                };
+
+                            addressLines.Add(addressLine);
+                            }
+                        }
+                    }
+                }
+            }
+            return addressLines;
         }
 
         public async Task<CustomerModel> GetCustomer(string email)

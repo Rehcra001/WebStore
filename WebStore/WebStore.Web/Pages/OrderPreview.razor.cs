@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
 using WebStore.DTO;
+using WebStore.WEB.Services.Contracts;
 using WebStore.WEB.Validators;
 
 namespace WebStore.WEB.Pages
@@ -13,6 +14,9 @@ namespace WebStore.WEB.Pages
 
         [Inject]
         public ILocalStorageService LocalStorageService { get; set; }
+
+        [Inject]
+        public ICustomerService CustomerService { get; set; }
 
         [Parameter]
         public List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
@@ -43,28 +47,19 @@ namespace WebStore.WEB.Pages
                 await LocalStorageService.RemoveItemAsync("CartItems");
 
                 //Retrieve addresses
-                LoadDummyData();
-                //select the first address as ship to
-                AddressLines[DefaultShipAddress].ShipToSelected = true;
+                var returned = await CustomerService.GetAddresLinesAsync();
 
+                if (returned != null || returned.Count() > 0)
+                {
+                    AddressLines = (List<AddressLineDTO>)returned;
+                    //select the first address as ship to
+                    DefaultShipAddress = AddressLines[0].AddressId;
+                    AddressLineDTO addressLine = AddressLines.First(x => x.AddressId == DefaultShipAddress);
+                    addressLine.ShipToSelected = true;
+                }            
             }
         }
 
-        private void LoadDummyData()
-        {
-            AddressLines.Add(new AddressLineDTO
-            {
-                AddressId = 1,
-                AddressLine1 = "21 Stone Arch Village 1, Sunstone rd"
-            });
-
-            AddressLines.Add(new AddressLineDTO
-            {
-                AddressId = 2,
-                AddressLine1 = "19 Queen Alexandra rd"
-            });
-
-        }
 
         private decimal CalcLinePrice(int quantity, decimal price)
         {
@@ -91,15 +86,20 @@ namespace WebStore.WEB.Pages
             return AddressLines.Count + 1;
         }
 
-        private void SelectAddress()
+        private void SelectAddress(AddressLineDTO selected)
         {
 
             foreach (var line in AddressLines)
             {
-                line.ShipToSelected = !line.ShipToSelected;
-                if (line.ShipToSelected)
+                
+                if (line.AddressId == selected.AddressId)
                 {
-                    DefaultShipAddress = AddressLines.FindIndex(x => x.AddressId == line.AddressId);
+                    DefaultShipAddress = line.AddressId;
+                    line.ShipToSelected = true;
+                }
+                else
+                {
+                    line.ShipToSelected = false;
                 }
                 //Console.WriteLine(line.AddressId + " : " + line.ShipToSelected + " : " + DefaultShipAddress);
             }
@@ -113,16 +113,29 @@ namespace WebStore.WEB.Pages
             ShowNewAddressForm = SHOW;
         }
 
-        private void SaveNewAddress()
+        private async Task SaveNewAddress()
         {
             ValidateAddress();
 
             if (ValidationErrors.Count == 0)
             {
-                ShowNewAddressButton = SHOW;
-                ShowNewAddressForm = HIDE;
+                AddressDTO address = await CustomerService.AddCustomerAddress(NewAddress);
+                if (address != null && address.AddressId != default)
+                {
+                    //Retrieve addresses
+                    var returned = await CustomerService.GetAddresLinesAsync();
+
+                    if (returned != null || returned.Count() > 0)
+                    {
+                        AddressLines = (List<AddressLineDTO>)returned;
+                        DefaultShipAddress = AddressLines.Max(x => x.AddressId);
+                        AddressLineDTO addressLine = AddressLines.First(x => x.AddressId == DefaultShipAddress);
+                        SelectAddress(addressLine);
+                    }
+                    ShowNewAddressButton = SHOW;
+                    ShowNewAddressForm = HIDE;
+                }
             }
-            
         }
 
         private void ValidateAddress()

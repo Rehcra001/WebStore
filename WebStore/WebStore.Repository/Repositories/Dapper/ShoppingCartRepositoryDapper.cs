@@ -58,13 +58,7 @@ namespace WebStore.Repository.Repositories.Dapper
 
             using (SqlConnection connection = _sqlConnection.SqlConnection())
             {
-                var returned = await connection.QueryAsync<IEnumerable<CartItemModel>>("usp_GetCartItems", parameters, commandType: CommandType.StoredProcedure);
-
-                if (returned != null)
-                {
-                    cartItems = (List<CartItemModel>)returned;
-                }
-                
+                cartItems = (List<CartItemModel>)await connection.QueryAsync<CartItemModel>("dbo.usp_GetCartItems", parameters, commandType: CommandType.StoredProcedure);
             }
 
             return cartItems;

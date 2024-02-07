@@ -110,5 +110,21 @@ namespace WebStore.API.Extentions
                 Quantity = updateCartItemQuantityDTO.Quantity
             });
         }
+
+        public static AddressModel ConvertToAddressModel(this AddressDTO addressDTO)
+        {
+            return (new AddressModel
+            {
+                AddressId = addressDTO.AddressId,
+                AddressLine1 = addressDTO.AddressLine1,
+                AddressLine2 = addressDTO.AddressLine2,
+                Suburb = addressDTO.Suburb,
+                City = addressDTO.City,
+                PostalCode = addressDTO.PostalCode,
+                Country = addressDTO.Country,
+                CustomerId = addressDTO.CustomerId
+            });
+
+        }
     }
 }

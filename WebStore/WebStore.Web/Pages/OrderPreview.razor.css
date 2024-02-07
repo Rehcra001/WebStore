@@ -63,4 +63,17 @@ hr {
 
 .shipping {
     min-width: 400px;
+    margin-top:5px;
+}
+
+.proceed {
+    text-align:right;
+}
+
+.proceed div{
+    margin-right: 20px;
+}
+
+.proceed div button {
+    font-size: 1.2rem;
 }

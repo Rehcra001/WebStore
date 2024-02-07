@@ -80,7 +80,7 @@ namespace WebStore.Repository.Repositories.ADO
                 {
                     command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "usp_GetCartItems";
+                    command.CommandText = "dbo.usp_GetCartItems";
                     command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = emailAddress;
 
                     await command.Connection.OpenAsync();

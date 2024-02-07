@@ -151,5 +151,31 @@ namespace WebStore.API.Extentions
                         CategoryName = productModel.CategoryName
                     }).ToList();
         }
+
+        public static IEnumerable<AddressLineDTO> ConvertToAddressLineDTO(this IEnumerable<AddressLineModel> addressLineModels)
+        {
+            return (from address in addressLineModels
+                    select new AddressLineDTO
+                    {
+                        AddressId = address.AddressId,
+                        AddressLine1 = address.AddressLine1
+                    });
+        }
+
+        public static AddressDTO ConvertToAddressDTO(this AddressModel addressModel)
+        {
+            return (new AddressDTO
+            {
+                AddressId = addressModel.AddressId,
+                AddressLine1 = addressModel.AddressLine1,
+                AddressLine2 = addressModel.AddressLine2,
+                Suburb = addressModel.Suburb,
+                City = addressModel.City,
+                PostalCode = addressModel.PostalCode,
+                Country = addressModel.Country,
+                CustomerId = addressModel.CustomerId
+            });
+
+        }
     }
 }

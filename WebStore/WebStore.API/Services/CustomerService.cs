@@ -26,6 +26,30 @@ namespace WebStore.API.Services
             }
         }
 
+        public async Task<AddressModel> AddCustomerAddress(AddressModel address, string email)
+        {
+            try
+            {
+                return await _customerRepository.AddAddress(address, email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<IEnumerable<AddressLineModel>> GetAddressLines(string email)
+        {
+            try
+            {
+                return await _customerRepository.GetAddressLines(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<CustomerModel> GetCustomer(string email)
         {
             try

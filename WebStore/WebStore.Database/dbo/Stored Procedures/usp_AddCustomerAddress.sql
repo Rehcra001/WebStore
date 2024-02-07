@@ -5,12 +5,15 @@
 	@City NVARCHAR(50),
 	@PostalCode NVARCHAR(15),
 	@Country NVARCHAR(100),
-	@CustomerId INT
+	@EmailAddress NVARCHAR(100)
 AS
 BEGIN
 	BEGIN TRY
 		BEGIN TRAN
 			SET NOCOUNT ON;
+
+			DECLARE @CustomerId INT;
+			SET @CustomerId = dbo.udf_GetCustomerIdWithEmail(@EmailAddress);
 
 			INSERT INTO dbo.Addresses(AddressLine1, AddressLine2, Suburb, City, PostalCode, Country, CustomerId)
 			VALUES (@AddressLine1, @AddressLine2, @Suburb, @City, @PostalCode, @Country, @CustomerId)
@@ -24,7 +27,6 @@ BEGIN
 		BEGIN
 			ROLLBACK TRAN;
 		END;
-		SELECT ERROR_MESSAGE() AS Message;
 	END CATCH;
 END;
 GO

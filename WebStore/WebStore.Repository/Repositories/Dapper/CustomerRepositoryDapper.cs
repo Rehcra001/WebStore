@@ -16,6 +16,11 @@ namespace WebStore.Repository.Repositories.Dapper
             _sqlConnection = sqlConnection;
         }
 
+        public Task<AddressModel> AddAddress(AddressModel address, string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<CustomerModel> AddCustomer(CustomerModel customer)
         {
             DataTable addressTable = Helper.CreateAddressesTable(customer.AddressList);
@@ -77,6 +82,26 @@ namespace WebStore.Repository.Repositories.Dapper
             }
 
             return customer;
+        }
+
+        public async Task<IEnumerable<AddressLineModel>> GetAddressLines(string email)
+        {
+            List<AddressLineModel> addressLines = new List<AddressLineModel>();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@EmailAddress", email, DbType.String);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                var returned = (List<AddressLineModel>)await connection.QueryAsync<AddressLineModel>("dbo.usp_GetAddressLines", parameters, commandType: CommandType.StoredProcedure);
+
+                if (returned != null && returned.Count > 0)
+                {
+                    addressLines = returned;
+                }
+            }
+
+            return addressLines;
         }
 
         public async Task<CustomerModel> GetCustomer(string email)
