@@ -51,12 +51,29 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (AddressLineDTO line in AddressLines)
+            @for (int i = 0; i < AddressLines.Count; i++)
             {
-                <tr>@line.AddressLine1</tr>
-                <tr><InputCheckbox @bind-Value="line.ShipToSelected"/></tr>
+                <tr>
+                    <td>@AddressLines[i].AddressLine1</td>
+                    @if (i == DefaultShipAddress)
+                    {
+                        <td><input type="radio" id="@AddressLines[i].AddressId.ToString()" @onchange="() => SelectAddress()" name="address" checked /></td>
+                    }
+                    else
+                    {
+                        <td><input type="radio" id="@AddressLines[i].AddressId.ToString()" @onchange="() => SelectAddress()" name="address" /></td>
+                    }
+                </tr>
             }
         </tbody>
     </table>
+    <div style="display: @ShowNewAddressButton;">
+        <button @onclick="AddNewAddress_click">Add Address</button>
+    </div >
+    <div style="display: @ShowNewAddressForm;">
+        <AddressComponent Count="@SetNewAddressCount()"  ValidationErrors="@ValidationErrors" Address="@NewAddress"/>
+        <button @onclick="SaveNewAddress">Save</button>
+    </div>
+        
 </div>
 
