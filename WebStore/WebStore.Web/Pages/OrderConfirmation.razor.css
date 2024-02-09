@@ -12,6 +12,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
+        padding: 0 20px;
     }
 
 .content-table {
@@ -89,3 +90,17 @@ hr {
     flex-direction: column;
     align-items: center;
 }
+
+
+.ship-address {
+    display: flex;
+    flex-direction: column;
+}
+/*.ship-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+}*/
+/*.ship-grid label:first-child {
+    text-align: right;
+}*/
