@@ -79,15 +79,16 @@
         <div class="new-address" >
             <AddressComponent Count="@SetNewAddressCount()" ValidationErrors="@ValidationErrors" Address="@NewAddress" />
             <div>
-                <button @onclick="SaveNewAddress">Save Address</button>
-                <button @onclick="CancelNewAddress">Cancel</button>
+                <button @onclick="SaveNewAddress_Click">Save Address</button>
+                <button @onclick="CancelNewAddress_Click">Cancel</button>
             </div>
         </div>
     </div>
     
     <div class="proceed">
-        <div>
-            <button><i class="fas fa-credit-card"></i>&nbsp;&nbsp;Proceed to Checkout</button>
+        <div class="proceed-flex">
+            <button @onclick="BackToShoppingCart_Click">Back to Shopping Cart</button>
+            <button @onclick="ProceedToCheckOut_Click"><i class="fas fa-credit-card"></i>&nbsp;&nbsp;Proceed to Checkout</button>
         </div>        
     </div>
     

@@ -8,6 +8,12 @@
         text-align: center;
     }
 
+    .order-header {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
 .content-table {
     border-collapse: collapse;
     margin: 25px auto 0;
@@ -63,25 +69,20 @@ hr {
 
 .shipping {
     min-width: 400px;
-    margin-top:5px;
+    margin-top: 5px;
 }
 
 .proceed {
-    text-align:right;
+    text-align: right;
 }
 
-.proceed div{
-    margin-right: 20px;
-}
+    .proceed div {
+        margin-right: 20px;
+    }
 
-.proceed-flex {
-    display: flex;
-    justify-content: space-between;
-}
-
-.proceed div button {
-    font-size: 1.2rem;
-}
+        .proceed div button {
+            font-size: 1.2rem;
+        }
 
 .new-address {
     display: flex;

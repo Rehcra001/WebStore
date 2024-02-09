@@ -18,6 +18,9 @@ namespace WebStore.WEB.Pages
         [Inject]
         public ICustomerService CustomerService { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         [Parameter]
         public List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
 
@@ -43,8 +46,6 @@ namespace WebStore.WEB.Pages
             if (await LocalStorageService.ContainKeyAsync("CartItems"))
             {
                 CartItems = await LocalStorageService.GetItemAsync<List<CartItemDTO>>("CartItems");
-                //clear local storage of cart items
-                await LocalStorageService.RemoveItemAsync("CartItems");
 
                 //Retrieve addresses
                 var returned = await CustomerService.GetAddresLinesAsync();
@@ -113,7 +114,7 @@ namespace WebStore.WEB.Pages
             ShowNewAddressForm = SHOW;
         }
 
-        private async Task SaveNewAddress()
+        private async Task SaveNewAddress_Click()
         {
             ValidateAddress();
 
@@ -138,12 +139,28 @@ namespace WebStore.WEB.Pages
             }
         }
 
-        private void CancelNewAddress()
+        private void CancelNewAddress_Click()
         {
             ValidationErrors.Clear();
             ShowNewAddressButton = SHOW;
             ShowNewAddressForm = HIDE;
         }
+
+        private void ProceedToCheckOut_Click()
+        {
+            NavigationManager.NavigateTo("/orderconfirmation");
+        }
+
+        private async void BackToShoppingCart_Click()
+        {
+            if (await LocalStorageService.ContainKeyAsync("CartItems"))
+            {
+                await LocalStorageService.RemoveItemAsync("CartItems");
+            }
+            NavigationManager.NavigateTo("/shoppingcart");
+
+        }
+
         private void ValidateAddress()
         {
             ValidationErrors.Clear();

@@ -28,6 +28,10 @@ namespace WebStore.WEB.Pages
         {
             try
             {
+                if (await LocalStorageService.ContainKeyAsync("CartItems"))
+                {
+                    await LocalStorageService.RemoveItemAsync("CartItems");
+                }
                 var items = await ShoppingCartService.GetCartItems();
 
                 if (items.Count() > 0)
