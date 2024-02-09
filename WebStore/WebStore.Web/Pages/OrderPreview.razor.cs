@@ -138,6 +138,12 @@ namespace WebStore.WEB.Pages
             }
         }
 
+        private void CancelNewAddress()
+        {
+            ValidationErrors.Clear();
+            ShowNewAddressButton = SHOW;
+            ShowNewAddressForm = HIDE;
+        }
         private void ValidateAddress()
         {
             ValidationErrors.Clear();

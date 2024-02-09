@@ -1,6 +1,6 @@
 ﻿@page "/orderpreview"
 
-<div class="order-preview">
+<div class="order">
     <h1>Order Preview</h1>
     <table class="content-table">
         <thead>
@@ -76,14 +76,19 @@
     </table>
     
     <div style="display: @ShowNewAddressForm;">
-        <AddressComponent Count="@SetNewAddressCount()" ValidationErrors="@ValidationErrors" Address="@NewAddress" />
-        <button @onclick="SaveNewAddress">Save</button>
+        <div class="new-address" >
+            <AddressComponent Count="@SetNewAddressCount()" ValidationErrors="@ValidationErrors" Address="@NewAddress" />
+            <div>
+                <button @onclick="SaveNewAddress">Save Address</button>
+                <button @onclick="CancelNewAddress">Cancel</button>
+            </div>
+        </div>
     </div>
+    
     <div class="proceed">
         <div>
             <button><i class="fas fa-credit-card"></i>&nbsp;&nbsp;Proceed to Checkout</button>
-        </div>
-        
+        </div>        
     </div>
     
 </div>

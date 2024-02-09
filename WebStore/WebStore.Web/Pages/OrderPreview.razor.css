@@ -1,10 +1,10 @@
-﻿.order-preview {
+﻿.order {
     display: flex;
     flex-direction: column;
 }
 
-    .order-preview h1,
-    .order-preview h2 {
+    .order h1,
+    .order h2 {
         text-align: center;
     }
 
@@ -44,7 +44,7 @@
             border-bottom: 2px solid rgba(0,136,169,1);
         }
 
-.order-preview .totals {
+.order .totals {
     min-width: 200px;
     /*font-weight: bold;*/
     text-align: right;
@@ -53,7 +53,7 @@
     box-shadow: none;
 }
 
-    .order-preview .totals tbody tr {
+    .order .totals tbody tr {
         background: #FFF;
     }
 
@@ -76,4 +76,10 @@ hr {
 
 .proceed div button {
     font-size: 1.2rem;
+}
+
+.new-address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
