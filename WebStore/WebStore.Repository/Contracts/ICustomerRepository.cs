@@ -10,5 +10,6 @@ namespace WebStore.Repository.Contracts
         Task<CustomerModel> GetCustomer(string email);
         Task<IEnumerable<CustomerModel>> GetCustomers();
         Task<IEnumerable<AddressLineModel>> GetAddressLines(string email);
+        Task<AddressModel> GetAddressById(int addressId, string email);
     }
 }

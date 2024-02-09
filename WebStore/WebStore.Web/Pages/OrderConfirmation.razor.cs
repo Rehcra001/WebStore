@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
 using WebStore.DTO;
+using WebStore.WEB.Services;
 using WebStore.WEB.Services.Contracts;
 using WebStore.WEB.Validators;
 
@@ -15,33 +16,51 @@ namespace WebStore.WEB.Pages
         [Inject]
         public ICustomerService CustomerService { get; set; }
 
+        [Inject]
+        public IShoppingCartService ShoppingCartService { get; set; }
+
         [Parameter]
         public List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
 
-        private List<AddressLineDTO> AddressLines { get; set; } = new List<AddressLineDTO>();
-
-        private int DefaultShipAddress { get; set; }
+        private AddressDTO ShippingAddress { get; set; } = new AddressDTO();
 
         private const decimal VAT = 0.15M;
         private const decimal VAT_PERCENTAGE = VAT * 100;
 
         protected override async Task OnInitializedAsync()
         {
+            //Get cart items
             if (await LocalStorageService.ContainKeyAsync("CartItems"))
             {
-                CartItems = await LocalStorageService.GetItemAsync<List<CartItemDTO>>("CartItems");
+                CartItems = await LocalStorageService.GetItemAsync<List<CartItemDTO>>("CartItems");                
+            }
+            else
+            {
+                CartItems = (List<CartItemDTO>)await ShoppingCartService.GetCartItems();
+            }
+            if (CartItems.Count == 0)
+            {
+                throw new Exception("No Cart Items Found");
+            }
 
-                //Retrieve addresses
-                var returned = await CustomerService.GetAddresLinesAsync();
+            //Get shipping address
+            if (await LocalStorageService.ContainKeyAsync("ShippingAddress"))
+            {
+                int addressId = await LocalStorageService.GetItemAsync<int>("ShippingAddress");
 
-                if (returned != null || returned.Count() > 0)
+                if (addressId != default)
                 {
-                    AddressLines = (List<AddressLineDTO>)returned;
-                    //select the first address as ship to
-                    DefaultShipAddress = AddressLines[0].AddressId;
-                    AddressLineDTO addressLine = AddressLines.First(x => x.AddressId == DefaultShipAddress);
-                    addressLine.ShipToSelected = true;
+                    //retrieve address
+                    ShippingAddress = await CustomerService.GetAddressByIdAsync(addressId);
+                    if (ShippingAddress.AddressId == default)
+                    {
+                        throw new Exception("Address not found");
+                    }
                 }
+            }
+            else
+            {
+                throw new Exception("No Shipping Address ID Found");
             }
         }
 

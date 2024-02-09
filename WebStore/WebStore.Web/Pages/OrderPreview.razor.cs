@@ -120,7 +120,7 @@ namespace WebStore.WEB.Pages
 
             if (ValidationErrors.Count == 0)
             {
-                AddressDTO address = await CustomerService.AddCustomerAddress(NewAddress);
+                AddressDTO address = await CustomerService.AddCustomerAddressAsync(NewAddress);
                 if (address != null && address.AddressId != default)
                 {
                     //Retrieve addresses
@@ -146,8 +146,9 @@ namespace WebStore.WEB.Pages
             ShowNewAddressForm = HIDE;
         }
 
-        private void ProceedToCheckOut_Click()
+        private async void ProceedToCheckOut_Click()
         {
+            await LocalStorageService.SetItemAsync<int>("ShippingAddress", DefaultShipAddress);
             NavigationManager.NavigateTo("/orderconfirmation");
         }
 

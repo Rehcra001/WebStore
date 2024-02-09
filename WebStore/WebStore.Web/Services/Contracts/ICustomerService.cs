@@ -6,6 +6,7 @@ namespace WebStore.WEB.Services.Contracts
     {
         Task<CustomerDTO> GetCustomerDetailsAsync();
         Task<IEnumerable<AddressLineDTO>> GetAddresLinesAsync();
-        Task<AddressDTO> AddCustomerAddress(AddressDTO addressDTO);
+        Task<AddressDTO> AddCustomerAddressAsync(AddressDTO addressDTO);
+        Task<AddressDTO> GetAddressByIdAsync(int addressId);
     }
 }

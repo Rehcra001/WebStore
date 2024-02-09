@@ -126,5 +126,38 @@ namespace WebStore.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("GetAddress/{id:int}")]
+        public async Task<ActionResult<AddressDTO>> GetAddress(int id)
+        {
+            try
+            {
+                var userIdentity = User.Identity as ClaimsIdentity;
+                string? email = userIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                if (String.IsNullOrWhiteSpace(email))
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
+
+                AddressModel addressModel = await _customerService.GetAddressById(id, email);
+                if (addressModel == null || addressModel.AddressId == default)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    //convert to DTO
+                    AddressDTO addressDTO = addressModel.ConvertToAddressDTO();
+                    return Ok(addressDTO);
+                }
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving address from the database");
+            }
+        }
     }
 }

@@ -16,9 +16,30 @@ namespace WebStore.Repository.Repositories.Dapper
             _sqlConnection = sqlConnection;
         }
 
-        public Task<AddressModel> AddAddress(AddressModel address, string email)
+        public async Task<AddressModel> AddAddress(AddressModel address, string email)
         {
-            throw new NotImplementedException();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@AddressLine1", address.AddressLine1, DbType.String);
+            if (String.IsNullOrWhiteSpace(address.AddressLine2))
+            {
+                parameters.Add("@AddressLine2", DBNull.Value, DbType.String);
+            }
+            else
+            {
+                parameters.Add("@AddressLine2", address.AddressLine2, DbType.String);
+            }            
+            parameters.Add("@Suburb", address.Suburb, DbType.String);
+            parameters.Add("@City", address.City, DbType.String);
+            parameters.Add("@PostalCode", address.PostalCode, DbType.String);
+            parameters.Add("@Country", address.Country, DbType.String);
+            parameters.Add("@EmailAddress", email, DbType.String);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                address = await connection.QuerySingleAsync<AddressModel>("dbo.usp_AddCustomerAddress", parameters, commandType: CommandType.StoredProcedure);
+            }
+
+            return address;
         }
 
         public async Task<CustomerModel> AddCustomer(CustomerModel customer)
@@ -82,6 +103,20 @@ namespace WebStore.Repository.Repositories.Dapper
             }
 
             return customer;
+        }
+
+        public async Task<AddressModel> GetAddressById(int addressId, string email)
+        {
+            AddressModel address = new AddressModel();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@AddressId", addressId, DbType.Int32);
+            parameters.Add("@EmailAddress", email, DbType.String);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                address = await connection.QuerySingleAsync<AddressModel>("dbo.usp_GetAddressWithId", parameters, commandType: CommandType.StoredProcedure);
+            }
+            return address;
         }
 
         public async Task<IEnumerable<AddressLineModel>> GetAddressLines(string email)

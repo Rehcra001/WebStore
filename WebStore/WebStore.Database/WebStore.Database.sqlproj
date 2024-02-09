@@ -103,8 +103,10 @@
     <Build Include="dbo\Stored Procedures\usp_CreateOrder.sql" />
     <Build Include="dbo\Functions\Scalar-valued Functions\udf_CalculateCartTotalPriceWithCartId.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetAddressLines.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetAddressWithId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />
+    <None Include="PublishLocations\WebStore.Database.Laptop.publish.xml" />
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ namespace WebStore.WEB.Services
             _localStorageService = localStorageService;
         }
 
-        public async Task<AddressDTO> AddCustomerAddress(AddressDTO addressDTO)
+        public async Task<AddressDTO> AddCustomerAddressAsync(AddressDTO addressDTO)
         {
             try
             {
@@ -114,6 +114,40 @@ namespace WebStore.WEB.Services
             catch (Exception)
             {
                 //Log Exception
+                throw;
+            }
+        }
+
+        public async Task<AddressDTO> GetAddressByIdAsync(int addressId)
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"api/customer/GetAddress/{addressId}");
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(AddressDTO);
+                    }
+                    else
+                    {
+                        AddressDTO address = await httpResponseMessage.Content.ReadFromJsonAsync<AddressDTO>();
+                        return address;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

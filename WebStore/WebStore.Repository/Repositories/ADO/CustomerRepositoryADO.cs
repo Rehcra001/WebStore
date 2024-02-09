@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Data;
 using WebStore.Models;
 using WebStore.Repository.Contracts;
@@ -127,6 +128,47 @@ namespace WebStore.Repository.Repositories.ADO
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<AddressModel> GetAddressById(int addressId, string email)
+        {
+            AddressModel address = new AddressModel();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_GetAddressWithId";
+                    command.Parameters.Add("@AddressId", SqlDbType.Int).Value = addressId;
+                    command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = email;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                address.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
+                                address.AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"));
+                                if (!reader.IsDBNull(reader.GetOrdinal("AddressLine2")))
+                                {
+                                    address.AddressLine2 = reader.GetString(reader.GetOrdinal("AddressLine2"));
+                                }
+                                address.Suburb = reader.GetString(reader.GetOrdinal("Suburb"));
+                                address.City = reader.GetString(reader.GetOrdinal("City"));
+                                address.PostalCode = reader.GetString(reader.GetOrdinal("PostalCode"));
+                                address.Country = reader.GetString(reader.GetOrdinal("Country"));
+                                address.CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId"));
+                            }
+                        }
+                    }
+                }
+            }
+            return address;
         }
 
         public async Task<IEnumerable<AddressLineModel>> GetAddressLines(string email)

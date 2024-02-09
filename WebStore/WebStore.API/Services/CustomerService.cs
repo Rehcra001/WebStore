@@ -38,6 +38,18 @@ namespace WebStore.API.Services
             }
         }
 
+        public async Task<AddressModel> GetAddressById(int id, string email)
+        {
+            try
+            {
+                return await _customerRepository.GetAddressById(id, email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<IEnumerable<AddressLineModel>> GetAddressLines(string email)
         {
             try
