@@ -4,50 +4,61 @@
     <h1>Order Confirmation</h1>
     <div class="order-header">
         <div class="ship-address">
-            <div class="ship-grid">
-                    @* <label>Name:</label> *@
-                    <label>Name goes here</label>
-                
+            <div>
+                <label>Order#:</label>
             </div>
-            <div class="ship-grid">
-                    @* <label>Address Line 1:</label> *@
-                    <label>@ShippingAddress.AddressLine1</label>
-                
+            <div>
+                <label>Order Date:</label>
             </div>
-            <div class="ship-grid">
-                @* <label>Address Line 2:</label> *@
+            <div>
+                <label>Name goes here</label>
+
+            </div>
+            <div>
+                <label>@ShippingAddress.AddressLine1</label>
+
+            </div>
+            <div>
                 <label>@ShippingAddress.AddressLine2</label>
             </div>
-            <div class="ship-grid">
-                @* <label>Suburb:</label> *@
+            <div>
                 <label>@ShippingAddress.Suburb</label>
             </div>
-            <div class="ship-grid">
-                @* <label>City:</label> *@
+            <div>
                 <label>@ShippingAddress.City</label>
             </div>
-            <div class="ship-grid">
-                @* <label>Postal Code:</label> *@
+            <div>
                 <label>@ShippingAddress.PostalCode</label>
             </div>
-            <div class="ship-grid">
-                @* <label>Country:</label> *@
+            <div>
                 <label>@ShippingAddress.Country</label>
             </div>
         </div>
-        <table class="content-table">
-            <tbody>
-                <tr>
-                    <td>Order#:</td>
-                </tr>
-                <tr>
-                    <td>Order Date:</td>
-                </tr>
-                <tr>
-                    <td>Payment Type:</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="payment">
+            <div>
+                <h3>EFT Details</h3>
+            </div>
+            <div>
+                <label>Payment Type: EFT</label>
+            </div>
+
+            <div>
+                <label>Bank: </label>
+                <label>First National Bank</label>
+            </div>
+            <div>
+                <label>Account Type: </label>
+                <label>Cheque</label>
+            </div>
+            <div>
+                <label>Acc#: </label>
+                <label>000 000 000 000</label>
+            </div>
+            <div>
+                <label>Branch Code: </label>
+                <label>111111</label>
+            </div>
+        </div>
     </div>
 
     <table class="content-table">

@@ -22,6 +22,8 @@ namespace WebStore.WEB.Pages
         [Parameter]
         public List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
 
+        private CustomerDTO Customer { get; set; } = new CustomerDTO();
+
         private AddressDTO ShippingAddress { get; set; } = new AddressDTO();
 
         private const decimal VAT = 0.15M;
@@ -62,6 +64,11 @@ namespace WebStore.WEB.Pages
             {
                 throw new Exception("No Shipping Address ID Found");
             }
+
+            //Get Customer
+            Customer = await CustomerService.GetCustomerDetailsAsync();
+
+            
         }
 
 

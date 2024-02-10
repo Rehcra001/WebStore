@@ -13,6 +13,12 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
         padding: 0 20px;
+        background: #FFF;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+        padding: 20px;
+        align-items: center;
+        justify-content: center;
     }
 
 .content-table {
@@ -96,11 +102,11 @@ hr {
     display: flex;
     flex-direction: column;
 }
-/*.ship-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 10px;
-}*/
-/*.ship-grid label:first-child {
-    text-align: right;
-}*/
+
+.payment {
+    justify-self: center;
+}
+
+.shipping-address {
+    justify-self: center;
+}

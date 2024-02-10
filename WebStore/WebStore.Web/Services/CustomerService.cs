@@ -92,7 +92,7 @@ namespace WebStore.WEB.Services
                 var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
 
-                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"api/customer");
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"api/customer/getcustomer");
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
