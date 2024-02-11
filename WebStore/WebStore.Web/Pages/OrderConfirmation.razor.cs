@@ -45,6 +45,9 @@ namespace WebStore.WEB.Pages
                 throw new Exception("No Cart Items Found");
             }
 
+            //Get Customer
+            Customer = await CustomerService.GetCustomerDetailsAsync();
+
             //Get shipping address
             if (await LocalStorageService.ContainKeyAsync("ShippingAddress"))
             {
@@ -53,8 +56,9 @@ namespace WebStore.WEB.Pages
                 if (addressId != default)
                 {
                     //retrieve address
-                    ShippingAddress = await CustomerService.GetAddressByIdAsync(addressId);
-                    if (ShippingAddress.AddressId == default)
+                    ShippingAddress = Customer.AddressList.FirstOrDefault(x => x.AddressId == addressId);
+
+                    if (ShippingAddress == null || ShippingAddress.AddressId == default)
                     {
                         throw new Exception("Address not found");
                     }
@@ -62,11 +66,10 @@ namespace WebStore.WEB.Pages
             }
             else
             {
-                throw new Exception("No Shipping Address ID Found");
+                throw new Exception("Error retrieving data");
             }
 
-            //Get Customer
-            Customer = await CustomerService.GetCustomerDetailsAsync();
+            
 
             
         }
