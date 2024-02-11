@@ -1,5 +1,6 @@
 ﻿using WebStore.API.Services.Contracts;
 using WebStore.API.ValidationClasses;
+using WebStore.DTO;
 using WebStore.Models;
 using WebStore.Repository.Contracts;
 
@@ -75,6 +76,11 @@ namespace WebStore.API.Services
         }
 
         public Task<IEnumerable<CustomerModel>> GetCustomers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SendOrderConfirmation(OrderDTO orderDTO)
         {
             throw new NotImplementedException();
         }

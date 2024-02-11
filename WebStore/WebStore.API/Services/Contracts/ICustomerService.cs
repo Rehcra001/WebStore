@@ -1,4 +1,5 @@
-﻿using WebStore.Models;
+﻿using WebStore.DTO;
+using WebStore.Models;
 
 namespace WebStore.API.Services.Contracts
 {
@@ -11,5 +12,6 @@ namespace WebStore.API.Services.Contracts
         Task<IEnumerable<CustomerModel>> GetCustomers();
         Task<IEnumerable<AddressLineModel>> GetAddressLines(string email);
         Task<AddressModel> GetAddressById(int id, string email);
+        Task<bool> SendOrderConfirmation(OrderDTO orderDTO);
     }
 }
