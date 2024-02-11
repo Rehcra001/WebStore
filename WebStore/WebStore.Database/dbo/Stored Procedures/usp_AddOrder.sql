@@ -37,13 +37,19 @@ BEGIN
 			DELETE FROM dbo.CartItems
 			WHERE CartId = @CartId;
 
-			--Return the newly created order and order items
-			SELECT OrderId, CustomerId, OrderDate, TotalPrice, OrderConfirmed, OrderShipped, AddressId
-			FROM dbo.Orders
+			--Return the newly created order, ship address, and order items
+			SELECT o.OrderId, o.CustomerId, c.FirstName, c.LastName, o.OrderDate, o.TotalPrice, o.OrderConfirmed, o.OrderShipped, o.AddressId
+			FROM dbo.Orders AS o
+			INNER JOIN Customers AS C ON O.CustomerId = C.CustomerId
 			WHERE OrderId = @OrderId;
 
-			SELECT OrderItemId, OrderId, ProductId, Quantity, Price
-			FROM dbo.OrderItems
+			SELECT AddressId, AddressLine1, AddressLine2, Suburb, City, PostalCode, Country, CustomerId
+			FROM Addresses
+			WHERE AddressId = @AddressId;
+
+			SELECT OI.OrderItemId, OI.OrderId, OI.ProductId, PR.[Name], OI.Quantity, OI.Price
+			FROM dbo.OrderItems AS OI
+			INNER JOIN Products AS PR ON OI.ProductId = PR.ProductId
 			WHERE OrderId = @OrderId;
 
 		COMMIT TRAN;

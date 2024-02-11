@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebStore.API.Extentions;
+using WebStore.API.Services;
 using WebStore.API.Services.Contracts;
 using WebStore.DTO;
 using WebStore.Models;
@@ -158,6 +159,47 @@ namespace WebStore.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving address from the database");
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("AddOrder/{addressId:int}")]
+        public async Task<ActionResult<OrderDTO>> AddOrder(int addressId)
+        {
+            try
+            {
+                var userIdentity = User.Identity as ClaimsIdentity;
+                string? email = userIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                if (String.IsNullOrWhiteSpace(email))
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
+
+                OrderModel orderModel = await _customerService.AddOrder(addressId, email);
+
+                if (orderModel == null || orderModel.OrderId == default)
+                {
+                    return NoContent();
+                }
+
+                //Convert to dto
+                OrderDTO orderDTO = orderModel.ConvertToOrderDTO();
+
+                //Send order confirmation email
+                if (await _customerService.SendOrderConfirmation(orderDTO, email) == false)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error sending order confirmation email");
+                }
+
+                return Ok(orderDTO);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving order from the database");
+            }
+
+
         }
     }
 }

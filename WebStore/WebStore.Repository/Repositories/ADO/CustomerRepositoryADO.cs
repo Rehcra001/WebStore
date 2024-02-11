@@ -130,6 +130,80 @@ namespace WebStore.Repository.Repositories.ADO
             }
         }
 
+        public async Task<OrderModel> AddOrder(int addressId, string email)
+        {
+            OrderModel order = new OrderModel();
+            AddressModel address = new AddressModel();
+            List<OrderItemModel> orderItems = new List<OrderItemModel>();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_AddOrder";
+                    command.Parameters.Add("@AddressId", SqlDbType.Int).Value = addressId;
+                    command.Parameters.Add("@EmailAddress", SqlDbType.NVarChar).Value = email;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            //get order data
+                            while (await reader.ReadAsync())
+                            {
+                                order.OrderId = reader.GetInt32(reader.GetOrdinal("OrderId"));
+                                order.CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId"));
+                                order.FirstName = reader.GetString(reader.GetOrdinal("FirstName"));
+                                order.LastName = reader.GetString(reader.GetOrdinal("LastName"));
+                                order.OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate"));
+                                order.TotalPrice = reader.GetDecimal(reader.GetOrdinal("TotalPrice"));
+                                order.OrderConfirmed = reader.GetBoolean(reader.GetOrdinal("OrderConfirmed"));
+                                order.OrderShipped = reader.GetBoolean(reader.GetOrdinal("OrderShipped"));
+                                order.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
+                            }
+                            //get address data
+                            await reader.NextResultAsync();
+                            await reader.ReadAsync();
+
+                            address.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
+                            address.AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"));
+                            if (!reader.IsDBNull(reader.GetOrdinal("AddressLine2")){
+                                address.AddressLine2 = reader.GetString(reader.GetOrdinal("AddressLine2"));
+                            }
+                            address.Suburb = reader.GetString(reader.GetOrdinal("Suburb)"));
+                            address.City = reader.GetString(reader.GetOrdinal("City"));
+                            address.PostalCode = reader.GetString(reader.GetOrdinal("PostalCode"));
+                            address.Country = reader.GetString(reader.GetOrdinal("Country"));
+                            address.CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId"));
+
+                            order.Address = address;
+                            //get order item data
+                            await reader.NextResultAsync();
+                            while (await reader.ReadAsync())
+                            {
+                                OrderItemModel orderItem = new OrderItemModel();
+
+                                orderItem.OrderItemId = reader.GetInt32(reader.GetOrdinal("OrderItemId"));
+                                orderItem.OrderId = reader.GetInt32(reader.GetOrdinal("OrderId"));
+                                orderItem.ProductId = reader.GetInt32(reader.GetOrdinal("ProductId"));
+                                orderItem.ProductName = reader.GetString(reader.GetOrdinal("ProductName"));
+                                orderItem.Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                                orderItem.Price = reader.GetDecimal(reader.GetOrdinal("Price"));
+
+                                orderItems.Add(orderItem);
+                            }
+                            order.OrderItems = orderItems;
+                        }
+                    }
+                }
+            }
+            return order;
+        }
+
         public async Task<AddressModel> GetAddressById(int addressId, string email)
         {
             AddressModel address = new AddressModel();
@@ -198,7 +272,7 @@ namespace WebStore.Repository.Repositories.ADO
                                     AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"))
                                 };
 
-                            addressLines.Add(addressLine);
+                                addressLines.Add(addressLine);
                             }
                         }
                     }

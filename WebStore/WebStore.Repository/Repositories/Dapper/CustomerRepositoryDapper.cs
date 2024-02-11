@@ -105,6 +105,31 @@ namespace WebStore.Repository.Repositories.Dapper
             return customer;
         }
 
+        public async Task<OrderModel> AddOrder(int addressId, string email)
+        {
+            OrderModel order = new OrderModel();
+            AddressModel address = new AddressModel();
+            List<OrderItemModel> orderItems = new List<OrderItemModel>();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@EmailAddress", email, DbType.Int32);
+            parameters.Add("@AddressId", addressId, DbType.Int32);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (var multiResultSets = await connection.QueryMultipleAsync("dbo.usp_AddOrder", parameters, commandType: CommandType.StoredProcedure))
+                {
+                    order = await multiResultSets.ReadSingleAsync<OrderModel>();
+                    address = await multiResultSets.ReadSingleAsync<AddressModel>();
+                    orderItems = (List<OrderItemModel>)await multiResultSets.ReadAsync<OrderItemModel>();
+                }
+
+                order.Address = address;
+                order.OrderItems = orderItems;
+            }
+            return order;
+        }
+
         public async Task<AddressModel> GetAddressById(int addressId, string email)
         {
             AddressModel address = new AddressModel();

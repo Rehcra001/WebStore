@@ -1,4 +1,5 @@
-﻿using WebStore.API.Services.Contracts;
+﻿using WebStore.API.Extentions;
+using WebStore.API.Services.Contracts;
 using WebStore.API.ValidationClasses;
 using WebStore.DTO;
 using WebStore.Models;
@@ -9,10 +10,12 @@ namespace WebStore.API.Services
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IEmailService _emailService;
 
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository, IEmailService emailService)
         {
             _customerRepository = customerRepository;
+            _emailService = emailService;
         }
 
         public async Task<CustomerModel> AddCustomer(CustomerModel customer)
@@ -32,6 +35,18 @@ namespace WebStore.API.Services
             try
             {
                 return await _customerRepository.AddAddress(address, email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<OrderModel> AddOrder(int addressId, string email)
+        {
+            try
+            {
+                return await _customerRepository.AddOrder(addressId, email);
             }
             catch (Exception ex)
             {
@@ -80,9 +95,22 @@ namespace WebStore.API.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> SendOrderConfirmation(OrderDTO orderDTO)
+        public async Task<bool> SendOrderConfirmation(OrderDTO orderDTO, string emailTo)
         {
-            throw new NotImplementedException();
+            try
+            {
+                EmailDTO emailDto = orderDTO.ConvertToEmailBody();
+                emailDto.To = emailTo;
+                emailDto.Subject = $"Order Confirmation for order# {orderDTO.OrderId}";
+
+                await _emailService.SendEmailAsync(emailDto);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Task<CustomerModel> UpdateCustomer(CustomerModel customer)

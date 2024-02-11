@@ -177,5 +177,37 @@ namespace WebStore.API.Extentions
             });
 
         }
+
+        public static OrderDTO ConvertToOrderDTO(this OrderModel orderModel)
+        {
+            return (new OrderDTO
+            {
+                OrderId = orderModel.OrderId,
+                CustomerId = orderModel.CustomerId,
+                FirstName = orderModel.FirstName,
+                LastName = orderModel.LastName,
+                OrderDate = orderModel.OrderDate,
+                TotalPrice = orderModel.TotalPrice,
+                OrderConfirmed = orderModel.OrderConfirmed,
+                OrderShipped = orderModel.OrderShipped,
+                AddressId = orderModel.AddressId,
+                Address = orderModel.Address.ConvertToAddressDTO(),
+                OrderItems = orderModel.OrderItems.ConvertToOrderItemsDTOs()
+            });
+        }
+
+        public static IEnumerable<OrderItemDTO> ConvertToOrderItemsDTOs(this IEnumerable<OrderItemModel> orderItemModels)
+        {
+            return (from orderItem in orderItemModels
+                    select new OrderItemDTO
+                    {
+                        OrderItemId = orderItem.OrderItemId,
+                        OrderId = orderItem.OrderId,
+                        ProductId = orderItem.ProductId,
+                        ProductName = orderItem.ProductName,
+                        Quantity = orderItem.Quantity,
+                        Price = orderItem.Price
+                    });
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace WebStore.Repository.Contracts
         Task<IEnumerable<CustomerModel>> GetCustomers();
         Task<IEnumerable<AddressLineModel>> GetAddressLines(string email);
         Task<AddressModel> GetAddressById(int addressId, string email);
+        Task<OrderModel> AddOrder(int addressId, string email);
     }
 }
