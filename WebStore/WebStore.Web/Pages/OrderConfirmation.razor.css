@@ -8,18 +8,27 @@
         text-align: center;
     }
 
-    .order-header {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 0 20px;
-        background: #FFF;
-        border-radius: 10px;
-        box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
-        padding: 20px;
-        align-items: center;
-        justify-content: center;
-    }
+.order-header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 20px;
+    background: #FFF;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-confirm {
+    display: grid;
+    justify-content: flex-end;
+}
+
+.order-confirm button {
+    font-size: 1.2rem;
+}
 
 .content-table {
     border-collapse: collapse;

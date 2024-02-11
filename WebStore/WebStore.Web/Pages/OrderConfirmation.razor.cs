@@ -1,10 +1,7 @@
 ﻿using Blazored.LocalStorage;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
 using WebStore.DTO;
-using WebStore.WEB.Services;
 using WebStore.WEB.Services.Contracts;
-using WebStore.WEB.Validators;
 
 namespace WebStore.WEB.Pages
 {
@@ -68,12 +65,12 @@ namespace WebStore.WEB.Pages
             {
                 throw new Exception("Error retrieving data");
             }
-
-            
-
-            
         }
 
+        private async Task ConfirmOrder_Click()
+        {
+
+        }
 
         private decimal CalcLinePrice(int quantity, decimal price)
         {

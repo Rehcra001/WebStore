@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen();
 
 //Repositories
 builder.Services.AddScoped<IRelationalDatabaseConnection, RelationalDatabaseConnection>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryADO>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryDapper>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductRepository, ProductRepositoryDapper>();
 builder.Services.AddScoped<IProductService, ProductService>();

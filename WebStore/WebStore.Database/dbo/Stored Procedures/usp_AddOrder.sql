@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[usp_CreateOrder]
+﻿CREATE PROCEDURE [dbo].[usp_AddOrder]
 (
 	@EmailAddress NVARCHAR(100),
 	@AddressId INT
