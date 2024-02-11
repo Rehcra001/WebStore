@@ -47,7 +47,7 @@ BEGIN
 			FROM Addresses
 			WHERE AddressId = @AddressId;
 
-			SELECT OI.OrderItemId, OI.OrderId, OI.ProductId, PR.[Name], OI.Quantity, OI.Price
+			SELECT OI.OrderItemId, OI.OrderId, OI.ProductId, PR.[Name] AS ProductName, OI.Quantity, OI.Price
 			FROM dbo.OrderItems AS OI
 			INNER JOIN Products AS PR ON OI.ProductId = PR.ProductId
 			WHERE OrderId = @OrderId;

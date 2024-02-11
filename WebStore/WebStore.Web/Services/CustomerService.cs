@@ -151,5 +151,36 @@ namespace WebStore.WEB.Services
                 throw;
             }
         }
+
+        public async Task<OrderDTO> AddOrder(int addressId)
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<int>($"api/customer/addorder/{addressId}", addressId);
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return default(OrderDTO);
+                    }
+                    else
+                    {
+                        OrderDTO order = await httpResponseMessage.Content.ReadFromJsonAsync<OrderDTO>();
+                        return order;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -69,7 +69,7 @@ namespace WebStore.WEB.Pages
 
         private async Task ConfirmOrder_Click()
         {
-
+            await CustomerService.AddOrder(ShippingAddress.AddressId);
         }
 
         private decimal CalcLinePrice(int quantity, decimal price)

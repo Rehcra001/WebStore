@@ -112,7 +112,7 @@ namespace WebStore.Repository.Repositories.Dapper
             List<OrderItemModel> orderItems = new List<OrderItemModel>();
 
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@EmailAddress", email, DbType.Int32);
+            parameters.Add("@EmailAddress", email, DbType.String);
             parameters.Add("@AddressId", addressId, DbType.Int32);
 
             using (SqlConnection connection = _sqlConnection.SqlConnection())

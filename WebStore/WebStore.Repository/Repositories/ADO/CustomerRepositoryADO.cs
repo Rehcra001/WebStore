@@ -171,7 +171,8 @@ namespace WebStore.Repository.Repositories.ADO
 
                             address.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
                             address.AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"));
-                            if (!reader.IsDBNull(reader.GetOrdinal("AddressLine2")){
+                            if (!reader.IsDBNull(reader.GetOrdinal("AddressLine2")))
+                            {
                                 address.AddressLine2 = reader.GetString(reader.GetOrdinal("AddressLine2"));
                             }
                             address.Suburb = reader.GetString(reader.GetOrdinal("Suburb)"));
