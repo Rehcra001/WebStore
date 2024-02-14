@@ -124,7 +124,38 @@ namespace WebStore.API.Extentions
                 Country = addressDTO.Country,
                 CustomerId = addressDTO.CustomerId
             });
+        }
 
+        public static CompanyEFTDetailModel ConvertToEFTModel(this CompanyEFTDTO companyEFTDTO)
+        {
+            return (new CompanyEFTDetailModel
+            {
+                EFTId = companyEFTDTO.EFTId,
+                Bank = companyEFTDTO.Bank,
+                AccountType = companyEFTDTO.AccountType,
+                AccountNumber = companyEFTDTO.AccountNumber,
+                BranchCode = companyEFTDTO.BranchCode
+            });
+        }
+
+        public static (CompanyDetailModel CompanyDetailModel, CompanyEFTDetailModel CompanyEFTDetailModel, AddressModel CompanyAddressModel) ConvertToCompanyDetailModel(this CompanyDetailDTO companyDetailDTO)
+        {
+            CompanyDetailModel companyDetailModel = new CompanyDetailModel
+            {
+                CompanyId = companyDetailDTO.CompanyId,
+                CompanyName = companyDetailDTO.CompanyName,
+                CompanyLogo = companyDetailDTO.CompanyLogo,
+                PhoneNumber = companyDetailDTO.PhoneNumber,
+                EmailAddress = companyDetailDTO.EmailAddress,
+                AddressId = companyDetailDTO.AddressId,
+                EFTId = companyDetailDTO.EFTId
+            };
+
+            CompanyEFTDetailModel companyEFTDetailModel = companyDetailDTO.CompanyEFT.ConvertToEFTModel();
+
+            AddressModel companyAddressModel = companyDetailDTO.CompanyAddress.ConvertToAddressModel();
+
+            return (companyDetailModel, companyEFTDetailModel, companyAddressModel);
         }
     }
 }

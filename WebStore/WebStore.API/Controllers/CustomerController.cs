@@ -108,6 +108,8 @@ namespace WebStore.API.Controllers
                 //convert to model
                 AddressModel addressModel = addressDTO.ConvertToAddressModel();
 
+                //Validate address
+
                 //save
                 addressModel = await _customerService.AddCustomerAddress(addressModel, email);
                 if (addressModel == null || addressModel.AddressId == 0)

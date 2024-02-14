@@ -4,6 +4,7 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using WebStore.DTO;
 using WebStore.API.Services.Contracts;
+using MimeKit.Utils;
 
 namespace WebStore.API.Services
 {
@@ -19,11 +20,17 @@ namespace WebStore.API.Services
         public async Task SendEmailAsync(EmailDTO request)
         {
             var email = new MimeMessage();
+            var builder = new BodyBuilder();
 
             email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUserName").Value));
             email.To.Add(MailboxAddress.Parse(request.To));
             email.Subject = request.Subject;
-            email.Body = new TextPart(TextFormat.Html) { Text = request.Body };
+
+            var image = builder.LinkedResources.Add(@"C:\Users\tkrop\source\repos\WebStore\WebStore\WebStore.API\favicon.png");
+            image.ContentId = "logo";
+            builder.HtmlBody = string.Format(request.Body, image.ContentId);
+            email.Body = builder.ToMessageBody();
+            //email.Body = new TextPart(TextFormat.Html) { Text = request.Body };
 
             using var smtp = new SmtpClient();
             await smtp.ConnectAsync(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);

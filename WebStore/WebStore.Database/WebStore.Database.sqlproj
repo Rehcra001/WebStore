@@ -104,6 +104,10 @@
     <Build Include="dbo\Functions\Scalar-valued Functions\udf_CalculateCartTotalPriceWithCartId.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetAddressLines.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetAddressWithId.sql" />
+    <Build Include="dbo\Tables\CompanyDetail.sql" />
+    <Build Include="dbo\Tables\CompanyEFTDetail.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AddCompanyDetail.sql" />
+    <Build Include="dbo\Types\udtCompanyEFTTable.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

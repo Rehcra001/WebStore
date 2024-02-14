@@ -8,8 +8,9 @@ namespace WebStore.API.Extentions
         public static EmailDTO ConvertToEmailBody(this OrderDTO orderDTO)
         {
             EmailDTO email = new EmailDTO();
+            string logo = @"<img src=""cid:{0}""/>";
             string body = "";
-
+            body += $"<div style=\"font-size: 2rem; \">{logo}&nbsp;&nbsp; Web Store</div>";
             body += "<div style=\"font-family: Arial, Helvetica, sans-serif; font-size: 1rem;text-align: left; padding: 5px 10px;\">"; //open body
             body += $"<div style=\"font-size: 1.1rem; \"> To: {orderDTO.FirstName} {orderDTO.LastName}</div>";
             body += "<div style=\"font-size: 1rem;\"> <p>Thank you for your order.</p></div>";

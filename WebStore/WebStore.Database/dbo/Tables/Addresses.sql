@@ -7,6 +7,6 @@
 	City NVARCHAR(50) NOT NULL,
 	PostalCode NVARCHAR(15) NOT NULL,
 	Country NVARCHAR(100) NOT NULL,
-	CustomerId INT NOT NULL,
+	CustomerId INT NULL,
 	CONSTRAINT FK_Addresses_Customers FOREIGN KEY (CustomerId) REFERENCES dbo.Customers (CustomerId)
 )

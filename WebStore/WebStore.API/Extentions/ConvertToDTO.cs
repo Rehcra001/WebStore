@@ -209,5 +209,17 @@ namespace WebStore.API.Extentions
                         Price = orderItem.Price
                     });
         }
+
+        public static CompanyEFTDTO ConvertToEFTDTO(this CompanyEFTDetailModel companyEFTDetailModel)
+        {
+            return (new CompanyEFTDTO
+            {
+                EFTId = companyEFTDetailModel.EFTId,
+                Bank = companyEFTDetailModel.Bank,
+                AccountType = companyEFTDetailModel.AccountType,
+                AccountNumber = companyEFTDetailModel.AccountNumber,
+                BranchCode = companyEFTDetailModel.BranchCode
+            });
+        }
     }
 }

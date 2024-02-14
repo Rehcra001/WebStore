@@ -8,6 +8,7 @@ using WebStore.API.Services;
 using WebStore.API.Services.Contracts;
 using WebStore.Repository;
 using WebStore.Repository.Contracts;
+using WebStore.Repository.Repositories.ADO;
 using WebStore.Repository.Repositories.Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepositoryDapper>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepositoryADO>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 
 var app = builder.Build();
 

@@ -81,7 +81,7 @@ fieldset {
 
 .admin-container {
     display: grid;
-    grid-template-columns: minmax(auto, 150px) 1fr;
+    grid-template-columns: 160px 1fr;
     gap: 20px;
     margin-top: 20px;
 }

@@ -1,0 +1,7 @@
+﻿CREATE TYPE [dbo].[udtCompanyEFTTable] AS TABLE
+(
+	Bank NVARCHAR(100) NOT NULL,
+	AccountType NVARCHAR(50) NOT NULL,
+	AccountNumber NVARCHAR(25) NOT NULL,
+	BranchCode NVARCHAR(15) NOT NULL
+)

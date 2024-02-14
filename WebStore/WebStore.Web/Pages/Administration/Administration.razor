@@ -16,6 +16,9 @@
                 <li>
                     <button @onclick="() => Menu_Click(AddNew[2])">Unit Per</button>
                 </li>
+                <li>
+                    <button @onclick="() => Menu_Click(AddNew[3])">Company Detail</button>
+                </li>
             </ul>
         </fieldset>
 
@@ -33,6 +36,9 @@
                 </li>
                 <li>
                     <button @onclick="() => Menu_Click(EditExisting[3])">Home Page</button>
+                </li>
+                <li>
+                    <button @onclick="() => Menu_Click(EditExisting[4])">Company Detail</button>
                 </li>
             </ul>
         </fieldset>
@@ -52,6 +58,9 @@
                 case "NewUnitPer":
                     <AdminAddUnitPer />
                     break;
+                case "NewCompanyDetail":
+                    <h1>Add Company Detail</h1>
+                    break;
                 case "EditProduct":
                     <AdminProductDetail Heading="Edit an existing Product" ActionType="EditAction" />
                     break;
@@ -63,6 +72,9 @@
                     break;
                 case "EditHomePage":
                     <h1>Edit Home Page</h1>
+                    break;
+                case "EditCompanyDetail":
+                    <h1>Edit Company Detail</h1>
                     break;
             }
         }

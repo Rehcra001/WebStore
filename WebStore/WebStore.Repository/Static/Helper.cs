@@ -37,5 +37,24 @@ namespace WebStore.Repository.Static
 
             return addresses;
         }
+
+        internal static DataTable CreateEFTTable(CompanyEFTDetailModel companyEFTDetailModel)
+        {
+            DataTable eft = new DataTable();
+            eft.Columns.Add(nameof(CompanyEFTDetailModel.Bank), typeof(string));
+            eft.Columns.Add(nameof(CompanyEFTDetailModel.AccountType), typeof(string));
+            eft.Columns.Add(nameof(CompanyEFTDetailModel.AccountNumber), typeof(string));
+            eft.Columns.Add(nameof(CompanyEFTDetailModel.BranchCode), typeof(string));
+
+            DataRow row = eft.NewRow();
+            row[nameof(CompanyEFTDetailModel.Bank)] = companyEFTDetailModel.Bank;
+            row[nameof(CompanyEFTDetailModel.AccountType)] = companyEFTDetailModel.AccountType;
+            row[nameof(CompanyEFTDetailModel.AccountNumber)] = companyEFTDetailModel.AccountNumber;
+            row[nameof(CompanyEFTDetailModel.BranchCode)] = companyEFTDetailModel.BranchCode;
+
+            eft.Rows.Add(row);
+
+            return eft;
+        }
     }
 }
