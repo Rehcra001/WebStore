@@ -210,6 +210,22 @@ namespace WebStore.API.Extentions
                     });
         }
 
+        public static CompanyDetailDTO ConvertToCompanyDetailDTO(this CompanyDetailModel companyDetailModel, CompanyEFTDetailModel companyEFTDetailModel, AddressModel companyAddressModel)
+        {
+            return (new CompanyDetailDTO
+            {
+                CompanyId = companyDetailModel.CompanyId,
+                CompanyName = companyDetailModel.CompanyName,
+                CompanyLogo = companyDetailModel.CompanyLogo,
+                EFTId = companyDetailModel.EFTId,
+                AddressId = companyDetailModel.AddressId,
+                PhoneNumber = companyDetailModel.PhoneNumber,
+                EmailAddress = companyDetailModel.EmailAddress,
+                CompanyAddress = companyAddressModel.ConvertToAddressDTO(),
+                CompanyEFT = companyEFTDetailModel.ConvertToEFTDTO()
+            });
+        }
+
         public static CompanyEFTDTO ConvertToEFTDTO(this CompanyEFTDetailModel companyEFTDetailModel)
         {
             return (new CompanyEFTDTO

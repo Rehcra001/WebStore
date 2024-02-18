@@ -8,5 +8,6 @@ namespace WebStore.API.Services.Contracts
         Task<(CompanyDetailModel CompanyDetailModel, CompanyEFTDetailModel CompanyEFTDetailModel, AddressModel CompanyAddressModel)> AddCompanyDetail(CompanyDetailModel companyDetail,
                                                                                                                                                       CompanyEFTDetailModel companyEFTDetail,
                                                                                                                                                       AddressModel companyAddress);
+        Task<(CompanyDetailModel? CompanyDetailModel, CompanyEFTDetailModel? CompanyEFTDetailModel, AddressModel? CompanyAddressModel)> GetCompanyDetail();
     }
 }

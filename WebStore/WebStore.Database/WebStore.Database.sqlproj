@@ -108,6 +108,10 @@
     <Build Include="dbo\Tables\CompanyEFTDetail.sql" />
     <Build Include="dbo\Stored Procedures\usp_AddCompanyDetail.sql" />
     <Build Include="dbo\Types\udtCompanyEFTTable.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetCompanyDetail.sql" />
+    <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCompanyDetailId.sql" />
+    <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCompanyAddressIdWithCompanyId.sql" />
+    <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetEFTIWithCompanyId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

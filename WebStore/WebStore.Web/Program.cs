@@ -29,5 +29,6 @@ builder.Services.AddScoped<ISignInService, SignInService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 
 await builder.Build().RunAsync();

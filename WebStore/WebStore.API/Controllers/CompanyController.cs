@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.API.Extentions;
 using WebStore.API.Services.Contracts;
@@ -75,7 +74,35 @@ namespace WebStore.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Unable to save company details");
             }
+        }
 
+        [HttpGet]
+        [Authorize]
+        [Route("GetCompanyDetail")]
+        public async Task<ActionResult<CompanyDetailDTO>> GetCompanyDetail()
+        {
+            try
+            {
+                var companyDetailModels = await _companyService.GetCompanyDetail();
+
+                if (companyDetailModels.CompanyDetailModel == null
+                    || companyDetailModels.CompanyDetailModel.CompanyId == 0
+                    || companyDetailModels.CompanyAddressModel == null
+                    || companyDetailModels.CompanyAddressModel.AddressId == 0
+                    || companyDetailModels.CompanyEFTDetailModel == null
+                    || companyDetailModels.CompanyEFTDetailModel.EFTId == 0)
+                {
+                    return NoContent();
+                }
+
+                CompanyDetailDTO companyDetailDTO = companyDetailModels.CompanyDetailModel.ConvertToCompanyDetailDTO(companyDetailModels.CompanyEFTDetailModel,
+                                                                                                                     companyDetailModels.CompanyAddressModel);
+                return Ok(companyDetailDTO);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unable to retrieve company details");
+            }
         }
     }
 }

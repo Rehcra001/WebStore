@@ -16,7 +16,7 @@ namespace WebStore.Repository.Repositories.Dapper
             _sqlConnection = sqlConnection;
         }
 
-        public async Task<(CompanyDetailModel companyDetailModel, CompanyEFTDetailModel companyEFTDetailModel, AddressModel companyAddressModel)> AddCompanyDetail(CompanyDetailModel companyDetail, CompanyEFTDetailModel companyEFTDetail, AddressModel companyAddress)
+        public async Task<(CompanyDetailModel CompanyDetailModel, CompanyEFTDetailModel CompanyEFTDetailModel, AddressModel CompanyAddressModel)> AddCompanyDetail(CompanyDetailModel companyDetail, CompanyEFTDetailModel companyEFTDetail, AddressModel companyAddress)
         {
             List<AddressModel> addresses = new List<AddressModel>()
             {
@@ -44,6 +44,26 @@ namespace WebStore.Repository.Repositories.Dapper
             }
 
             return (companyDetail, companyEFTDetail, companyAddress);
+        }
+
+        public async Task<(CompanyDetailModel? CompanyDetailModel, CompanyEFTDetailModel? CompanyEFTDetailModel, AddressModel? CompanyAddressModel)> GetCompanyDetail()
+        {
+            CompanyDetailModel? companyDetailModel = new CompanyDetailModel();
+            CompanyEFTDetailModel? companyEFTDetailModel = new CompanyEFTDetailModel();
+            AddressModel? companyAddressModel = new AddressModel();
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            { 
+                using (var multiResultSets = await connection.QueryMultipleAsync("dbo.usp_GetCompanyDetail", commandType: CommandType.StoredProcedure))
+                {
+                    companyDetailModel = await multiResultSets.ReadSingleOrDefaultAsync<CompanyDetailModel>();
+                    companyAddressModel = await multiResultSets.ReadSingleOrDefaultAsync<AddressModel>();
+                    companyEFTDetailModel = await multiResultSets.ReadSingleOrDefaultAsync<CompanyEFTDetailModel>();
+                    
+                }
+
+            }
+            return (companyDetailModel, companyEFTDetailModel, companyAddressModel);
         }
     }
 }

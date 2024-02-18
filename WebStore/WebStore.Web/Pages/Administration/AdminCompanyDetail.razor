@@ -1,0 +1,87 @@
+﻿@page "/companydetails"
+
+<div class="main_container">
+    <h3>@Heading</h3>
+
+    <div class="form">
+        <fieldset>
+            <legend>Company Detail</legend>
+            <InputComponent InputType="text" Label="Company Name" @bind-Value="CompanyDetail.CompanyName" ValidationErrors="@ValidationErrors" PropertyName="CompanyName" />
+
+            <div>
+                <InputValidation ValidationErrors="@ValidationErrors" PropertyName="CompanyLogo" />
+            </div>
+            <div class="flex-col">
+
+                @if (ActionType.Equals(NEW_RECORD))
+                {
+                    @if (Image != null)
+                    {
+                        <div class="">
+                            <div class="form-control flex-col">
+                                <label>Company Logo</label>
+                                <img src="@ImageDataUrl" style="max-width: 100px" alt="Company Logo" />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <ImageComponent Label="Company Logo" Width="100" Height="100" />
+                    }
+
+                }
+                else if (ActionType.Equals(EXISTING_RECORD))
+                {
+                    @if (CompanyDetail.CompanyId != 0)
+                    {
+                        <div class="">
+                            <div class="form-control flex-col">
+                                <label>Company Logo</label>
+                                <img src="@ImageDataUrl" style="max-width: 100px" alt="Company Logo" />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <ImageComponent Label="Company Logo" Width="100" Height="100" />
+                    }
+                }
+
+                <InputFile OnChange="PreviewImage"></InputFile>
+            </div>
+
+            <InputComponent InputType="text" Label="Phone Number" @bind-Value="CompanyDetail.PhoneNumber" ValidationErrors="@ValidationErrors" PropertyName="PhoneNumber" />
+
+            <InputComponent InputType="text" Label="Email Address" @bind-Value="CompanyDetail.EmailAddress" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" />
+        </fieldset>
+    </div>
+    <div>
+        <button @onclick="SaveCompanyDetail" style="display: @SaveExistsButton">Save Company Detail</button>
+    </div>
+
+    <AddressComponent Address="@Address" ValidationErrors="@ValidationErrors" />
+    <div>
+        <button @onclick="SaveAddress" style="display: @SaveExistsButton">Save Company Address</button>
+    </div>
+
+    <div class="form">
+        <fieldset>
+            <legend>Bank Details</legend>
+            <InputComponent InputType="text" Label="Bank" @bind-Value="CompanyEFT.Bank" ValidationErrors="@ValidationErrors" PropertyName="Bank" />
+
+            <InputComponent InputType="text" Label="Account Type" @bind-Value="CompanyEFT.AccountType" ValidationErrors="@ValidationErrors" PropertyName="AccountType" />
+
+            <InputComponent InputType="text" Label="Account Nubmer" @bind-Value="CompanyEFT.AccountNumber" ValidationErrors="@ValidationErrors" PropertyName="AccountNumber" />
+
+            <InputComponent InputType="text" Label="Branch Code" @bind-Value="CompanyEFT.BranchCode" ValidationErrors="@ValidationErrors" PropertyName="BranchCode" />
+        </fieldset>
+
+    </div>
+    <div>
+        <button @onclick="SaveEFT" style="display: @SaveExistsButton">Save EFT Detail</button>
+    </div>
+    <div>
+        <button @onclick="SaveAll" style="display: @SaveNewButton">Save All</button>
+    </div>
+
+</div>
