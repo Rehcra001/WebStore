@@ -112,6 +112,9 @@
     <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCompanyDetailId.sql" />
     <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetCompanyAddressIdWithCompanyId.sql" />
     <Build Include="dbo\Functions\Scalar-valued Functions\udf_GetEFTIWithCompanyId.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCompanyDetail.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCompanyEFT.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCompanyAddress.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

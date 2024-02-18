@@ -91,6 +91,10 @@ namespace WebStore.WEB.Pages.Administration
 
                     //Save
                     CompanyDetail = await CompanyService.AddCompanyDetail(CompanyDetail);
+
+                    //Change save button displays
+                    SaveNewButton = "none";
+                    SaveExistsButton = "";
                     StateHasChanged();
                 }
                 else
