@@ -4,7 +4,7 @@
 	CustomerId INT NOT NULL,
 	OrderDate DATETIME2 DEFAULT(GETDATE()) NOT NULL,
 	TotalPrice MONEY NOT NULL,
-	OrderConfirmed BIT DEFAULT(0) NOT NULL,
+	PaymentConfirmed BIT DEFAULT(0) NOT NULL,
 	OrderShipped BIT DEFAULT(0) NOT NULL,
 	AddressId INT NOT NULL,
 	CONSTRAINT FK_Orders_Customers_CustomerId FOREIGN KEY (CustomerId) REFERENCES dbo.Customers(CustomerId),

@@ -17,5 +17,6 @@ namespace WebStore.API.Services.Contracts
         Task<ProductModel> UpdateProduct(ProductModel product);
         Task<ProductCategoryModel> UpdateProductCategory(ProductCategoryModel productCategory);
         Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer);
+        Task UpdateStockQuantities(OrderModel order);
     }
 }

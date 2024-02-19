@@ -115,9 +115,15 @@
     <Build Include="dbo\Stored Procedures\usp_UpdateCompanyDetail.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateCompanyEFT.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateCompanyAddress.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateStockQuantity.sql" />
+    <Build Include="dbo\Types\udtOrderQuantitiesTable.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateProductStockQuantity.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />
     <None Include="PublishLocations\WebStore.Database.Laptop.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="WebStore.Database.refactorlog" />
   </ItemGroup>
 </Project>

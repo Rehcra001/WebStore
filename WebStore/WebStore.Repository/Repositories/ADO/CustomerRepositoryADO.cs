@@ -161,7 +161,7 @@ namespace WebStore.Repository.Repositories.ADO
                                 order.LastName = reader.GetString(reader.GetOrdinal("LastName"));
                                 order.OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate"));
                                 order.TotalPrice = reader.GetDecimal(reader.GetOrdinal("TotalPrice"));
-                                order.OrderConfirmed = reader.GetBoolean(reader.GetOrdinal("OrderConfirmed"));
+                                order.PaymentConfirmed = reader.GetBoolean(reader.GetOrdinal("PaymentConfirmed"));
                                 order.OrderShipped = reader.GetBoolean(reader.GetOrdinal("OrderShipped"));
                                 order.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
                             }

@@ -38,7 +38,7 @@ BEGIN
 			WHERE CartId = @CartId;
 
 			--Return the newly created order, ship address, and order items
-			SELECT o.OrderId, o.CustomerId, c.FirstName, c.LastName, o.OrderDate, o.TotalPrice, o.OrderConfirmed, o.OrderShipped, o.AddressId
+			SELECT o.OrderId, o.CustomerId, c.FirstName, c.LastName, o.OrderDate, o.TotalPrice, o.PaymentConfirmed, o.OrderShipped, o.AddressId
 			FROM dbo.Orders AS o
 			INNER JOIN Customers AS C ON O.CustomerId = C.CustomerId
 			WHERE OrderId = @OrderId;

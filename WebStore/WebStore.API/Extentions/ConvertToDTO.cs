@@ -188,7 +188,7 @@ namespace WebStore.API.Extentions
                 LastName = orderModel.LastName,
                 OrderDate = orderModel.OrderDate,
                 TotalPrice = orderModel.TotalPrice,
-                OrderConfirmed = orderModel.OrderConfirmed,
+                PaymentConfirmed = orderModel.PaymentConfirmed,
                 OrderShipped = orderModel.OrderShipped,
                 AddressId = orderModel.AddressId,
                 Address = orderModel.Address.ConvertToAddressDTO(),

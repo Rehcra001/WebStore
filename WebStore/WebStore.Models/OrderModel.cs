@@ -14,7 +14,7 @@ namespace WebStore.Models
         public string LastName { get; set; } = string.Empty;
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
-        public bool OrderConfirmed { get; set; }
+        public bool PaymentConfirmed { get; set; }
         public bool OrderShipped { get; set; }
         public int AddressId { get; set; }
         public AddressModel Address { get; set; }

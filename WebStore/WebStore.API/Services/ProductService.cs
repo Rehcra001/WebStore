@@ -159,6 +159,18 @@ namespace WebStore.API.Services
             }
         }
 
+        public async Task UpdateStockQuantities(OrderModel order)
+        {
+            try
+            {
+                await _productRepository.UpdateStockQuantities(order);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer)
         {
             try

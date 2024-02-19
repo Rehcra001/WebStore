@@ -56,5 +56,22 @@ namespace WebStore.Repository.Static
 
             return eft;
         }
+
+        internal static DataTable CreateOrderQuantityTable(OrderModel orderModel)
+        {
+            DataTable orderQuantities = new DataTable();
+            orderQuantities.Columns.Add(nameof(OrderItemModel.ProductId), typeof(Int32));
+            orderQuantities.Columns.Add(nameof(OrderItemModel.Quantity), typeof(Int32));
+
+            foreach (OrderItemModel item in orderModel.OrderItems)
+            {
+                DataRow row = orderQuantities.NewRow();
+                row[nameof(OrderItemModel.ProductId)] = item.ProductId;
+                row[nameof(OrderItemModel.Quantity)] = item.Quantity;
+
+                orderQuantities.Rows.Add(row);
+            }
+            return orderQuantities;
+        }
     }
 }

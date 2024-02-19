@@ -3,6 +3,7 @@ using System.Data;
 using System.Text;
 using WebStore.Models;
 using WebStore.Repository.Contracts;
+using WebStore.Repository.Static;
 
 namespace WebStore.Repository.Repositories.ADO
 {
@@ -407,6 +408,33 @@ namespace WebStore.Repository.Repositories.ADO
                 }
             }
             return productCategory;
+        }
+
+        public async Task UpdateStockQuantities(OrderModel order)
+        {
+            DataTable orderQtyTable = Helper.CreateOrderQuantityTable(order);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_UpdateProductStockQuantity";
+                    command.Parameters.Add("@OrderQuantities", SqlDbType.Structured).Value = orderQtyTable;
+
+                    await command.Connection.OpenAsync();
+
+                    try
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("Error updating the stock quantities");
+                    }
+                }
+            }
         }
 
         public async Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer)

@@ -14,9 +14,11 @@ namespace WebStore.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-        public CustomerController(ICustomerService customerService)
+        private readonly IProductService _productService;
+        public CustomerController(ICustomerService customerService, IProductService productService)
         {
             _customerService = customerService;
+            _productService = productService;
         }
 
         [HttpGet]
@@ -185,6 +187,9 @@ namespace WebStore.API.Controllers
                     return NoContent();
                 }
 
+                //Update stock quantities
+                await _productService.UpdateStockQuantities(orderModel);
+
                 //Convert to dto
                 OrderDTO orderDTO = orderModel.ConvertToOrderDTO();
 
@@ -193,6 +198,8 @@ namespace WebStore.API.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "Error sending order confirmation email");
                 }
+
+
 
                 return Ok(orderDTO);
             }

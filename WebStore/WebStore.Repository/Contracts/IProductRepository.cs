@@ -1,4 +1,5 @@
-﻿using WebStore.Models;
+﻿using System.Data;
+using WebStore.Models;
 
 namespace WebStore.Repository.Contracts
 {
@@ -17,5 +18,6 @@ namespace WebStore.Repository.Contracts
         Task<ProductModel> UpdateProduct(ProductModel product);
         Task<ProductCategoryModel> UpdateProductCategory(ProductCategoryModel productCategory);
         Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer);
+        Task UpdateStockQuantities(OrderModel order);
     }
 }

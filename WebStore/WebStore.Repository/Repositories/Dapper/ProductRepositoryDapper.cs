@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using WebStore.Models;
 using WebStore.Repository.Contracts;
+using WebStore.Repository.Static;
 
 namespace WebStore.Repository.Repositories.Dapper
 {
@@ -227,6 +228,25 @@ namespace WebStore.Repository.Repositories.Dapper
                 }
             }
             return productCategory;
+        }
+
+        public async Task UpdateStockQuantities(OrderModel order)
+        {
+            DataTable orderQtyTable = Helper.CreateOrderQuantityTable(order);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@OrderQuantities", orderQtyTable, DbType.Object);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                try
+                {
+                    await connection.ExecuteAsync("dbo.usp_UpdateProductStockQuantity", parameters, commandType: CommandType.StoredProcedure);
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Error updating stock quantity");
+                }
+            }
         }
 
         public async Task<UnitPerModel> UpdateUnitPer(UnitPerModel unitPer)
