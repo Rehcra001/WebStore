@@ -85,5 +85,71 @@ namespace WebStore.WEB.Services
                 throw;
             }
         }
+
+        public async Task UpdateCompanyAddress(AddressDTO addressDTO)
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync<AddressDTO>("api/company/updatecompanyaddress", addressDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode == false)
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task UpdateCompanyDetail(UpdateCompanyDetailDTO updateCompanyDetailDTO)
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync<UpdateCompanyDetailDTO>("api/company/updatecompanydetail", updateCompanyDetailDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode == false)
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task UpdateCompanyEFT(CompanyEFTDTO companyEFTDTO)
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync<CompanyEFTDTO>("api/company/updatecompanyeft", companyEFTDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode == false)
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using WebStore.API.Extentions;
-using WebStore.API.Services.Contracts;
-using WebStore.DTO;
+﻿using WebStore.API.Services.Contracts;
 using WebStore.Models;
 using WebStore.Repository.Contracts;
 
@@ -27,7 +25,43 @@ namespace WebStore.API.Services
             }
         }
 
-        async Task<(CompanyDetailModel CompanyDetailModel, CompanyEFTDetailModel CompanyEFTDetailModel, AddressModel CompanyAddressModel)> ICompanyService.AddCompanyDetail(CompanyDetailModel companyDetail, CompanyEFTDetailModel companyEFTDetail, AddressModel companyAddress)
+        public async Task<AddressModel?> UpdateCompanyAddress(AddressModel address)
+        {
+            try
+            {
+                return await _companyRepository.UpdateCompanyAddress(address);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<CompanyDetailModel?> UpdateCompanyDetail(CompanyDetailModel companyDetail)
+        {
+            try
+            {
+                return await _companyRepository.UpdateCompanyDetail(companyDetail);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<CompanyEFTDetailModel?> UpdateCompanyEFT(CompanyEFTDetailModel companyEFTDetail)
+        {
+            try
+            {
+                return await _companyRepository.UpdateCompanyEFT(companyEFTDetail);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<(CompanyDetailModel CompanyDetailModel, CompanyEFTDetailModel CompanyEFTDetailModel, AddressModel CompanyAddressModel)> AddCompanyDetail(CompanyDetailModel companyDetail, CompanyEFTDetailModel companyEFTDetail, AddressModel companyAddress)
         {
             try
             {
@@ -38,5 +72,6 @@ namespace WebStore.API.Services
                 throw new Exception(ex.Message);
             }
         }
+
     }
 }

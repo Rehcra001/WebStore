@@ -157,5 +157,17 @@ namespace WebStore.API.Extentions
 
             return (companyDetailModel, companyEFTDetailModel, companyAddressModel);
         }
+
+        public static CompanyDetailModel ConvertToCompanyDetailModel(this UpdateCompanyDetailDTO updateCompanyDetailDTO)
+        {
+            return (new CompanyDetailModel
+            {
+                CompanyId = updateCompanyDetailDTO.CompanyId,
+                CompanyName = updateCompanyDetailDTO.CompanyName,
+                CompanyLogo = updateCompanyDetailDTO.CompanyLogo,
+                PhoneNumber = updateCompanyDetailDTO.PhoneNumber,
+                EmailAddress = updateCompanyDetailDTO.EmailAddress
+            });
+        }
     }
 }

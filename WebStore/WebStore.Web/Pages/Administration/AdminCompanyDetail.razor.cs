@@ -109,17 +109,37 @@ namespace WebStore.WEB.Pages.Administration
 
         private async Task SaveEFT()
         {
-
+            Validate();
+            if (ValidationErrors.Count == 0)
+            {
+                await CompanyService.UpdateCompanyEFT(CompanyEFT);
+            }
         }
 
         private async Task SaveAddress()
         {
-
+            Validate();
+            if (ValidationErrors.Count == 0)
+            {
+                await CompanyService.UpdateCompanyAddress(Address);
+            }
         }
 
         private async Task SaveCompanyDetail()
         {
-
+            Validate();
+            if (ValidationErrors.Count == 0)
+            {
+                UpdateCompanyDetailDTO updateCompanyDetail = new UpdateCompanyDetailDTO
+                {
+                    CompanyId = CompanyDetail.CompanyId,
+                    CompanyName = CompanyDetail.CompanyName,
+                    CompanyLogo = CompanyDetail.CompanyLogo,
+                    PhoneNumber = CompanyDetail.PhoneNumber,
+                    EmailAddress = CompanyDetail.EmailAddress
+                };
+                await CompanyService.UpdateCompanyDetail(updateCompanyDetail);
+            }
         }
 
         private void Validate()
