@@ -11,11 +11,15 @@ namespace WebStore.API.Services
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IEmailService _emailService;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CustomerService(ICustomerRepository customerRepository, IEmailService emailService)
+        public CustomerService(ICustomerRepository customerRepository,
+                               IEmailService emailService,
+                               ICompanyRepository companyRepository)
         {
             _customerRepository = customerRepository;
             _emailService = emailService;
+            _companyRepository = companyRepository;
         }
 
         public async Task<CustomerModel> AddCustomer(CustomerModel customer)
@@ -99,7 +103,9 @@ namespace WebStore.API.Services
         {
             try
             {
-                EmailDTO emailDto = orderDTO.ConvertToEmailBody();
+                var companyDetail = await _companyRepository.GetCompanyDetail();
+                CompanyDetailDTO? companyDetailDTO = companyDetail.CompanyDetailModel!.ConvertToCompanyDetailDTO(companyDetail.CompanyEFTDetailModel!, companyDetail.CompanyAddressModel!);
+                EmailDTO emailDto = orderDTO.ConvertToEmailBody(companyDetailDTO);
                 emailDto.To = emailTo;
                 emailDto.Subject = $"Order Confirmation for order# {orderDTO.OrderId}";
 
