@@ -33,6 +33,17 @@ BEGIN
 			INNER JOIN dbo.Products AS PR ON CI.ProductId = PR.ProductId
 			WHERE CI.CartId = @CartId;
 
+			--Update product stock quantities
+			;WITH UpdateQuantities AS
+			(
+				SELECT PR.ProductId, PR.QtyInStock, (PR.QtyInStock - CI.Quantity) AS RemainingStock
+				FROM dbo.Products AS PR
+				INNER JOIN dbo.CartItems AS CI ON PR.ProductId = CI.ProductId
+				WHERE CartId = @CartId
+			)
+			UPDATE UpdateQuantities
+			SET QtyInStock = RemainingStock;
+
 			--Remove all cart items
 			DELETE FROM dbo.CartItems
 			WHERE CartId = @CartId;

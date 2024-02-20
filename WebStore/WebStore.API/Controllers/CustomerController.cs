@@ -187,9 +187,6 @@ namespace WebStore.API.Controllers
                     return NoContent();
                 }
 
-                //Update stock quantities
-                await _productService.UpdateStockQuantities(orderModel);
-
                 //Convert to dto
                 OrderDTO orderDTO = orderModel.ConvertToOrderDTO();
 
@@ -198,8 +195,6 @@ namespace WebStore.API.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "Error sending order confirmation email");
                 }
-
-
 
                 return Ok(orderDTO);
             }
