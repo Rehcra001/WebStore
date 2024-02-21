@@ -16,6 +16,9 @@ namespace WebStore.WEB.Pages
         public ILocalStorageService LocalStorageService { get; set; }
 
         [Inject]
+        public IManageCartItemsLocalStorageService ManageCartItemsLocalStorage { get; set; }
+
+        [Inject]
         public ICustomerService CustomerService { get; set; }
 
         [Inject]
@@ -38,26 +41,23 @@ namespace WebStore.WEB.Pages
         private const decimal VAT = 0.15M;
         private const decimal VAT_PERCENTAGE = VAT * 100;
 
-        
+
 
 
         protected override async Task OnInitializedAsync()
         {
-            if (await LocalStorageService.ContainKeyAsync("CartItems"))
+            CartItems = (List<CartItemDTO>)await ManageCartItemsLocalStorage.GetCollection();
+
+            //Retrieve addresses
+            var returned = await CustomerService.GetAddresLinesAsync();
+
+            if (returned != null || returned.Count() > 0)
             {
-                CartItems = await LocalStorageService.GetItemAsync<List<CartItemDTO>>("CartItems");
-
-                //Retrieve addresses
-                var returned = await CustomerService.GetAddresLinesAsync();
-
-                if (returned != null || returned.Count() > 0)
-                {
-                    AddressLines = (List<AddressLineDTO>)returned;
-                    //select the first address as ship to
-                    DefaultShipAddress = AddressLines[0].AddressId;
-                    AddressLineDTO addressLine = AddressLines.First(x => x.AddressId == DefaultShipAddress);
-                    addressLine.ShipToSelected = true;
-                }            
+                AddressLines = (List<AddressLineDTO>)returned;
+                //select the first address as ship to
+                DefaultShipAddress = AddressLines[0].AddressId;
+                AddressLineDTO addressLine = AddressLines.First(x => x.AddressId == DefaultShipAddress);
+                addressLine.ShipToSelected = true;
             }
         }
 
@@ -92,7 +92,7 @@ namespace WebStore.WEB.Pages
 
             foreach (var line in AddressLines)
             {
-                
+
                 if (line.AddressId == selected.AddressId)
                 {
                     DefaultShipAddress = line.AddressId;
@@ -102,7 +102,6 @@ namespace WebStore.WEB.Pages
                 {
                     line.ShipToSelected = false;
                 }
-                //Console.WriteLine(line.AddressId + " : " + line.ShipToSelected + " : " + DefaultShipAddress);
             }
         }
 
@@ -152,14 +151,9 @@ namespace WebStore.WEB.Pages
             NavigationManager.NavigateTo("/orderconfirmation");
         }
 
-        private async void BackToShoppingCart_Click()
+        private void BackToShoppingCart_Click()
         {
-            if (await LocalStorageService.ContainKeyAsync("CartItems"))
-            {
-                await LocalStorageService.RemoveItemAsync("CartItems");
-            }
             NavigationManager.NavigateTo("/shoppingcart");
-
         }
 
         private void ValidateAddress()

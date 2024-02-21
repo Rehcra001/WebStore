@@ -7,10 +7,10 @@ namespace WebStore.WEB.Pages
     public partial class ProductDetail
     {
         [Inject]
-        public IProductService ProductService { get; set; }
+        public IShoppingCartService ShoppingCartService { get; set; }
 
         [Inject]
-        public IShoppingCartService ShoppingCartService { get; set; }
+        public IManageCartItemsLocalStorageService ManageCartItemsLocalStorage { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -26,9 +26,10 @@ namespace WebStore.WEB.Pages
                 Quantity = quantity
             };
 
-            await ShoppingCartService.AddCartItem(cartItemAddToDTO);
-
-            
+            List<CartItemDTO> cartItems = (List<CartItemDTO>)await ManageCartItemsLocalStorage.GetCollection();            
+            var cartItem = await ShoppingCartService.AddCartItem(cartItemAddToDTO);
+            cartItems.Add(cartItem);
+            await ManageCartItemsLocalStorage.SaveCollection(cartItems);
 
             NavigationManager.NavigateTo("/shoppingcart");
         }

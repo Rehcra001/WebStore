@@ -15,7 +15,7 @@ namespace WebStore.WEB.Pages
         public NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        public ILocalStorageService LocalStorageService { get; set; }
+        public IManageCartItemsLocalStorageService ManageCartItemsLocalStorage { get; set; }
 
         private List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
 
@@ -28,11 +28,7 @@ namespace WebStore.WEB.Pages
         {
             try
             {
-                if (await LocalStorageService.ContainKeyAsync("CartItems"))
-                {
-                    await LocalStorageService.RemoveItemAsync("CartItems");
-                }
-                var items = await ShoppingCartService.GetCartItems();
+                var items = await ManageCartItemsLocalStorage.GetCollection();
 
                 if (items.Count() > 0)
                 {
@@ -44,13 +40,18 @@ namespace WebStore.WEB.Pages
             {
                 throw new Exception(ex.Message);
             }
-        }    
-        
+        }
+
         private async Task DeleteCartItem(int id)
         {
-            await ShoppingCartService.DeleteCartItem(id);
 
-            await GetCartItemsAsync();
+            await ShoppingCartService.DeleteCartItem(id);
+            int index = CartItems.FindIndex(x => x.CartItemId == id);
+            CartItems.RemoveAt(index);
+            
+            await ManageCartItemsLocalStorage.SaveCollection(CartItems);
+
+            CartChanged();
         }
 
         private async void UpdateItemQuantity(int id)
@@ -61,17 +62,18 @@ namespace WebStore.WEB.Pages
             {
                 cartItem.Quantity = 1;
             }
-
+            
             UpdateCartItemQuantityDTO updateCartItem = new UpdateCartItemQuantityDTO
             {
-                CartItemId = cartItem.CartItemId,                
+                CartItemId = cartItem.CartItemId,
                 Quantity = cartItem.Quantity
             };
 
             await ShoppingCartService.UpdateCartItemQuantity(updateCartItem);
 
-            await GetCartItemsAsync();
-            
+            await ManageCartItemsLocalStorage.SaveCollection(CartItems);
+
+            CartChanged();
         }
 
         private async Task GetCartItemsAsync()
@@ -100,15 +102,9 @@ namespace WebStore.WEB.Pages
         {
             if (CartItems.Count > 0)
             {
-                //clear local storage of cart items if it exists
-                if (await LocalStorageService.ContainKeyAsync("CartItems"))
-                {
-                    await LocalStorageService.RemoveItemAsync("CartItems");
-                }
-                    await LocalStorageService.SetItemAsync("CartItems", CartItems);
                 NavigationManager.NavigateTo($"/orderpreview");
             }
-            
+
         }
     }
 }

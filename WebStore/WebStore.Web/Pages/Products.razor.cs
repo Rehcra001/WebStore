@@ -7,10 +7,7 @@ namespace WebStore.WEB.Pages
     public partial class Products
     {
         [Inject]
-        public IProductService ProductService { get; set; }
-
-        [Inject]
-        public IShoppingCartService ShoppingCartService { get; set; }
+        public IManageProductsLocalStorageService ManageProductsLocalStorage { get; set; }
 
         [Parameter]
         public string Category { get; set; } = string.Empty;
@@ -21,7 +18,7 @@ namespace WebStore.WEB.Pages
         {
             try
             {
-                var products = await ProductService.GetProductsAsync();
+                var products = await ManageProductsLocalStorage.GetCollection();
 
                 if (products.Count() > 0)
                 {

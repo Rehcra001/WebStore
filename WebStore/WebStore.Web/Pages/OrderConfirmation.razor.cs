@@ -11,10 +11,13 @@ namespace WebStore.WEB.Pages
         public ILocalStorageService LocalStorageService { get; set; }
 
         [Inject]
+        public IManageCartItemsLocalStorageService ManageCartItemsLocalStorage { get; set; }
+
+        [Inject]
         public ICustomerService CustomerService { get; set; }
 
         [Inject]
-        public IShoppingCartService ShoppingCartService { get; set; }
+        NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public List<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
@@ -23,20 +26,17 @@ namespace WebStore.WEB.Pages
 
         private AddressDTO ShippingAddress { get; set; } = new AddressDTO();
 
+        private bool OrderConfirmed { get; set; }
+
         private const decimal VAT = 0.15M;
         private const decimal VAT_PERCENTAGE = VAT * 100;
 
         protected override async Task OnInitializedAsync()
         {
             //Get cart items
-            if (await LocalStorageService.ContainKeyAsync("CartItems"))
-            {
-                CartItems = await LocalStorageService.GetItemAsync<List<CartItemDTO>>("CartItems");                
-            }
-            else
-            {
-                CartItems = (List<CartItemDTO>)await ShoppingCartService.GetCartItems();
-            }
+            
+            CartItems = (List<CartItemDTO>)await ManageCartItemsLocalStorage.GetCollection();
+            
             if (CartItems.Count == 0)
             {
                 throw new Exception("No Cart Items Found");
@@ -69,7 +69,22 @@ namespace WebStore.WEB.Pages
 
         private async Task ConfirmOrder_Click()
         {
-            await CustomerService.AddOrder(ShippingAddress.AddressId);
+            OrderDTO order = await CustomerService.AddOrder(ShippingAddress.AddressId);
+            if (order != null && order.OrderId > 0)
+            {
+                OrderConfirmed = true;
+                //clear out local storage
+                if (await LocalStorageService.ContainKeyAsync("ShippingAddress"))
+                {
+                    await LocalStorageService.RemoveItemAsync("ShippingAddress");
+                }
+                await ManageCartItemsLocalStorage.RemoveCollection();
+            }
+        }
+
+        private void GoToHomePage()
+        {
+            NavigationManager.NavigateTo("/");
         }
 
         private decimal CalcLinePrice(int quantity, decimal price)

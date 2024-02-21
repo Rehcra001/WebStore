@@ -1,104 +1,112 @@
 ﻿@page "/orderconfirmation"
 
-<div class="order">
-    <h1>Order Confirmation</h1>
-    <div class="order-header">
-        <div class="ship-address">
-            <div>
-                <label>Order#:</label>
-            </div>
-            <div>
-                <label>Order Date: @DateTime.Now.ToString("dd/MM/yyyy")</label>
-            </div>
-            <div>
-                <label><b>@Customer.FirstName @Customer.LastName</b></label>
+@if (OrderConfirmed)
+{
+    <label>Thank you for your order! Please check your email for the order confirmation.</label>
+    <button @onclick="GoToHomePage">Continue...</button>
+}
+else
+{
+    <div class="order">
+        <h1>Order Confirmation</h1>
+        <div class="order-header">
+            <div class="ship-address">
+                <div>
+                    <label>Order#:</label>
+                </div>
+                <div>
+                    <label>Order Date: @DateTime.Now.ToString("dd/MM/yyyy")</label>
+                </div>
+                <div>
+                    <label><b>@Customer.FirstName @Customer.LastName</b></label>
 
-            </div>
-            <div>
-                <label>@ShippingAddress.AddressLine1</label>
+                </div>
+                <div>
+                    <label>@ShippingAddress.AddressLine1</label>
 
+                </div>
+                <div>
+                    <label>@ShippingAddress.AddressLine2</label>
+                </div>
+                <div>
+                    <label>@ShippingAddress.Suburb</label>
+                </div>
+                <div>
+                    <label>@ShippingAddress.City</label>
+                </div>
+                <div>
+                    <label>@ShippingAddress.PostalCode</label>
+                </div>
+                <div>
+                    <label>@ShippingAddress.Country</label>
+                </div>
             </div>
-            <div>
-                <label>@ShippingAddress.AddressLine2</label>
-            </div>
-            <div>
-                <label>@ShippingAddress.Suburb</label>
-            </div>
-            <div>
-                <label>@ShippingAddress.City</label>
-            </div>
-            <div>
-                <label>@ShippingAddress.PostalCode</label>
-            </div>
-            <div>
-                <label>@ShippingAddress.Country</label>
+            <div class="payment">
+                <div>
+                    <h3>EFT Details</h3>
+                </div>
+                <div>
+                    <label>Payment Type: EFT</label>
+                </div>
+
+                <div>
+                    <label>Bank: </label>
+                    <label>First National Bank</label>
+                </div>
+                <div>
+                    <label>Account Type: </label>
+                    <label>Cheque</label>
+                </div>
+                <div>
+                    <label>Acc#: </label>
+                    <label>000 000 000 000</label>
+                </div>
+                <div>
+                    <label>Branch Code: </label>
+                    <label>111111</label>
+                </div>
             </div>
         </div>
-        <div class="payment">
-            <div>
-                <h3>EFT Details</h3>
-            </div>
-            <div>
-                <label>Payment Type: EFT</label>
-            </div>
 
-            <div>
-                <label>Bank: </label>
-                <label>First National Bank</label>
-            </div>
-            <div>
-                <label>Account Type: </label>
-                <label>Cheque</label>
-            </div>
-            <div>
-                <label>Acc#: </label>
-                <label>000 000 000 000</label>
-            </div>
-            <div>
-                <label>Branch Code: </label>
-                <label>111111</label>
-            </div>
-        </div>
-    </div>
-
-    <table class="content-table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Line Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (CartItemDTO item in CartItems)
-            {
+        <table class="content-table">
+            <thead>
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Price.ToString("c2")</td>
-                    <td>@CalcLinePrice(item.Quantity, item.Price).ToString("c2")</td>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Line Price</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <table class="content-table totals">
-        <tbody>
-            <tr>
-                <td>Total excl. VAT:</td>
-                <td>@CalcTotalPrice().ToString("c2")</td>
-            </tr>
-            <tr>
-                <td>Vat @VAT_PERCENTAGE%:</td>
-                <td>@CalcVAT().ToString("c2")</td>
-            </tr>
-            <tr>
-                <td>Total incl. VAT:</td>
-                <td>@CalcTotalWithVAT().ToString("c2")</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="order-confirm">
-        <button @onclick="ConfirmOrder_Click"><i class="fas fa-handshake"></i> Confirm Order</button>
+            </thead>
+            <tbody>
+                @foreach (CartItemDTO item in CartItems)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("c2")</td>
+                        <td>@CalcLinePrice(item.Quantity, item.Price).ToString("c2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table class="content-table totals">
+            <tbody>
+                <tr>
+                    <td>Total excl. VAT:</td>
+                    <td>@CalcTotalPrice().ToString("c2")</td>
+                </tr>
+                <tr>
+                    <td>Vat @VAT_PERCENTAGE%:</td>
+                    <td>@CalcVAT().ToString("c2")</td>
+                </tr>
+                <tr>
+                    <td>Total incl. VAT:</td>
+                    <td>@CalcTotalWithVAT().ToString("c2")</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="order-confirm">
+            <button @onclick="ConfirmOrder_Click"><i class="fas fa-handshake"></i> Confirm Order</button>
+        </div>
     </div>
-</div>
+}

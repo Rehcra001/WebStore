@@ -13,13 +13,19 @@ namespace WebStore.WEB.Pages
     public partial class Index
     {
         [Inject]
-        public IProductService ProductService { get; set; }
-
-        [Inject]
         public AppAuthenticationStateProvider AuthenticatedUser { get; set; }
 
         [Inject]
         public IShoppingCartService ShoppingCartService { get; set; }
+
+        [Inject]
+        public IManageCartItemsLocalStorageService ManageCartItemsLocalStorageService { get; set; }
+
+        [Inject]
+        public IManageProductCategoriesLocalStorageService ManageProductCategoriesLocalStorageService { get; set; }
+
+        [Inject]
+        public IManageProductsLocalStorageService ManageProductsLocalStorageService { get; set; }
 
         private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
 
@@ -29,12 +35,18 @@ namespace WebStore.WEB.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var productCategories = await ProductService.GetProductCategoriesAsync();
+            await ClearLocalStorage();
+
+            // Add product categories to local storage
+            var productCategories = await ManageProductCategoriesLocalStorageService.GetCollection();
 
             if (productCategories.Count() > 0)
             {
                 ProductCategories = (List<ProductCategoryDTO>)productCategories;
             }
+
+            // Add Products to local storage
+            await ManageProductsLocalStorageService.GetCollection();
 
             var authState = await AuthenticatedUser.GetAuthenticationStateAsync();
 
@@ -44,10 +56,17 @@ namespace WebStore.WEB.Pages
             {
                 //Get cartitems if any and update shopping cart menu
                 // TODO Look at using local storage for adding products and cart items
-                var items = await ShoppingCartService.GetCartItems();
+                var items = await ManageCartItemsLocalStorageService.GetCollection();
                 var quantity = items.Sum(x => x.Quantity);
                 ShoppingCartService.RaiseShoppingCartChangedEvent(quantity);
             }
+        }
+
+        private async Task ClearLocalStorage()
+        {
+            await ManageProductsLocalStorageService.RemoveCollection();
+            await ManageProductCategoriesLocalStorageService.RemoveCollection();
+            await ManageCartItemsLocalStorageService.RemoveCollection();
         }
     }
 }
