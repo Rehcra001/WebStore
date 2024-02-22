@@ -117,6 +117,10 @@
     <Build Include="dbo\Stored Procedures\usp_UpdateCompanyAddress.sql" />
     <Build Include="dbo\Types\udtOrderQuantitiesTable.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateProductStockQuantity.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetOrdersToBeShipped.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetOrdersWithOutstandingPayment.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCustomerOrderWithPayment.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCustomerOrderWithShipped.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\WebStore.Database.publish.xml" />

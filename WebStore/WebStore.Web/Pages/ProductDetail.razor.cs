@@ -13,6 +13,9 @@ namespace WebStore.WEB.Pages
         public IManageCartItemsLocalStorageService ManageCartItemsLocalStorage { get; set; }
 
         [Inject]
+        public IManageProductsLocalStorageService ManageProductsLocalStorageService { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         [Parameter]
@@ -20,18 +23,24 @@ namespace WebStore.WEB.Pages
 
         private async Task AddToCartItem_Click(int productId, int quantity)
         {
-            CartItemAddToDTO cartItemAddToDTO = new CartItemAddToDTO
+            var products = await ManageProductsLocalStorageService.GetCollection();
+            ProductDTO productDTO = products.First(x => x.ProductId == productId);
+            
+            if (productDTO.QtyInStock > 0)
             {
-                ProductId = productId,
-                Quantity = quantity
-            };
+                CartItemAddToDTO cartItemAddToDTO = new CartItemAddToDTO
+                {
+                    ProductId = productId,
+                    Quantity = quantity
+                };
 
-            List<CartItemDTO> cartItems = (List<CartItemDTO>)await ManageCartItemsLocalStorage.GetCollection();            
-            var cartItem = await ShoppingCartService.AddCartItem(cartItemAddToDTO);
-            cartItems.Add(cartItem);
-            await ManageCartItemsLocalStorage.SaveCollection(cartItems);
+                List<CartItemDTO> cartItems = (List<CartItemDTO>)await ManageCartItemsLocalStorage.GetCollection();
+                var cartItem = await ShoppingCartService.AddCartItem(cartItemAddToDTO);
+                cartItems.Add(cartItem);
+                await ManageCartItemsLocalStorage.SaveCollection(cartItems);
 
-            NavigationManager.NavigateTo("/shoppingcart");
+                NavigationManager.NavigateTo("/shoppingcart");
+            }            
         }
     }
 }

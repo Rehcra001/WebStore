@@ -10,6 +10,7 @@ namespace WebStore.DTO
     {
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
+        public string EmailAddress { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateTime OrderDate { get; set; }

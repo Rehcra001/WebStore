@@ -10,7 +10,6 @@ namespace WebStore.WEB.Services.Contracts
         Task DeleteCartItem(int id);
 
         event Action<int> OnShoppingCartChanged;
-
         void RaiseShoppingCartChangedEvent(int totalQty);
     }
 }

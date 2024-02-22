@@ -7,6 +7,5 @@ namespace WebStore.WEB.Services.Contracts
         Task<IEnumerable<CartItemDTO>> GetCollection();
         Task RemoveCollection();
         Task SaveCollection(List<CartItemDTO> cartItemDTOs);
-
     }
 }
