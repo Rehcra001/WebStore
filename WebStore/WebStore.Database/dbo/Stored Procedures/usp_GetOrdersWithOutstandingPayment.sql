@@ -8,9 +8,10 @@ BEGIN
 	WHERE O.PaymentConfirmed = 0;
 
 	--Get order items
-	SELECT OI.OrderItemId, OI.OrderId, OI.ProductId, OI.Quantity, OI.Price
+	SELECT OI.OrderItemId, OI.OrderId, OI.ProductId, PR.[Name] AS ProductName, OI.Quantity, OI.Price
 	FROM dbo.OrderItems OI
 	INNER JOIN dbo.Orders AS O ON OI.OrderId = O.OrderId
+	INNER JOIN dbo.Products AS PR ON OI.ProductId = PR.ProductId
 	WHERE O.PaymentConfirmed = 0;	
 
 	--Get Shipping Addresses

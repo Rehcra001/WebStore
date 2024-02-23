@@ -237,5 +237,25 @@ namespace WebStore.API.Extentions
                 BranchCode = companyEFTDetailModel.BranchCode
             });
         }
+
+        public static IEnumerable<OrderDTO> ConvertToOrderDTOs(this IEnumerable<OrderModel> orderModels)
+        {
+            return (from order in orderModels
+                    select new OrderDTO
+                    {
+                        OrderId = order.OrderId,
+                        CustomerId = order.CustomerId,
+                        EmailAddress = order.EmailAddress,
+                        FirstName = order.FirstName,
+                        LastName = order.LastName,
+                        OrderDate = order.OrderDate,
+                        TotalPrice = order.TotalPrice,
+                        PaymentConfirmed = order.PaymentConfirmed,
+                        OrderShipped = order.OrderShipped,
+                        AddressId = order.AddressId,
+                        Address = order.Address.ConvertToAddressDTO(),
+                        OrderItems = order.OrderItems.ConvertToOrderItemsDTOs()
+                    });
+        }
     }
 }
