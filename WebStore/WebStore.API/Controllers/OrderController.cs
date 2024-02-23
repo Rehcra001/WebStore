@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using WebStore.API.Extentions;
 using WebStore.API.Services.Contracts;
 using WebStore.DTO;
@@ -76,7 +74,7 @@ namespace WebStore.API.Controllers
 
         [HttpPatch]
         [Authorize]
-        [Route("UpdateOrderPaymentConfirmation")]
+        [Route("UpdateOrderPaymentConfirmation/{orderId:int}")]
         public async Task<IActionResult> UpdateOrderPaymentConfirmation(int orderId, bool payed)
         {
             try

@@ -11,6 +11,13 @@ namespace WebStore.WEB.Pages.Administration
     {
         [Inject]
         public IProductService ProductService { get; set; }
+
+        [Inject]
+        public IManageProductsLocalStorageService ManageProductsLocalStorageService { get; set; }
+
+        [Inject]
+        public IManageProductCategoriesLocalStorageService ManageProductCategoriesLocalStorageService { get; set; }
+
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -53,14 +60,14 @@ namespace WebStore.WEB.Pages.Administration
                 {
                     case "AddAction":
                         //New Product
-                        ProductCategories = await ProductService.GetProductCategoriesAsync();
+                        ProductCategories = await ManageProductCategoriesLocalStorageService.GetCollection();
                         UnitPers = await ProductService.GetUnitPersAsync();
                         break;
                     case "EditAction":
                         //Existing Product
 
-                        Products = await ProductService.GetProductsAsync();
-                        ProductCategories = await ProductService.GetProductCategoriesAsync();
+                        Products = await ManageProductsLocalStorageService.GetCollection();
+                        ProductCategories = await ManageProductCategoriesLocalStorageService.GetCollection();
                         UnitPers = await ProductService.GetUnitPersAsync();
                         break;
                 }
@@ -89,13 +96,16 @@ namespace WebStore.WEB.Pages.Administration
                 if (ActionType.Equals("AddAction"))
                 {
                     Product = await ProductService.AddProductAsync(Product);
-
+                    List<ProductDTO> products = (List<ProductDTO>)await ManageProductsLocalStorageService.GetCollection();
+                    products.Add(Product);
+                    await ManageProductsLocalStorageService.SaveCollection(products);
                     _showSaveButton = "none";
                 }
                 else if (ActionType.Equals("EditAction"))
                 {
                     // Update Product
                     Product = await ProductService.UpdateProductAsync(Product);
+                    await ManageProductsLocalStorageService.SaveCollection(Products.ToList());
                 }
             }
         }

@@ -26,6 +26,7 @@
         <div class="form-control">
             <label for="categorylist">Select Category to Edit</label>
             <InputSelect @bind-Value="@CategoryId"  id="categorylist" size="@ListSize">
+                <option value="">Select...</option>
                 @foreach (var item in ProductCategories)
                 {
                     <option style="margin-left: 20px;" value="@item.ProductCategoryId">@item.CategoryName</option>

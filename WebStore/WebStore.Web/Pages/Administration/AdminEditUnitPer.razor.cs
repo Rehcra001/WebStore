@@ -18,9 +18,7 @@ namespace WebStore.WEB.Pages.Administration
         private int ListSize { get; set; } = 1;
 
         private int unitPerId;
-        private int UnitPerId
-        {
-            get => unitPerId;
+        private int UnitPerId { get => unitPerId;
             set
             {
                 unitPerId = value; GetUnitPer(value);
@@ -37,7 +35,6 @@ namespace WebStore.WEB.Pages.Administration
                 {
                     UnitPers = (List<UnitPerDTO>)unitPers;
                     UnitPers.Sort((x, y) => x.UnitPer.CompareTo(y.UnitPer));
-
                     SetListSize();
                 }
             }
@@ -120,7 +117,7 @@ namespace WebStore.WEB.Pages.Administration
         }
 
 
-        private void GetUnitPer(int value)
+        private void GetUnitPer(int? value)
         {
             UnitPer = UnitPers.First(x => x.UnitPerId == value);
         }

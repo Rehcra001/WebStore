@@ -26,6 +26,11 @@ namespace WebStore.WEB.Services
             await _localStorageService.RemoveItemAsync(KEY);
         }
 
+        public async Task SaveCollection(List<ProductDTO> products)
+        {
+            await _localStorageService.SetItemAsync(KEY, products);
+        }
+
         private async Task<IEnumerable<ProductDTO>> AddCollection()
         {
             var productCollection = await _productService.GetProductsAsync();
@@ -36,6 +41,6 @@ namespace WebStore.WEB.Services
             }
 
             return productCollection;
-        }
+        }        
     }
 }

@@ -5,6 +5,18 @@
 <main class="admin-container">
     <aside class="admin-menu">
         <fieldset class="admin-new">
+            <legend>Orders</legend>
+            <ul>
+                <li>
+                    <button @onclick="() => Menu_Click(Orders[0])">Payment Confirmation</button>
+                </li>
+                <li>
+                    <button @onclick="() => Menu_Click(Orders[1])">Shipped Confirmation</button>
+                </li>
+            </ul>
+        </fieldset>
+
+        <fieldset class="admin-new">
             <legend>Add New</legend>
             <ul>
                 <li>
@@ -49,6 +61,12 @@
         {
             @switch (PageToView)
             {
+                case "PaymentConfirmation":
+                    <h1>Payment Confirmation</h1>
+                    break;
+                case "ShippedConfirmation":
+                    <h1>Shipped Confirmation</h1>
+                    break;
                 case "NewProduct":
                     <AdminProductDetail Heading="Add a New Product" ActionType="AddAction" />
                     break;

@@ -30,8 +30,12 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddScoped<IManageProductsLocalStorageService, ManageProductsLocalStorageService>();
 builder.Services.AddScoped<IManageProductCategoriesLocalStorageService, ManageProductCategoriesLocalStorageService>();
 builder.Services.AddScoped<IManageCartItemsLocalStorageService, ManageCartItemsLocalStorageService>();
+builder.Services.AddScoped<IManageAdminPaymentOrdersLocalStorageService, ManageAdminPaymentOrdersLocalStorageService>();
+builder.Services.AddScoped<IManageAdminShippedOrdersLocalStorageService, ManageAdminShippedOrdersLocalStorageService>();
 
 await builder.Build().RunAsync();
