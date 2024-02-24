@@ -1,8 +1,4 @@
-﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
-using System.Net.Http.Headers;
+﻿using Microsoft.AspNetCore.Components;
 using System.Security.Claims;
 using WebStore.DTO;
 using WebStore.WEB.Providers;

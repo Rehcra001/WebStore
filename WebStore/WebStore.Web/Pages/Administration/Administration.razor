@@ -62,10 +62,10 @@
             @switch (PageToView)
             {
                 case "PaymentConfirmation":
-                    <h1>Payment Confirmation</h1>
+                    <AdminOrderConfirmation ActionType="Payment"/>
                     break;
                 case "ShippedConfirmation":
-                    <h1>Shipped Confirmation</h1>
+                    <AdminOrderConfirmation ActionType="Shipment" />
                     break;
                 case "NewProduct":
                     <AdminProductDetail Heading="Add a New Product" ActionType="AddAction" />
