@@ -26,7 +26,7 @@ namespace WebStore.API.Controllers
         [HttpPost]
         [Authorize]
         [Route("AddCartItem")]
-        public async Task<ActionResult<CartItemDTO>> AddCartItem(CartItemAddToDTO cartItemAddToDTO)
+        public async Task<ActionResult<CartItemDTO>> AddCartItem([FromBody] CartItemAddToDTO cartItemAddToDTO)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace WebStore.API.Controllers
         [HttpPatch]
         [Authorize]
         [Route("UpdateCartItemQuantity/{id:int}")]
-        public async Task<ActionResult<CartItemDTO>> DeleteCartItem(int id, UpdateCartItemQuantityDTO updateCartItemQuantityDTO)
+        public async Task<ActionResult<CartItemDTO>> DeleteCartItem(int id, [FromBody] UpdateCartItemQuantityDTO updateCartItemQuantityDTO)
         {
             try
             {

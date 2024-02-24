@@ -88,7 +88,9 @@ namespace WebStore.WEB.Services
         {
             try
             {
-                HttpResponseMessage httpResponseMessage = await _httpClient.PatchAsJsonAsync($"api/order/UpdateOrderPaymentConfirmation/{orderId}", payed);
+                PaymentConfirmationDTO paymentConfirmation = new PaymentConfirmationDTO { OrderId = orderId, Payed = payed };
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PatchAsJsonAsync($"api/order/UpdateOrderPaymentConfirmation/{orderId}", paymentConfirmation);
 
                 if (httpResponseMessage.IsSuccessStatusCode == false)
                 {
@@ -107,7 +109,9 @@ namespace WebStore.WEB.Services
         {
             try
             {
-                HttpResponseMessage httpResponseMessage = await _httpClient.PatchAsJsonAsync($"api/order/UpdateOrderShippedConfirmation/{orderId}", shipped);
+                ShippingConfirmationDTO shippingConfirmation = new ShippingConfirmationDTO { OrderId = orderId, Shipped = shipped };
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PatchAsJsonAsync($"api/order/UpdateOrderShippedConfirmation/{orderId}", shippingConfirmation);
 
                 if (httpResponseMessage.IsSuccessStatusCode == false)
                 {

@@ -283,7 +283,7 @@ namespace WebStore.API.Controllers
         [HttpPut]
         [AllowAnonymous]
         [Route("UpdateProduct")]
-        public async Task<ActionResult<ProductDTO>> UpdateProduct(ProductDTO productDTO)
+        public async Task<ActionResult<ProductDTO>> UpdateProduct([FromBody] ProductDTO productDTO)
         {
             try
             {      
@@ -318,7 +318,7 @@ namespace WebStore.API.Controllers
         [HttpPut]
         [AllowAnonymous]
         [Route("UpdateProductCategory")]
-        public async Task<ActionResult<ProductCategoryDTO>> UpdateProductCategory(ProductCategoryDTO productCategoryDTO)
+        public async Task<ActionResult<ProductCategoryDTO>> UpdateProductCategory([FromBody] ProductCategoryDTO productCategoryDTO)
         {
             try
             {
@@ -352,7 +352,7 @@ namespace WebStore.API.Controllers
         [HttpPut]
         [AllowAnonymous]
         [Route("UpdateUnitPer")]
-        public async Task<ActionResult<UnitPerDTO>> UpdateUnitPer(UnitPerDTO unitPerDTO)
+        public async Task<ActionResult<UnitPerDTO>> UpdateUnitPer([FromBody] UnitPerDTO unitPerDTO)
         {
             try
             {

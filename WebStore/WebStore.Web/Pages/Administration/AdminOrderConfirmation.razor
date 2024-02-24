@@ -72,11 +72,11 @@
             <div class="order-confirm">
                 @if (ActionType.Equals(PAYMENT_TYPE))
                 {
-                    <button> Confirm Payment</button>
+                    <button @onclick="ConfirmPayment_Click"> Confirm Payment</button>
                 }
                 else if (ActionType.Equals(SHIPMENT_TYPE))
                 {
-                    <button> Confirm Shipment</button>
+                    <button @onclick="ConfirmShipping_Click"> Confirm Shipment</button>
                 }
                 
             </div>

@@ -75,11 +75,11 @@ namespace WebStore.API.Controllers
         [HttpPatch]
         [Authorize]
         [Route("UpdateOrderPaymentConfirmation/{orderId:int}")]
-        public async Task<IActionResult> UpdateOrderPaymentConfirmation(int orderId, bool payed)
+        public async Task<IActionResult> UpdateOrderPaymentConfirmation(int orderId, [FromBody] PaymentConfirmationDTO paymentConfirmation)
         {
             try
             {
-                await _orderServices.UpdateOrderPayment(orderId, payed);
+                await _orderServices.UpdateOrderPayment(orderId, paymentConfirmation.Payed);
 
                 return Ok();
             }
@@ -91,12 +91,12 @@ namespace WebStore.API.Controllers
 
         [HttpPatch]
         [Authorize]
-        [Route("UpdateOrderShippedConfirmation")]
-        public async Task<IActionResult> UpdateOrderShippedConfirmation(int orderId, bool shipped)
+        [Route("UpdateOrderShippedConfirmation/{orderId:int}")]
+        public async Task<IActionResult> UpdateOrderShippedConfirmation(int orderId, [FromBody] ShippingConfirmationDTO shippingConfirmation)
         {
             try
             {
-                await _orderServices.UpdateOrderShipped(orderId, shipped);
+                await _orderServices.UpdateOrderShipped(orderId, shippingConfirmation.Shipped);
 
                 return Ok();
             }

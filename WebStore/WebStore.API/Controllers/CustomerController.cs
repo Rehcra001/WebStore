@@ -95,7 +95,7 @@ namespace WebStore.API.Controllers
         [HttpPost]
         [Authorize]
         [Route("AddCustomerAddress")]
-        public async Task<ActionResult<AddressDTO>> AddCustomerAddress(AddressDTO addressDTO)
+        public async Task<ActionResult<AddressDTO>> AddCustomerAddress([FromBody] AddressDTO addressDTO)
         {
             try
             {

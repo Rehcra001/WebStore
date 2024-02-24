@@ -22,7 +22,7 @@ namespace WebStore.API.Controllers
         [HttpPost]
         [Authorize]
         [Route("AddCompanyDetails")]
-        public async Task<ActionResult<CompanyDetailDTO>> AddCompanyDetails(CompanyDetailDTO companyDetailDTO)
+        public async Task<ActionResult<CompanyDetailDTO>> AddCompanyDetails([FromBody] CompanyDetailDTO companyDetailDTO)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace WebStore.API.Controllers
         [HttpPut]
         [Authorize]
         [Route("UpdateCompanyDetail")]
-        public async Task<IActionResult> UpdateCompanyDetail(UpdateCompanyDetailDTO updateCompanyDetailDTO)
+        public async Task<IActionResult> UpdateCompanyDetail([FromBody] UpdateCompanyDetailDTO updateCompanyDetailDTO)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace WebStore.API.Controllers
         [HttpPut]
         [Authorize]
         [Route("UpdateCompanyAddress")]
-        public async Task<IActionResult> UpdateCompanyAddress(AddressDTO addressDTO)
+        public async Task<IActionResult> UpdateCompanyAddress([FromBody] AddressDTO addressDTO)
         {
             try
             {
@@ -177,7 +177,7 @@ namespace WebStore.API.Controllers
         [HttpPut]
         [Authorize]
         [Route("UpdateCompanyEFT")]
-        public async Task<IActionResult> UpdateCompanyEFT(CompanyEFTDTO companyEFTDTO)
+        public async Task<IActionResult> UpdateCompanyEFT([FromBody] CompanyEFTDTO companyEFTDTO)
         {
             try
             {
