@@ -15,6 +15,30 @@ namespace WebStore.Repository.Repositories.Dapper
             _sqlConnection = sqlConnection;
         }
 
+        public async Task<OrderModel> GetOrderById(int id)
+        {
+            OrderModel order = new OrderModel();
+            List<OrderItemModel> orderItems = new List<OrderItemModel>();
+            AddressModel address = new AddressModel();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@OrderId", id, DbType.Int32);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (var multi = await connection.QueryMultipleAsync("dbo.usp_GetOrderById", parameters, commandType: CommandType.StoredProcedure))
+                {
+                    order = await multi.ReadSingleAsync<OrderModel>();
+                    orderItems = (List<OrderItemModel>)await multi.ReadAsync<OrderItemModel>();
+                    address = await multi.ReadSingleAsync<AddressModel>();
+
+                    order.OrderItems = orderItems;
+                    order.Address = address;
+                }
+            }
+            return order;
+        }
+
         public async Task<IEnumerable<OrderModel>> GetOrdersToBeShipped()
         {
             List<OrderModel> orders = new List<OrderModel>();

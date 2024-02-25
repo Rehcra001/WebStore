@@ -13,6 +13,18 @@ namespace WebStore.API.Services
             _orderRepository = orderRepository;
         }
 
+        public Task<OrderModel> GetOrderById(int id)
+        {
+            try
+            {
+                return _orderRepository.GetOrderById(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<IEnumerable<OrderModel>> GetOrdersToBeShipped()
         {
             try

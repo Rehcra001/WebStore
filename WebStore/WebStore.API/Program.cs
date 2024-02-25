@@ -57,7 +57,7 @@ builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepositoryDapper>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IOrderRepository, OrderRepositioryADO>();
+builder.Services.AddScoped<IOrderRepository, OrderRepositoryDapper>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 
 var app = builder.Build();

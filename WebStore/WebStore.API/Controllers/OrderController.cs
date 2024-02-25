@@ -20,6 +20,28 @@ namespace WebStore.API.Controllers
 
         [HttpGet]
         [Authorize]
+        [Route("GetOrderById/{id:int}")]
+        public async Task<ActionResult<OrderDTO>> GetOrderById(int id)
+        {
+            try
+            {
+                OrderModel orderModel = await _orderServices.GetOrderById(id);
+                if (orderModel == null || orderModel.OrderId == 0)
+                {
+                    return NoContent();
+                }
+
+                OrderDTO orderDTO = orderModel.ConvertToOrderDTO();
+                return Ok(orderDTO);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unable to retrieve the order");
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
         [Route("GetOrdersToBeShipped")]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersToBeShipped()
         {
