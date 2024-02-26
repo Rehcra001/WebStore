@@ -120,6 +120,13 @@ namespace WebStore.API.Controllers
             {
                 await _orderServices.UpdateOrderShipped(orderId, shippingConfirmation.Shipped);
 
+                OrderModel orderModel = await _orderServices.GetOrderById(orderId);
+                OrderDTO orderDTO = orderModel.ConvertToOrderDTO();
+                if (await _orderServices.SendShippingConfirmationEmail(orderDTO) == false)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error sending shipping order confirmation email");
+                }
+
                 return Ok();
             }
             catch (Exception)

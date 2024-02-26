@@ -17,7 +17,7 @@ namespace WebStore.DTO
         public string PhoneNumber { get; set; } = string.Empty;
         public string EmailAddress { get; set; } = string.Empty;
 
-        public AddressDTO CompanyAddress { get; set; }
-        public CompanyEFTDTO CompanyEFT { get; set; }
+        public AddressDTO CompanyAddress { get; set; } = new AddressDTO();
+        public CompanyEFTDTO CompanyEFT { get; set; } = new CompanyEFTDTO();
     }
 }

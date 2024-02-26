@@ -12,7 +12,7 @@ namespace WebStore.WEB.Pages.Administration
 
         private string? PageToView { get; set; }
 
-        private string[] Orders = new string[] { "PaymentConfirmation", "ShippedConfirmation" };
+        private string[] Orders = new string[] { "PaymentConfirmation", "ShippedConfirmation", "OrderById" };
         private string[] AddNew = new string[] {"NewProduct", "NewCategory", "NewUnitPer", "NewCompanyDetail"};
         private string[] EditExisting = new string[] { "EditProduct", "EditCategory", "EditUnitPer", "EditHomePage", "EditCompanyDetail" };
 

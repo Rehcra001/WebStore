@@ -17,6 +17,9 @@ namespace WebStore.WEB.Pages
         public ICustomerService CustomerService { get; set; }
 
         [Inject]
+        public ICompanyService CompanyService { get; set; }
+
+        [Inject]
         NavigationManager NavigationManager { get; set; }
 
         [Parameter]
@@ -25,6 +28,8 @@ namespace WebStore.WEB.Pages
         private CustomerDTO Customer { get; set; } = new CustomerDTO();
 
         private AddressDTO ShippingAddress { get; set; } = new AddressDTO();
+
+        private CompanyDetailDTO Company { get; set; } = new CompanyDetailDTO();
 
         private bool OrderConfirmed { get; set; }
 
@@ -41,6 +46,9 @@ namespace WebStore.WEB.Pages
             {
                 throw new Exception("No Cart Items Found");
             }
+
+            //Get EFT Detail
+            Company = await CompanyService.GetCompanyDetail();
 
             //Get Customer
             Customer = await CustomerService.GetCustomerDetailsAsync();

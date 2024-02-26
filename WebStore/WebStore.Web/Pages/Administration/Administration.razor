@@ -13,6 +13,9 @@
                 <li>
                     <button @onclick="() => Menu_Click(Orders[1])">Shipped Confirmation</button>
                 </li>
+                <li>
+                    <button @onclick="() => Menu_Click(Orders[2])">Get Order By Id</button>
+                </li>
             </ul>
         </fieldset>
 
@@ -66,6 +69,9 @@
                     break;
                 case "ShippedConfirmation":
                     <AdminOrderConfirmation ActionType="Shipment" />
+                    break;
+                case "OrderById":
+                    <h1>Get Order By Id</h1>
                     break;
                 case "NewProduct":
                     <AdminProductDetail Heading="Add a New Product" ActionType="AddAction" />

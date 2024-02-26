@@ -2,10 +2,11 @@
 
 namespace WebStore.API.Extentions
 {
-    public static class ConvertOrderToEmailBody
+    public static class ConvertToEmailBody
     {
+
         // TODO add code to convert order to html format for email body
-        public static EmailDTO ConvertToEmailBody(this OrderDTO orderDTO, CompanyDetailDTO companyDetailDTO)
+        public static EmailDTO ConvertToOrderEmailBody(this OrderDTO orderDTO, CompanyDetailDTO companyDetailDTO, string message)
         {
             EmailDTO email = new EmailDTO();
             //Header
@@ -14,12 +15,12 @@ namespace WebStore.API.Extentions
             body += $"<div style=\"font-size: 2rem; \">{logo}&nbsp;&nbsp; Web Store</div>";
             body += "<div style=\"font-family: Arial, Helvetica, sans-serif; font-size: 1rem;text-align: left; padding: 5px 10px;\">"; //open body
             body += $"<div style=\"font-size: 1.1rem; \"> To: {orderDTO.FirstName} {orderDTO.LastName}</div>";
-            body += "<div style=\"font-size: 1rem;\"> <p>Thank you for your order.</p></div>";
+            body += $"<div style=\"font-size: 1rem;\"> <p>{message}</p></div>";
 
             //Company Details
             body += "<div>";
             body += "<div style=\"font-weight: bold;\">Company and Payment Details:</div>";
-            body += $"<div>Contact us:&nbsp{companyDetailDTO.EmailAddress}</div>";
+            body += $"<div>Contact us:&nbsp;{companyDetailDTO.EmailAddress}</div>";
             body += $"<div>Reference:&nbsp;{orderDTO.LastName}:{orderDTO.OrderId}</div>";
             body += $"<div>Bank:&nbsp;{companyDetailDTO.CompanyEFT.Bank}</div>";
             body += $"<div>Account Type:&nbsp;{companyDetailDTO.CompanyEFT.AccountType}</div>";
@@ -102,5 +103,6 @@ namespace WebStore.API.Extentions
 
             return email;
         }
+       
     }
 }

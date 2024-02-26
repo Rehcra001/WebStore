@@ -104,8 +104,10 @@ namespace WebStore.API.Services
             try
             {
                 var companyDetail = await _companyRepository.GetCompanyDetail();
-                CompanyDetailDTO? companyDetailDTO = companyDetail.CompanyDetailModel!.ConvertToCompanyDetailDTO(companyDetail.CompanyEFTDetailModel!, companyDetail.CompanyAddressModel!);
-                EmailDTO emailDto = orderDTO.ConvertToEmailBody(companyDetailDTO);
+                CompanyDetailDTO? companyDetailDTO = companyDetail.CompanyDetailModel!.ConvertToCompanyDetailDTO(companyDetail.CompanyEFTDetailModel!,
+                                                                                                                 companyDetail.CompanyAddressModel!);
+                string message = "Thank you for your order!";
+                EmailDTO emailDto = orderDTO.ConvertToOrderEmailBody(companyDetailDTO, message);
                 emailDto.To = emailTo;
                 emailDto.Subject = $"Order Confirmation for order# {orderDTO.OrderId}";
 

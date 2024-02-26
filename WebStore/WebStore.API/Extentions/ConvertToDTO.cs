@@ -184,6 +184,7 @@ namespace WebStore.API.Extentions
             {
                 OrderId = orderModel.OrderId,
                 CustomerId = orderModel.CustomerId,
+                EmailAddress = orderModel.EmailAddress,
                 FirstName = orderModel.FirstName,
                 LastName = orderModel.LastName,
                 OrderDate = orderModel.OrderDate,
