@@ -62,6 +62,11 @@ builder.Services.AddScoped<IOrderServices, OrderServices>();
 
 var app = builder.Build();
 
+RoleManager<IdentityRole> roleManager = builder.Services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
+UserManager<IdentityUser> userManager = builder.Services.BuildServiceProvider().GetService<UserManager<IdentityUser>>();
+RoleManager<IdentityRole> customerRoleManager = builder.Services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
+await SeedAdministratorRoleAndUser.Seed(roleManager, userManager, customerRoleManager);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

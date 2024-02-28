@@ -21,18 +21,21 @@ namespace WebStore.API.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
         private readonly ICustomerService _customerService;
 
         public UserController(SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
                               IConfiguration config,
-                              ICustomerService customerService)
+                              ICustomerService customerService,
+                              RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _config = config;
             _customerService = customerService;
+            _roleManager = roleManager;
         }
 
         [Route("register")] // domain/api/user/register
@@ -80,12 +83,14 @@ namespace WebStore.API.Controllers
                 UserName = userName
             };
 
+
             // Register the user
             IdentityResult identityResult = await _userManager.CreateAsync(identityUser, password);
-
+            IdentityResult roleIdentityResult = await _userManager.AddToRoleAsync(identityUser, "Customer");
             // If registration successful
-            if (identityResult.Succeeded == true)
+            if (identityResult.Succeeded == true && roleIdentityResult.Succeeded)
             {
+                
                 try
                 {
                     //Save the customer data
@@ -185,5 +190,6 @@ namespace WebStore.API.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         }
+
     }
 }

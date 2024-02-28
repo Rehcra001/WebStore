@@ -11,17 +11,23 @@
 
     <ul class="main-menu">
         <li><a href="/">Home</a></li>
+        <AuthorizeView Roles="Administrator">
+            <li><a href="/administration">Administration</a></li>
+            <li><button @onclick="SignOut">Sign Out</button></li>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="Customer">
+            <li><a href="/customerdetails">Profile</a></li>
+            <li><button @onclick="SignOut">Sign Out</button></li>
+        </AuthorizeView>
+
         <AuthorizeView>
-            <Authorized>
-                <li><a href="/administration">Administration</a></li>
-                <li><a href="/customerdetails">Profile</a></li>
-                <li><button @onclick="SignOut">Sign Out</button></li>
-            </Authorized>
             <NotAuthorized>
                 <li><a href="/register">Register</a></li>
                 <li><a href="/signin">Sign In</a></li>
-            </NotAuthorized>
+            </NotAuthorized>            
         </AuthorizeView>
+
     </ul>
 
     <AuthorizeView>
@@ -31,6 +37,6 @@
             </li>
         </ul>
     </AuthorizeView>
-    
+
 </nav>
 

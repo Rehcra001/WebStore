@@ -19,7 +19,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("GetOrderById/{id:int}")]
         public async Task<ActionResult<OrderDTO>> GetOrderById(int id)
         {
@@ -41,7 +41,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("GetOrdersToBeShipped")]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersToBeShipped()
         {
@@ -67,7 +67,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("GetOrdersWithOutstandingPayment")]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersWithOutstandingPayment()
         {
@@ -95,7 +95,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPatch]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateOrderPaymentConfirmation/{orderId:int}")]
         public async Task<IActionResult> UpdateOrderPaymentConfirmation(int orderId, [FromBody] PaymentConfirmationDTO paymentConfirmation)
         {
@@ -112,7 +112,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPatch]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateOrderShippedConfirmation/{orderId:int}")]
         public async Task<IActionResult> UpdateOrderShippedConfirmation(int orderId, [FromBody] ShippingConfirmationDTO shippingConfirmation)
         {
