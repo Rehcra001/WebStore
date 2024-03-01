@@ -185,9 +185,31 @@ namespace WebStore.Repository.Repositories.Dapper
             return customer;
         }
 
-        public Task<IEnumerable<CustomerModel>> GetCustomers()
+        public async Task<IEnumerable<OrderModel>> GetCustomerOrders(string email)
         {
-            throw new NotImplementedException();
+            List<OrderModel> orders = new List<OrderModel>();
+            List<AddressModel> addresses = new List<AddressModel>();
+            List<OrderItemModel> orderItems = new List<OrderItemModel>();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@EmailAddress", email, DbType.String);)
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (var multi = await connection.QueryMultipleAsync("dbo.usp_GetCustomerOrders",parameters, commandType: CommandType.StoredProcedure))
+                {
+                    orders = (List<OrderModel>)await multi.ReadAsync<OrderModel>();
+                    orderItems = (List<OrderItemModel>)await multi.ReadAsync<OrderItemModel>();
+                    addresses = (List<AddressModel>)await multi.ReadAsync<AddressModel>();
+
+                    foreach (OrderModel order in orders)
+                    {
+                        order.OrderItems = orderItems.Where(x => x.OrderId == order.OrderId);
+                        order.Address = addresses.First(x => x.AddressId == order.AddressId);
+                    }
+                }
+            }
+            return orders;
         }
 
         public async Task<bool> UpdateCustomerAddress(AddressModel address)
