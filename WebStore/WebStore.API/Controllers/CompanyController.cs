@@ -20,7 +20,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("AddCompanyDetails")]
         public async Task<ActionResult<CompanyDetailDTO>> AddCompanyDetails([FromBody] CompanyDetailDTO companyDetailDTO)
         {
@@ -107,7 +107,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateCompanyDetail")]
         public async Task<IActionResult> UpdateCompanyDetail([FromBody] UpdateCompanyDetailDTO updateCompanyDetailDTO)
         {
@@ -141,7 +141,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateCompanyAddress")]
         public async Task<IActionResult> UpdateCompanyAddress([FromBody] AddressDTO addressDTO)
         {
@@ -175,7 +175,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateCompanyEFT")]
         public async Task<IActionResult> UpdateCompanyEFT([FromBody] CompanyEFTDTO companyEFTDTO)
         {
