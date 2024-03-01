@@ -36,6 +36,18 @@ namespace WebStore.API.Extentions
             return customer;
         }
 
+        public static CustomerModel ConvertToCustomerDetailModel(this UpdateCustomerDetailDTO updateCustomerDetailDTO)
+        {
+            return new CustomerModel
+            {
+                CustomerId = updateCustomerDetailDTO.CustomerId,
+                FirstName = updateCustomerDetailDTO.FirstName,
+                LastName = updateCustomerDetailDTO.LastName,
+                EmailAddress = updateCustomerDetailDTO.EmailAddress,
+                PhoneNumber = updateCustomerDetailDTO.PhoneNumber
+            };
+        }
+
         public static UserRegistrationModel ConvertToUserRegistrationModel(this UserRegistrationDTO userRegistrationDTO)
         {
             return (new UserRegistrationModel

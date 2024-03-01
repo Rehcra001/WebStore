@@ -10,7 +10,7 @@
             <div class="product-card-quantity">Qty in Stock: @Product.QtyInStock</div>
         </div>
 
-        <AuthorizeView>
+        <AuthorizeView Roles="Customer">
             <button @onclick="() => AddToCartItem_Click(Product.ProductId, 1)">Add to Order</button>
         </AuthorizeView>
 

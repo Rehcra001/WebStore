@@ -190,9 +190,50 @@ namespace WebStore.Repository.Repositories.Dapper
             throw new NotImplementedException();
         }
 
-        public Task<CustomerModel> UpdateCustomer(CustomerModel customer)
+        public async Task<bool> UpdateCustomerAddress(AddressModel address)
         {
-            throw new NotImplementedException();
+            bool updated = false;
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@AddressId", address.AddressId, DbType.Int32);
+            parameters.Add("@AddressLine1", address.AddressLine1, DbType.String);
+            if (String.IsNullOrWhiteSpace(address.AddressLine2))
+            {
+                parameters.Add("@AddressLine2", DBNull.Value);
+            }
+            else
+            {
+                parameters.Add("@AddressLine2", address.AddressLine2, DbType.String);
+            }
+            parameters.Add("@Suburb", address.Suburb, DbType.String);
+            parameters.Add("@City", address.City, DbType.String);
+            parameters.Add("@PostalCode", address.PostalCode, DbType.String);
+            parameters.Add("@Country", address.Country, DbType.String);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                updated = await connection.QuerySingleAsync("dbo.UpdateCustomerAddress");
+            }
+
+            return updated;
+        }
+
+        public async Task<bool> UpdateCustomerDetail(CustomerModel customer)
+        {
+            bool updated = false;
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@CustomerId", customer.CustomerId, DbType.Int32);
+            parameters.Add("@FirstName", customer.FirstName, DbType.String);
+            parameters.Add("@LastName", customer.LastName, DbType.String);
+            parameters.Add("@PhoneNumber", customer.PhoneNumber, DbType.String);
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                updated = await connection.QuerySingleAsync<bool>("dbo.usp_UpdateCustomerDetail", parameters, commandType: CommandType.StoredProcedure);
+            }
+
+            return updated;
         }
     }
 }

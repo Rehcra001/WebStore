@@ -4,6 +4,7 @@ using System.Security.Claims;
 using WebStore.API.Extentions;
 using WebStore.API.Services;
 using WebStore.API.Services.Contracts;
+using WebStore.API.ValidationClasses;
 using WebStore.DTO;
 using WebStore.Models;
 
@@ -22,7 +23,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [Route("GetCustomer")]
         public async Task<ActionResult<CustomerDTO>> GetCustomer()
         {
@@ -57,7 +58,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [Route("GetAddressLines")]
         public async Task<ActionResult<IEnumerable<AddressLineDTO>>> GetAddressLines()
         {
@@ -93,7 +94,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [Route("AddCustomerAddress")]
         public async Task<ActionResult<AddressDTO>> AddCustomerAddress([FromBody] AddressDTO addressDTO)
         {
@@ -132,7 +133,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [Route("GetAddress/{id:int}")]
         public async Task<ActionResult<AddressDTO>> GetAddress(int id)
         {
@@ -166,7 +167,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [Route("AddOrder/{addressId:int}")]
         public async Task<ActionResult<OrderDTO>> AddOrder(int addressId)
         {
@@ -202,8 +203,75 @@ namespace WebStore.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving order from the database");
             }
+        }
 
+        [HttpPut]
+        [Authorize(Roles = "Customer")]
+        [Route("UpdateCustomerDetail")]
+        public async Task<IActionResult> UpdateCustomerDetail([FromBody] UpdateCustomerDetailDTO updateCustomerDetailDTO)
+        {
+            try
+            {
+                //Convert to model
+                CustomerModel customerModel = updateCustomerDetailDTO.ConvertToCustomerDetailModel();
 
+                //Validate model
+                var customerDetailErrors = ValidationHelper.Validate(customerModel);
+                if (customerDetailErrors.Count > 0)
+                {
+                    return BadRequest(customerDetailErrors);
+                }
+
+                // Update details
+                bool updated = await _customerService.UpdateCustomerDetail(customerModel);
+
+                if (updated == false)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error updating customer detail");
+                }
+                else
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating customer detail");
+            }
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Customer")]
+        [Route("UpdateCustomerAddress")]
+        public async Task<IActionResult> UpdateCustomerAddress(AddressDTO addressDTO)
+        {
+            try
+            {
+                // Convert to model
+                AddressModel addressModel = addressDTO.ConvertToAddressModel();
+
+                // Validate
+                var addressErrors = ValidationHelper.Validate(addressModel);
+                if (addressErrors.Count > 0)
+                {
+                    return BadRequest(addressErrors);
+                }
+
+                // update address
+                bool updated = await _customerService.UpdateCustomerAddress(addressModel);
+                if (updated == false)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error updating address");
+                }
+                else
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating address");
+            }
         }
     }
 }

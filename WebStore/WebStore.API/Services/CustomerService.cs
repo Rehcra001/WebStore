@@ -121,9 +121,28 @@ namespace WebStore.API.Services
             }
         }
 
-        public Task<CustomerModel> UpdateCustomer(CustomerModel customer)
+        public async Task<bool> UpdateCustomerAddress(AddressModel address)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _customerRepository.UpdateCustomerAddress(address);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> UpdateCustomerDetail(CustomerModel customer)
+        {
+            try
+            {
+                return await _customerRepository.UpdateCustomerDetail(customer);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

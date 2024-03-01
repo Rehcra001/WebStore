@@ -20,7 +20,7 @@ namespace WebStore.API.Controllers
             _productService = productService;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [Route("AddProductCategory")]
         public async Task<ActionResult<ProductCategoryDTO>> AddProductCategory([FromBody] ProductCategoryDTO productCategoryDTO)
@@ -81,7 +81,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [Route("AddUnitPer")]
         public async Task<ActionResult<UnitPerDTO>> AddUnitPer([FromBody] UnitPerDTO unitPerDTO)
         {
@@ -143,7 +143,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [Route("AddProduct")]
         public async Task<ActionResult<ProductDTO>> AddProduct([FromBody] ProductDTO productDTO)
         {
@@ -281,7 +281,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateProduct")]
         public async Task<ActionResult<ProductDTO>> UpdateProduct([FromBody] ProductDTO productDTO)
         {
@@ -316,7 +316,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateProductCategory")]
         public async Task<ActionResult<ProductCategoryDTO>> UpdateProductCategory([FromBody] ProductCategoryDTO productCategoryDTO)
         {
@@ -350,7 +350,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [Route("UpdateUnitPer")]
         public async Task<ActionResult<UnitPerDTO>> UpdateUnitPer([FromBody] UnitPerDTO unitPerDTO)
         {

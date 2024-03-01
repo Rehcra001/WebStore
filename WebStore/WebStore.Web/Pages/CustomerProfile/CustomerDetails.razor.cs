@@ -9,7 +9,7 @@ using WebStore.DTO;
 using WebStore.WEB.Providers;
 using WebStore.WEB.Services.Contracts;
 
-namespace WebStore.WEB.Pages
+namespace WebStore.WEB.Pages.CustomerProfile
 {
     public partial class CustomerDetails
     {

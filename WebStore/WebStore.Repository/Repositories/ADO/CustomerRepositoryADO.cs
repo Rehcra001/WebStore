@@ -349,9 +349,79 @@ namespace WebStore.Repository.Repositories.ADO
             throw new NotImplementedException();
         }
 
-        public Task<CustomerModel> UpdateCustomer(CustomerModel customer)
+        public async Task<bool> UpdateCustomerAddress(AddressModel address)
         {
-            throw new NotImplementedException();
+            bool isUpdated = false;
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_updateCustomerAddress";
+                    command.Parameters.Add("@AddressId", SqlDbType.Int).Value = address.AddressId;
+                    command.Parameters.Add("@AddressLine1", SqlDbType.NVarChar).Value = address.AddressLine1;
+                    if (String.IsNullOrWhiteSpace(address.AddressLine2))
+                    {
+                        command.Parameters.Add("@AddressLine2", SqlDbType.NVarChar).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add("@AddressLine2", SqlDbType.NVarChar).Value = address.AddressLine2;
+                    }
+                    
+                    command.Parameters.Add("@Suburb", SqlDbType.NVarChar).Value = address.Suburb;
+                    command.Parameters.Add("@City", SqlDbType.NVarChar).Value = address.City;
+                    command.Parameters.Add("@PostalCode", SqlDbType.NVarChar).Value = address.PostalCode;
+                    command.Parameters.Add("@Country", SqlDbType.NVarChar).Value = address.Country;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
+                    {
+                        if (reader.HasRows)
+                        {
+                            await reader.ReadAsync();
+                            isUpdated = reader.GetBoolean(reader.GetOrdinal("Response"));
+                        }
+                    }
+                }
+            }
+                return isUpdated;
+        }
+
+        public async Task<bool> UpdateCustomerDetail(CustomerModel customer)
+        {
+            bool isUpdated = false;
+
+            using (SqlConnection connection = _sqlConnection.SqlConnection())
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "dbo.usp_UpdateCustomerDetail";
+                    command.Parameters.Add("@CustomerId", SqlDbType.Int).Value = customer.CustomerId;
+                    command.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = customer.FirstName;
+                    command.Parameters.Add("@LastName", SqlDbType.NVarChar).Value = customer.LastName;
+                    command.Parameters.Add("@PhoneNumber", SqlDbType.NVarChar).Value = customer.PhoneNumber;
+
+                    await command.Connection.OpenAsync();
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow))
+                    {
+                        if (reader.HasRows)
+                        {
+                            await reader.ReadAsync();
+                            isUpdated = reader.GetBoolean(reader.GetOrdinal("Response"));
+                        }
+                    }
+
+                }
+            }
+
+            return isUpdated;
         }
     }
 }

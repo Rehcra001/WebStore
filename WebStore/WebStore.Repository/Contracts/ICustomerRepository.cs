@@ -6,11 +6,12 @@ namespace WebStore.Repository.Contracts
     {
         Task<CustomerModel> AddCustomer(CustomerModel customer);
         Task<AddressModel> AddAddress(AddressModel address, string email);
-        Task<CustomerModel> UpdateCustomer(CustomerModel customer);
+        Task<OrderModel> AddOrder(int addressId, string email);
         Task<CustomerModel> GetCustomer(string email);
         Task<IEnumerable<CustomerModel>> GetCustomers();
         Task<IEnumerable<AddressLineModel>> GetAddressLines(string email);
         Task<AddressModel> GetAddressById(int addressId, string email);
-        Task<OrderModel> AddOrder(int addressId, string email);
+        Task<bool> UpdateCustomerAddress(AddressModel address);
+        Task<bool> UpdateCustomerDetail(CustomerModel customer);
     }
 }
