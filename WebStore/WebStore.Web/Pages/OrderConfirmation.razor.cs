@@ -77,7 +77,7 @@ namespace WebStore.WEB.Pages
 
         private async Task ConfirmOrder_Click()
         {
-            OrderDTO order = await CustomerService.AddOrder(ShippingAddress.AddressId);
+            OrderDTO order = await CustomerService.AddOrderAsync(ShippingAddress.AddressId);
             if (order != null && order.OrderId > 0)
             {
                 OrderConfirmed = true;

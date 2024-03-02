@@ -1,0 +1,66 @@
+﻿@page "/customerprofile"
+
+<PageTitle>Profile</PageTitle>
+
+@if (!String.IsNullOrWhiteSpace(ErrorMessage))
+{
+    <div>
+        <p>@ErrorMessage</p>
+    </div>
+}
+else
+{
+    <main class="admin-container">
+        <aside class="admin-menu">
+            <fieldset class="admin-new">
+                <legend>View/Edit</legend>
+                <ul>
+                    <li>
+                        <button @onclick="() => Menu_Click(CustomerDetail[0])">Customer Details</button>
+                    </li>
+                </ul>
+            </fieldset>
+
+            <fieldset class="admin-edit">
+                <legend>Orders</legend>
+                <ul>
+                    <li>
+                        <button @onclick="() => Menu_Click(CustomerOrders[0])">Payment Needed</button>
+                    </li>
+                    <li>
+                        <button @onclick="() => Menu_Click(CustomerOrders[1])">To Be Shipped</button>
+                    </li>
+                    <li>
+                        <button @onclick="() => Menu_Click(CustomerOrders[2])">Complete</button>
+                    </li>
+                </ul>
+            </fieldset>
+        </aside>
+
+        <section class="admin-content">
+            @if (!String.IsNullOrWhiteSpace(PageToView))
+            {
+                @switch (PageToView)
+                {
+                    case "CustomerDetail":
+                        <h1>Customer Details</h1>
+                        break;
+                    case "PaymentOutstanding":
+                        <h1>Payment Outstanding</h1>
+                        break;
+                    case "ShippingOutstanding":
+                        <h1>To Be Shipped</h1>
+                        break;
+                    case "Completed":
+                        <h1>Complete</h1>
+                        break;
+                }
+            }
+            else
+            {
+                <h1>Nothing Slected</h1>
+            }
+
+        </section>
+    </main>
+}

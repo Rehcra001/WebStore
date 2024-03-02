@@ -9,7 +9,7 @@ namespace WebStore.API.Services.Contracts
         Task<AddressModel> AddCustomerAddress(AddressModel address, string email);
         Task<OrderModel> AddOrder(int addressId, string email);        
         Task<CustomerModel> GetCustomer(string email);
-        Task<IEnumerable<CustomerModel>> GetCustomers();
+        Task<IEnumerable<OrderModel>> GetCustomerOrders(string email);
         Task<IEnumerable<AddressLineModel>> GetAddressLines(string email);
         Task<AddressModel> GetAddressById(int id, string email);
         Task<bool> SendOrderConfirmation(OrderDTO orderDTO, string emailTo);

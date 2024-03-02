@@ -94,9 +94,16 @@ namespace WebStore.API.Services
             }
         }
 
-        public Task<IEnumerable<CustomerModel>> GetCustomers()
+        public async Task<IEnumerable<OrderModel>> GetCustomerOrders(string email)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _customerRepository.GetCustomerOrders(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<bool> SendOrderConfirmation(OrderDTO orderDTO, string emailTo)

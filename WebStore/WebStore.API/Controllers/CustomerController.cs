@@ -59,6 +59,40 @@ namespace WebStore.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Customer")]
+        [Route("GetCustomerOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetCustomerOrders()
+        {
+            try
+            {
+                var userIdentity = User.Identity as ClaimsIdentity;
+                string? email = userIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                if (String.IsNullOrWhiteSpace(email))
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
+
+                IEnumerable<OrderModel> orderModels = await _customerService.GetCustomerOrders(email);
+                if (orderModels == null || orderModels.Count() == 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    //convert to dto
+                    IEnumerable<OrderDTO> orderDTOs = orderModels.ConvertToOrderDTOs();
+
+                    return Ok(orderDTOs);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving customer from the database");
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Customer")]
         [Route("GetAddressLines")]
         public async Task<ActionResult<IEnumerable<AddressLineDTO>>> GetAddressLines()
         {

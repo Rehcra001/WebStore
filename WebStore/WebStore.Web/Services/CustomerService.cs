@@ -152,10 +152,13 @@ namespace WebStore.WEB.Services
             }
         }
 
-        public async Task<OrderDTO> AddOrder(int addressId)
+        public async Task<OrderDTO> AddOrderAsync(int addressId)
         {
             try
             {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
                 HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync<int>($"api/customer/addorder/{addressId}", addressId);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
@@ -171,6 +174,85 @@ namespace WebStore.WEB.Services
                     }
                 }
                 else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<OrderDTO>> GetCustomerOrdersAsync()
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("api/customer/getcustomerorders");
+
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<OrderDTO>();
+                    }
+                    else
+                    {
+                        IEnumerable<OrderDTO> orderDTOs = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<OrderDTO>>();
+
+                        return orderDTOs;
+                    }
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task UpdateCustomerDetailAsync(UpdateCustomerDetailDTO updateCustomerDetailDTO)
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync<UpdateCustomerDetailDTO>("api/customer/updatecustomerdetail", updateCustomerDetailDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode == false)
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task UpdateCustomerAddressAsync(AddressDTO addressDTO)
+        {
+            try
+            {
+                var jsonToken = await _localStorageService.GetItemAsync<string>("bearerToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jsonToken);
+
+                HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync<AddressDTO>("api/customer/updatecustomeraddress", addressDTO);
+
+                if (httpResponseMessage.IsSuccessStatusCode == false)
                 {
                     var message = await httpResponseMessage.Content.ReadAsStringAsync();
                     throw new Exception($"Http status: {httpResponseMessage.StatusCode} Message -{message}");

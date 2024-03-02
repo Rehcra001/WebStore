@@ -29,6 +29,12 @@ namespace WebStore.WEB.Pages
         [Inject]
         public IManageAdminShippedOrdersLocalStorageService ManageAdminShippedOrdersLocalStorageService { get; set; }
 
+        [Inject]
+        public IManageCustomerDetailLocalStorage ManageCustomerDetailLocalStorage { get; set; }
+
+        [Inject]
+        public IManageCustomerOrdersLocalStorage ManageCustomerOrdersLocalStorage { get; set; }
+
         private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
 
         private List<ProductCategoryDTO> ProductCategories { get; set; } = new List<ProductCategoryDTO>();
@@ -71,6 +77,8 @@ namespace WebStore.WEB.Pages
             await ManageCartItemsLocalStorageService.RemoveCollection();
             await ManageAdminPaymentOrdersLocalStorageService.RemoveCollection();
             await ManageAdminShippedOrdersLocalStorageService.RemoveCollection();
+            await ManageCustomerDetailLocalStorage.RemoveCustomerDetail();
+            await ManageCustomerOrdersLocalStorage.RemoveCollection();
         }
     }
 }

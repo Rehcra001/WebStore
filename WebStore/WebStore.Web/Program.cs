@@ -37,5 +37,7 @@ builder.Services.AddScoped<IManageProductCategoriesLocalStorageService, ManagePr
 builder.Services.AddScoped<IManageCartItemsLocalStorageService, ManageCartItemsLocalStorageService>();
 builder.Services.AddScoped<IManageAdminPaymentOrdersLocalStorageService, ManageAdminPaymentOrdersLocalStorageService>();
 builder.Services.AddScoped<IManageAdminShippedOrdersLocalStorageService, ManageAdminShippedOrdersLocalStorageService>();
+builder.Services.AddScoped<IManageCustomerDetailLocalStorage, ManageCustomerDetailLocalStorage>();
+builder.Services.AddScoped<IManageCustomerOrdersLocalStorage, ManageCustomerOrdersLocalStorage>();
 
 await builder.Build().RunAsync();
