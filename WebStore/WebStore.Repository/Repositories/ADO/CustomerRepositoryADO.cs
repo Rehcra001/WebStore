@@ -313,30 +313,27 @@ namespace WebStore.Repository.Repositories.ADO
 
                             //Read in the customer address
                             await reader.NextResultAsync();
-                            if (reader.HasRows)
+                            customer.AddressList = new List<AddressModel>();
+
+                            while (await reader.ReadAsync())
                             {
-                                customer.AddressList = new List<AddressModel>();
+                                AddressModel address = new AddressModel();
 
-                                while (await reader.ReadAsync())
+                                address.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
+                                address.AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"));
+                                if (!reader.IsDBNull(reader.GetOrdinal("AddressLine2")))
                                 {
-                                    AddressModel address = new AddressModel();
-
-                                    address.AddressId = reader.GetInt32(reader.GetOrdinal("AddressId"));
-                                    address.AddressLine1 = reader.GetString(reader.GetOrdinal("AddressLine1"));
-                                    if (!reader.IsDBNull(reader.GetOrdinal("AddressLine2")))
-                                    {
-                                        address.AddressLine2 = reader.GetString(reader.GetOrdinal("AddressLine2"));
-                                    }
-                                    address.Suburb = reader.GetString(reader.GetOrdinal("Suburb"));
-                                    address.City = reader.GetString(reader.GetOrdinal("City"));
-                                    address.PostalCode = reader.GetString(reader.GetOrdinal("PostalCode"));
-                                    address.Country = reader.GetString(reader.GetOrdinal("Country"));
-                                    address.CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId"));
-
-                                    addresses.Add(address);
+                                    address.AddressLine2 = reader.GetString(reader.GetOrdinal("AddressLine2"));
                                 }
-                                customer.AddressList = addresses;
+                                address.Suburb = reader.GetString(reader.GetOrdinal("Suburb"));
+                                address.City = reader.GetString(reader.GetOrdinal("City"));
+                                address.PostalCode = reader.GetString(reader.GetOrdinal("PostalCode"));
+                                address.Country = reader.GetString(reader.GetOrdinal("Country"));
+                                address.CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId"));
+
+                                addresses.Add(address);
                             }
+                            customer.AddressList = addresses;
                         }
                     }
                 }
@@ -389,7 +386,7 @@ namespace WebStore.Repository.Repositories.ADO
 
                                 orderItem.OrderItemId = reader.GetInt32(reader.GetOrdinal("OrderItemId"));
                                 orderItem.OrderId = reader.GetInt32(reader.GetOrdinal("OrderId"));
-                                orderItem.ProductId = reader.GetInt32(reader.GetOrdinal("ProudctId"));
+                                orderItem.ProductId = reader.GetInt32(reader.GetOrdinal("ProductId"));
                                 orderItem.ProductName = reader.GetString(reader.GetOrdinal("ProductName"));
                                 orderItem.Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
                                 orderItem.Price = reader.GetDecimal(reader.GetOrdinal("Price"));
@@ -451,7 +448,7 @@ namespace WebStore.Repository.Repositories.ADO
                     {
                         command.Parameters.Add("@AddressLine2", SqlDbType.NVarChar).Value = address.AddressLine2;
                     }
-                    
+
                     command.Parameters.Add("@Suburb", SqlDbType.NVarChar).Value = address.Suburb;
                     command.Parameters.Add("@City", SqlDbType.NVarChar).Value = address.City;
                     command.Parameters.Add("@PostalCode", SqlDbType.NVarChar).Value = address.PostalCode;
@@ -469,7 +466,7 @@ namespace WebStore.Repository.Repositories.ADO
                     }
                 }
             }
-                return isUpdated;
+            return isUpdated;
         }
 
         public async Task<bool> UpdateCustomerDetail(CustomerModel customer)

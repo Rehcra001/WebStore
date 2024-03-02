@@ -1,0 +1,17 @@
+﻿<div class="main_container">
+    <div>
+        <CustomerComponent Customer="@Customer" />
+        <button @onclick="() => SaveCustomerDetail()">Save Customer</button>
+    </div>
+
+
+    @foreach (AddressDTO address in Addresses)
+    {
+        int index = Addresses.FindIndex(x => x.AddressId == address.AddressId);
+        <div>
+            <AddressComponent Address="@address" Count="index + 1" />
+            <button @onclick="() => SaveAddress(index)">Save Address</button>
+        </div>
+
+    }
+</div>

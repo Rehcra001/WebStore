@@ -78,7 +78,7 @@ namespace WebStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrator, Customer")]
         [Route("GetCompanyDetail")]
         public async Task<ActionResult<CompanyDetailDTO>> GetCompanyDetail()
         {

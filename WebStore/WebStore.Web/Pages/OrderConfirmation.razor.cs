@@ -20,6 +20,9 @@ namespace WebStore.WEB.Pages
         public ICompanyService CompanyService { get; set; }
 
         [Inject]
+        public IShoppingCartService ShoppingCartService { get; set; }
+
+        [Inject]
         NavigationManager NavigationManager { get; set; }
 
         [Parameter]
@@ -87,10 +90,13 @@ namespace WebStore.WEB.Pages
                     await LocalStorageService.RemoveItemAsync("ShippingAddress");
                 }
                 await ManageCartItemsLocalStorage.RemoveCollection();
+
+                // clear count of items in shopping cart menu 
+                ShoppingCartService.RaiseShoppingCartChangedEvent(0);
             }
         }
 
-        private void GoToHomePage()
+        private async void GoToHomePage()
         {
             NavigationManager.NavigateTo("/");
         }

@@ -39,7 +39,7 @@ namespace WebStore.API.Controllers
 
                 CustomerModel customer = await _customerService.GetCustomer(email);
 
-                if (customer.CustomerId == default || customer.AddressList == default)
+                if (customer.CustomerId == default || customer.AddressList == null)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving customer from the database");
                 }

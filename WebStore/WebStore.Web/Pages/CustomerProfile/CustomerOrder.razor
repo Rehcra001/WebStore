@@ -1,0 +1,120 @@
+﻿<div class="main_container">
+    <div class="order" style="padding: 20px;">
+        <h1>Order: @Order.OrderId</h1>
+        <div class="order-header">
+            <div class="ship-address" style="text-align: left; height: 100%">
+                <div>
+                    <label>Order#: @Order.OrderId</label>
+                </div>
+                <div>
+                    <label>Order Date: @Order.OrderDate.ToShortDateString()</label>
+                </div>
+                <div>
+                    <label><b>@Order.FirstName @Order.LastName</b></label>
+
+                </div>
+                <div>
+                    <label>@Order.Address.AddressLine1</label>
+
+                </div>
+                <div>
+                    <label>@Order.Address.AddressLine2</label>
+                </div>
+                <div>
+                    <label>@Order.Address.Suburb</label>
+                </div>
+                <div>
+                    <label>@Order.Address.City</label>
+                </div>
+                <div>
+                    <label>@Order.Address.PostalCode</label>
+                </div>
+                <div>
+                    <label>@Order.Address.Country</label>
+                </div>
+                <br />
+                <div style="display: flex; flex-direction: column;">
+                    <div>
+                        <label style="font-weight: bold;">
+                            Payment Status:
+                        </label>
+                        <label>
+                            @(Order.PaymentConfirmed ? "Confirmed" : "Waiting")
+                        </label>
+                    </div>
+                    <div>
+                        <label style="font-weight: bold;">
+                            Shipping Status:
+                        </label>
+                        <label>
+                            @(Order.OrderShipped ? "Shipped" : "Not Shipped")
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="payment" style="text-align: left; height: 100%;">
+                <div>
+                    <h3>EFT Details</h3>
+                </div>
+                <div>
+                    <label>Payment Type: EFT</label>
+                </div>
+
+                <div>
+                    <label>Bank: </label>
+                    <label>@Company.CompanyEFT.Bank</label>
+                </div>
+                <div>
+                    <label>Account Type: </label>
+                    <label>@Company.CompanyEFT.AccountType</label>
+                </div>
+                <div>
+                    <label>Acc#: </label>
+                    <label>@Company.CompanyEFT.AccountNumber</label>
+                </div>
+                <div>
+                    <label>Branch Code: </label>
+                    <label>@Company.CompanyEFT.BranchCode</label>
+                </div>
+            </div>
+        </div>
+
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Line Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (OrderItemDTO item in Order.OrderItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("c2")</td>
+                        <td>@CalcLinePrice(item.Quantity, item.Price).ToString("c2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table class="content-table totals">
+            <tbody>
+                <tr>
+                    <td>Total excl. VAT:</td>
+                    <td>@CalcTotalPrice().ToString("c2")</td>
+                </tr>
+                <tr>
+                    <td>Vat @VAT_PERCENTAGE%:</td>
+                    <td>@CalcVAT().ToString("c2")</td>
+                </tr>
+                <tr>
+                    <td>Total incl. VAT:</td>
+                    <td>@CalcTotalWithVAT().ToString("c2")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

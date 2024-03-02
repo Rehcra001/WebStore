@@ -2,7 +2,7 @@
     <fieldset>
         <legend>Customer</legend>
         <div>
-            <InputComponent InputType="text" Label="Email Address" @bind-Value="@Customer.EmailAddress" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" />
+            <InputComponent InputType="text" Label="Email Address" @bind-Value="@Customer.EmailAddress" ValidationErrors="@ValidationErrors" PropertyName="EmailAddress" ReadOnly="readonly" />
 
             <InputComponent InputType="text" Label="First Name" @bind-Value="@Customer.FirstName" ValidationErrors="@ValidationErrors" PropertyName="FirstName" />
 

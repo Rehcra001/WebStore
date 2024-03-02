@@ -234,7 +234,7 @@ namespace WebStore.Repository.Repositories.Dapper
 
             using (SqlConnection connection = _sqlConnection.SqlConnection())
             {
-                updated = await connection.QuerySingleAsync("dbo.UpdateCustomerAddress");
+                updated = await connection.QuerySingleAsync<bool>("dbo.usp_updateCustomerAddress", parameters, commandType: CommandType.StoredProcedure);
             }
 
             return updated;
@@ -252,7 +252,7 @@ namespace WebStore.Repository.Repositories.Dapper
 
             using (SqlConnection connection = _sqlConnection.SqlConnection())
             {
-                updated = await connection.QuerySingleAsync<bool>("dbo.usp_UpdateCustomerDetail", parameters, commandType: CommandType.StoredProcedure);
+                updated = (bool)await connection.QuerySingleAsync<bool>("dbo.usp_UpdateCustomerDetail", parameters, commandType: CommandType.StoredProcedure);
             }
 
             return updated;

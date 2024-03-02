@@ -48,14 +48,14 @@ builder.Services.AddSwaggerGen();
 
 //Repositories
 builder.Services.AddScoped<IRelationalDatabaseConnection, RelationalDatabaseConnection>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryDapper>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepositoryADO>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductRepository, ProductRepositoryADO>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepositoryDapper>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<ICompanyRepository, CompanyRepositoryADO>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepositoryDapper>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepositoryDapper>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();

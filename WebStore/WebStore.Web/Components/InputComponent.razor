@@ -4,6 +4,14 @@
     </div> 
     <div class="form-control">
         <label>@Label</label>
-        <input type="@InputType" value="@Value" @onchange="OnValueChanged"/>
+        @if (String.IsNullOrWhiteSpace(ReadOnly))
+        {
+            <input type="@InputType" value="@Value" @onchange="OnValueChanged" />
+        }
+        else
+        {
+            <input type="@InputType" value="@Value" @onchange="OnValueChanged" readonly />
+        }
+
     </div>
 </div>
