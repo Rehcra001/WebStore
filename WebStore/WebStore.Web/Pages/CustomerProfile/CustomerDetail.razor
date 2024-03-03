@@ -1,17 +1,41 @@
 ﻿<div class="main_container">
     <div>
-        <CustomerComponent Customer="@Customer" />
+        <CustomerComponent Customer="@Customer" ValidationErrors="@ValidationCustomerDetailErrors" />
         <button @onclick="() => SaveCustomerDetail()">Save Customer</button>
     </div>
+    <hr />
 
+    <div>
+        <h3>Addresses</h3>
+        @foreach (AddressDTO address in Addresses)
+        {
+            int index = Addresses.FindIndex(x => x.AddressId == address.AddressId);
+            <div class="address-list">
+                <label style="flex: 1; text-align: left;">@address.AddressLine1</label>
+                <div style="flex: 1;">
+                    <label>Expand</label>
+                    <input type="checkbox" value="ShouldDisplayAddress[index]" @onchange="() => ShowHideAddress(index)" />
+                </div>
+            </div>
 
-    @foreach (AddressDTO address in Addresses)
-    {
-        int index = Addresses.FindIndex(x => x.AddressId == address.AddressId);
-        <div>
-            <AddressComponent Address="@address" Count="index + 1" />
-            <button @onclick="() => SaveAddress(index)">Save Address</button>
+            <div style="display: @AddressDisplay[index]">
+                <AddressComponent Address="@address" Count="index + 1" ValidationErrors="@ValidationAddressErrors[index]" />
+                <button @onclick="() => SaveAddress(index)">Save Address</button>
+            </div>
+
+            <hr />
+        }
+    </div>
+    
+    <div class="address-list">
+        <label style="flex: 1; text-align: left;">Add New Address</label>
+        <div style="flex: 1;">
+            <label>Add</label>
+            <input type="checkbox" value="@IsNewAddress" @onchange="() => ShowHideNewAddress()" />
         </div>
-
-    }
+    </div>
+    <div style="display: @NewAddressDisplay">
+        <AddressComponent Address="@NewAddress" Count="@(Addresses.Count + 1)" ValidationErrors="@ValidationNewAddressErrors" />
+        <button @onclick="() => AddNewAddress()">Save New Address</button>
+    </div>
 </div>
