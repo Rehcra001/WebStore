@@ -100,7 +100,7 @@ fieldset {
     }
 
         .admin-menu ul li {
-            display:;
+            display: inline-block;
         }
 
             .admin-menu ul li:hover {
@@ -145,6 +145,7 @@ fieldset {
     .admin-content h1 {
         text-align: center;
     }
+
 
 
 /* Utilities */
@@ -285,7 +286,7 @@ button {
     border-collapse: collapse;
     margin: 25px auto 0;
     font-size: 0.9rem;
-    min-width: 400px;
+    /*min-width: 400px;*/
     border-radius: 5px 5px 0 0;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0,0,0,0.15);
@@ -350,3 +351,18 @@ h1:focus {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+@media (max-width: 765px) {
+    .admin-container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-menu {
+        display: grid;
+        gap: 10px;
+    }
+
+    .order-header {
+        grid-template-columns: 1fr;
+    }
+}
