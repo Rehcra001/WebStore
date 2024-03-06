@@ -24,6 +24,16 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        window.registerViewportChangeCallback = (dotnetHelper) => {
+            window.addEventListener('load', () => {
+                dotnetHelper.invokeMethodAsync('OnResize', window.innerWidth, window.innerHeight);
+            });
+            window.addEventListener('resize', () => {
+                dotnetHelper.invokeMethodAsync('OnResize', window.innerWidth, window.innerHeight);
+            });
+        }
+    </script>
 </body>
 
 </html>

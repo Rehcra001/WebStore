@@ -7,26 +7,38 @@
         <a href="#"><span>Web-Store</span></a>
     </span>
 
-    <ul class="main-menu">
-        <li><a href="/">Home</a></li>
-        <AuthorizeView Roles="Administrator">
-            <li><a href="/administration">Administration</a></li>
-        </AuthorizeView>
+    @if (ViewportWidth >= 685)
+    {
+        IsShowMenu = false;
 
-        <AuthorizeView Roles="Customer">
-            <li><a href="/customerprofile">Profile</a></li>            
-        </AuthorizeView>
+        <ul class="main-menu">
+            <li><a href="/">Home</a></li>
+            <AuthorizeView Roles="Administrator">
+                <li><a href="/administration">Administration</a></li>
+            </AuthorizeView>
 
-        <AuthorizeView>
-            <Authorized>
-                <li><button @onclick="SignOut">Sign Out</button></li>
-            </Authorized>
-            <NotAuthorized>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/signin">Sign In</a></li>
-            </NotAuthorized>            
-        </AuthorizeView>
-    </ul>
+            <AuthorizeView Roles="Customer">
+                <li><a href="/customerprofile">Profile</a></li>
+            </AuthorizeView>
+
+            <AuthorizeView>
+                <Authorized>
+                    <li><button @onclick="SignOut">Sign Out</button></li>
+                </Authorized>
+                <NotAuthorized>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/signin">Sign In</a></li>
+                </NotAuthorized>
+            </AuthorizeView>
+        </ul>
+    }
+    else
+    {
+        <div>
+            <button @onclick="ShowMenu_Click"><i class="fas fa-hamburger"></i> Menu</button>            
+        </div>
+    }
+
 
     <AuthorizeView>
         <ul class="right-menu">
@@ -36,5 +48,43 @@
         </ul>
     </AuthorizeView>
 
+   
 </nav>
 
+<div style="text-align: center;">
+    @if (IsShowMenu)
+    {
+        <div style="font-weight: bold;">
+            <a href="/">Home</a>
+            <AuthorizeView Roles="Administrator">
+                <div>
+                    <a href="/administration">Administration</a>
+                </div>
+                
+            </AuthorizeView>
+
+            <AuthorizeView Roles="Customer">
+                <div>
+                    <a href="/customerprofile">Profile</a>
+                </div>
+                
+            </AuthorizeView>
+
+            <AuthorizeView>
+                <Authorized>
+                    <div>
+                        <button @onclick="SignOut">Sign Out</button>
+                    </div>                    
+                </Authorized>
+                <NotAuthorized>
+                    <div>
+                        <a href="/register">Register</a>
+                    </div>
+                    <div>
+                        <a href="/signin">Sign In</a>
+                    </div>                    
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    }
+</div>

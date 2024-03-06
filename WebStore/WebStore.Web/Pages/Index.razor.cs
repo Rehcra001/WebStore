@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Security.Claims;
 using WebStore.DTO;
 using WebStore.WEB.Providers;
@@ -80,6 +81,8 @@ namespace WebStore.WEB.Pages
             await ManageCustomerDetailLocalStorage.RemoveCustomerDetail();
             await ManageCustomerOrdersLocalStorage.RemoveCollection();
         }
+
+        
     }
 }
 

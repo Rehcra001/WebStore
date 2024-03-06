@@ -34,7 +34,7 @@ fieldset {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    min-height: 60px;
     padding: 20px 10px;
     font-size: 1.2rem;
 }
